@@ -13,7 +13,7 @@
       <!-- filters -->
       <ul>
         <li v-for="i in categoryTypes">
-          {{ i }}
+          {{ i.catName }} {{ i.catLength }}
         </li>
       </ul>
       <br>
@@ -49,10 +49,9 @@ export default {
         apiTotalCount: "",
         apiList: "",
 
-        categoryTypes: "",
+        categoryTypes: [],
         authTypes: "",
-
-
+        
         apiStatus: false
       };
     },
@@ -70,7 +69,7 @@ export default {
             self.apiList = self.apiListCache;
           })
           .then(function () {
-            self.addFiltersList();
+            self.addFiltersList(self.apiListCache);
           })
           .catch(function (error) {
             if (error.response) {
@@ -79,11 +78,15 @@ export default {
               console.log(error.response.data);
               console.log(error.response.status);
               console.log(error.response.headers);
+
+              // todo: add retry counter
               self.getApiData(self.BACKUP_URL);
             } else if (error.request) {
               // The request was made but no response was received
               // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
               // http.ClientRequest in node.js
+
+              // todo: add retry counter
               self.getApiData(self.BACKUP_URL);
             } else {
               // Something happened in setting up the request that triggered an Error
@@ -92,18 +95,36 @@ export default {
             console.log(error.config);
           });
       },
-      addFiltersList: function () {
-        this.categoryTypes = this.extractUnique(this.apiList, "Category");
-        this.authTypes = this.extractUnique(this.apiList, "Auth");
+      filter: function(arr, prop, item) {
+        let filtered = arr.filter(function (el) {
+          return el[prop] === item;
+        });
+        return filtered;
+      },
+      addFiltersList: function (arr) {
+        // for authTypes
+        this.authTypes = this.extractUnique(arr, "Auth");
+
+        // for categoryTypes
+        let temp = this.extractUnique(arr, "Category");
+        // filter to get length of each item then push
+        temp.map((i) => {
+          let l = this.filter(this.apiListCache, "Category", i);
+          this.categoryTypes.push({
+            catName: i,
+            catLength: l.length
+          });
+        });
+        temp = [];        
       },
       extractUnique: function (arr, cat) {
         let o = {};
         let temp = [];
-        for (var i = 0; i < arr.length; i++) {
+        for (let i = 0, l = arr.length; i < l; i++) {
           if (!o[arr[i][cat]]) {
             o[arr[i][cat]] = true;
             temp.push(arr[i][cat]);
-            // r.push(arr[i].Category);
+            // temp.push(arr[i].Category);
           }
         }
         return temp;

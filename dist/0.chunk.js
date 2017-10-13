@@ -982,7 +982,7 @@ module.exports = Cancel;
       apiTotalCount: "",
       apiList: "",
 
-      categoryTypes: "",
+      categoryTypes: [],
       authTypes: "",
 
       apiStatus: false
@@ -1001,7 +1001,7 @@ module.exports = Cancel;
         self.apiListCache = response.data.entries;
         self.apiList = self.apiListCache;
       }).then(function () {
-        self.addFiltersList();
+        self.addFiltersList(self.apiListCache);
       }).catch(function (error) {
         if (error.response) {
           // The request was made and the server responded with a status code
@@ -1009,11 +1009,15 @@ module.exports = Cancel;
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);
+
+          // todo: add retry counter
           self.getApiData(self.BACKUP_URL);
         } else if (error.request) {
           // The request was made but no response was received
           // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
           // http.ClientRequest in node.js
+
+          // todo: add retry counter
           self.getApiData(self.BACKUP_URL);
         } else {
           // Something happened in setting up the request that triggered an Error
@@ -1022,14 +1026,34 @@ module.exports = Cancel;
         console.log(error.config);
       });
     },
-    addFiltersList: function addFiltersList() {
-      this.categoryTypes = this.extractUnique(this.apiList, "Category");
-      this.authTypes = this.extractUnique(this.apiList, "Auth");
+    filter: function filter(arr, prop, item) {
+      var filtered = arr.filter(function (el) {
+        return el[prop] === item;
+      });
+      return filtered;
+    },
+    addFiltersList: function addFiltersList(arr) {
+      var _this = this;
+
+      // for authTypes
+      this.authTypes = this.extractUnique(arr, "Auth");
+
+      // for categoryTypes
+      var temp = this.extractUnique(arr, "Category");
+      // filter to get length of each item then push
+      temp.map(function (i) {
+        var l = _this.filter(_this.apiListCache, "Category", i);
+        _this.categoryTypes.push({
+          catName: i,
+          catLength: l.length
+        });
+      });
+      temp = [];
     },
     extractUnique: function extractUnique(arr, cat) {
       var o = {};
       var temp = [];
-      for (var i = 0; i < arr.length; i++) {
+      for (var i = 0, l = arr.length; i < l; i++) {
         if (!o[arr[i][cat]]) {
           o[arr[i][cat]] = true;
           temp.push(arr[i][cat]);
@@ -1926,7 +1950,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "col-sm-3"
   }, [_c('ul', _vm._l((_vm.categoryTypes), function(i) {
-    return _c('li', [_vm._v("\r\n          " + _vm._s(i) + "\r\n        ")])
+    return _c('li', [_vm._v("\r\n          " + _vm._s(i.catName) + " " + _vm._s(i.catLength) + "\r\n        ")])
   })), _vm._v(" "), _c('br'), _vm._v(" "), _c('br'), _vm._v(" "), _c('ul', _vm._l((_vm.authTypes), function(i) {
     return _c('li', [_vm._v("\r\n          " + _vm._s(i) + "\r\n        ")])
   }))]), _vm._v(" "), _c('div', {
