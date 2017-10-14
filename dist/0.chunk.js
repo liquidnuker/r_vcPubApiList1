@@ -12,7 +12,7 @@ webpackJsonp([0],[
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Home_vue__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_19b7a970_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_Home_vue__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_19b7a970_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_Home_vue__ = __webpack_require__(37);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -931,6 +931,8 @@ module.exports = Cancel;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_vendor_Paginate_js__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_vendor_Paginate_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__js_vendor_Paginate_js__);
 //
 //
 //
@@ -970,6 +972,25 @@ module.exports = Cancel;
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -980,10 +1001,18 @@ module.exports = Cancel;
 
       apiListCache: "", // default unfiltered items
       apiTotalCount: "",
-      apiList: "",
+      apiListFiltered: "", // filtered items
+      apiList: "", // displayed/paginated items
 
       categoryTypes: [],
       authTypes: "",
+
+      // paginator 
+      pager: null,
+      currentPage: "",
+      totalPages: "",
+      pagerButtons: true,
+      perPage: 20,
 
       apiStatus: false
     };
@@ -995,13 +1024,15 @@ module.exports = Cancel;
   },
   methods: {
     getApiData: function getApiData(url) {
-      var self = this;
+      var _this = this;
+
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(url).then(function (response) {
-        self.apiTotalCount = response.data.count;
-        self.apiListCache = response.data.entries;
-        self.apiList = self.apiListCache;
+        _this.apiTotalCount = response.data.count;
+        _this.apiListCache = response.data.entries;
+        _this.apiListFiltered = _this.apiListCache;
+        _this.activatePager();
       }).then(function () {
-        self.addFiltersList(self.apiListCache);
+        _this.addFiltersList(_this.apiListCache);
       }).catch(function (error) {
         if (error.response) {
           // The request was made and the server responded with a status code
@@ -1011,20 +1042,47 @@ module.exports = Cancel;
           console.log(error.response.headers);
 
           // todo: add retry counter
-          self.getApiData(self.BACKUP_URL);
+          _this.getApiData(_this.BACKUP_URL);
         } else if (error.request) {
           // The request was made but no response was received
           // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
           // http.ClientRequest in node.js
 
           // todo: add retry counter
-          self.getApiData(self.BACKUP_URL);
+          _this.getApiData(_this.BACKUP_URL);
         } else {
           // Something happened in setting up the request that triggered an Error
           console.log("Error", error.message);
         }
         console.log(error.config);
       });
+    },
+    activatePager: function activatePager() {
+      this.pager = null;
+      this.pager = new __WEBPACK_IMPORTED_MODULE_1__js_vendor_Paginate_js___default.a(this.apiListFiltered, this.perPage);
+      this.apiList = this.pager.page(0);
+      this.currentPage = this.pager.currentPage;
+      this.totalPages = this.pager.totalPages;
+      this.pagerButtons = true;
+    },
+    showPage: function showPage(num) {
+      this.apiList = this.pager.page(num);
+    },
+    nextPage: function nextPage() {
+      if (!this.pager.hasNext()) {
+        this.apiList = this.pager.page(0);
+      } else {
+        this.apiList = this.pager.page(this.pager.currentPage + 1);
+      }
+      this.currentPage = this.pager.currentPage;
+    },
+    prevPage: function prevPage() {
+      if (this.pager.currentPage === 1) {
+        this.apiList = this.pager.page(this.pager.totalPages);
+      } else {
+        this.apiList = this.pager.page(this.pager.currentPage - 1);
+      }
+      this.currentPage = this.pager.currentPage;
     },
     filter: function filter(arr, prop, item) {
       var filtered = arr.filter(function (el) {
@@ -1033,7 +1091,7 @@ module.exports = Cancel;
       return filtered;
     },
     addFiltersList: function addFiltersList(arr) {
-      var _this = this;
+      var _this2 = this;
 
       // for authTypes
       this.authTypes = this.extractUnique(arr, "Auth");
@@ -1042,13 +1100,13 @@ module.exports = Cancel;
       var temp = this.extractUnique(arr, "Category");
       // filter to get length of each item then push
       temp.map(function (i) {
-        var l = _this.filter(_this.apiListCache, "Category", i);
-        _this.categoryTypes.push({
+        var l = _this2.filter(_this2.apiListCache, "Category", i);
+        _this2.categoryTypes.push({
           catName: i,
           catLength: l.length
         });
       });
-      temp = [];
+      temp = null;
     },
     extractUnique: function extractUnique(arr, cat) {
       var o = {};
@@ -1057,7 +1115,7 @@ module.exports = Cancel;
         if (!o[arr[i][cat]]) {
           o[arr[i][cat]] = true;
           temp.push(arr[i][cat]);
-          // r.push(arr[i].Category);
+          // temp.push(arr[i].Category);
         }
       }
       return temp;
@@ -1941,13 +1999,165 @@ module.exports = function spread(callback) {
 
 /***/ }),
 /* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Creates a new `Paginate` form a givin `Array`,
+ * optionally with a specific `Number` of items per page.
+ *
+ * @param {Array} data
+ * @param {Number} [perPage=10]
+ * @constructor
+ * @api public
+ */
+
+function Paginate(data, perPage) {
+
+  if (!data) throw new Error('Required Argument Missing');
+  if (!(data instanceof Array)) throw new Error('Invalid Argument Type');
+
+  this.data = data;
+  this.perPage = perPage || 10;
+  this.currentPage = 0;
+  this.totalPages = Math.ceil(this.data.length / this.perPage);
+}
+
+/**
+ * Calculates the offset.
+ *
+ * @return {Number}
+ * @api private
+ */
+
+Paginate.prototype.offset = function () {
+
+  return (this.currentPage - 1) * this.perPage;
+};
+
+/**
+ * Returns the specified `page`.
+ *
+ * @param {Number} pageNum
+ * @return {Array}
+ * @api public
+ */
+
+Paginate.prototype.page = function (pageNum) {
+
+  if (pageNum < 1) pageNum = 1;
+  if (pageNum > this.totalPages) pageNum = this.totalPages;
+
+  this.currentPage = pageNum;
+
+  var start = this.offset(),
+      end = start + this.perPage;
+
+  return this.data.slice(start, end);
+};
+
+/**
+ * Returns the next `page`.
+ *
+ * @return {Array}
+ * @api public
+ */
+
+Paginate.prototype.next = function () {
+
+  return this.page(this.currentPage + 1);
+};
+
+/**
+ * Returns the previous `page`.
+ *
+ * @return {Array}
+ * @api public
+ */
+
+Paginate.prototype.prev = function () {
+
+  return this.page(this.currentPage - 1);
+};
+
+/**
+ * Checks if there is a next `page`.
+ *
+ * @return {Boolean}
+ * @api public
+ */
+
+Paginate.prototype.hasNext = function () {
+
+  return this.currentPage < this.totalPages;
+};
+
+/**
+ * Expose `Paginate`
+ */
+
+if (true) module.exports = Paginate;
+
+/***/ }),
+/* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [(_vm.apiStatus) ? _c('span', [_vm._v("\r\n    Status:\r\n    "), _vm._m(0)]) : _vm._e(), _vm._v("\r\n  " + _vm._s(_vm.apiTotalCount) + "\r\n\r\n  "), _c('div', {
+  return _c('div', [(_vm.apiStatus) ? _c('span', [_vm._v("\r\n    Status:\r\n    "), _vm._m(0)]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
+    staticClass: "col-sm-12"
+  }, [_vm._v("\r\n      " + _vm._s(_vm.apiTotalCount) + " "), _c('br'), _vm._v(" "), _c('div', [(_vm.pagerButtons) ? _c('span', [_c('button', {
+    on: {
+      "click": function($event) {
+        _vm.prevPage()
+      }
+    }
+  }, [_vm._v("<prevpage")]), _vm._v(" "), _c('div', {
+    staticClass: "custom-select pg_totalpages"
+  }, [_vm._v("\r\n          Page \r\n          "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.currentPage),
+      expression: "currentPage"
+    }],
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.currentPage = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.totalPages), function(i) {
+    return _c('option', {
+      domProps: {
+        "value": i
+      },
+      on: {
+        "click": function($event) {
+          _vm.showPage(i)
+        }
+      }
+    }, [_vm._v(_vm._s(i))])
+  }))]), _vm._v("\r\n          of " + _vm._s(_vm.totalPages) + "\r\n          "), _c('button', {
+    on: {
+      "click": function($event) {
+        _vm.nextPage()
+      }
+    }
+  }, [_vm._v("nextPage>")])]) : _vm._e(), _vm._v(" "), _c('button', {
+    staticClass: "btn btn1-01",
+    on: {
+      "click": function($event) {
+        _vm.showAll()
+      }
+    }
+  }, [_vm._v("Show All")])])]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-3"
   }, [_c('ul', _vm._l((_vm.categoryTypes), function(i) {
     return _c('li', [_vm._v("\r\n          " + _vm._s(i.catName) + " " + _vm._s(i.catLength) + "\r\n        ")])

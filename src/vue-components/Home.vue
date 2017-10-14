@@ -6,10 +6,28 @@
     <img src="https://travis-ci.org/toddmotto/public-apis.svg?branch=master" />
     </a>
   </span>
-  {{ apiTotalCount }}
-
-  <div class="row">
-    <div class="col-sm-3">
+    <div class="row">
+      <div class="col-sm-12">
+      {{ apiTotalCount }} <br>
+        <!-- page controls -->
+      <div>
+        <span v-if="pagerButtons">
+          <button @click="prevPage()">&lt;prevpage</button>
+          <div class="custom-select pg_totalpages">
+          Page&nbsp;
+          <select v-model="currentPage">
+            <option @click="showPage(i)" v-for="i in totalPages" :value="i">{{ i }}</option>
+          </select>
+          </div>
+          of {{ totalPages }}
+          <button @click="nextPage()">nextPage&gt;</button>
+        </span>
+        <button class="btn btn1-01" 
+        @click="showAll()">Show All</button>
+      </div>
+      <!-- /page controls -->
+      </div>
+        <div class="col-sm-3">
       <!-- filters -->
       <ul>
         <li v-for="i in categoryTypes">
@@ -26,7 +44,7 @@
       </ul>
     </div>
     <div class="col-sm-9">
-      <!-- main listing -->
+          <!-- main listing -->
       <ul>
         <li v-for="i in apiList">
           {{ i }}
@@ -39,6 +57,7 @@
 </template>
 <script>
 import axios from "axios";
+import Paginate from "../js/vendor/Paginate.js";
 export default {
   data() {
       return {
@@ -47,11 +66,19 @@ export default {
 
         apiListCache: "", // default unfiltered items
         apiTotalCount: "",
-        apiList: "",
+        apiListFiltered: "", // filtered items
+        apiList: "", // displayed/paginated items
 
         categoryTypes: [],
         authTypes: "",
-        
+
+        // paginator 
+        pager: null,
+        currentPage: "",
+        totalPages: "",
+        pagerButtons: true,
+        perPage: 20,
+
         apiStatus: false
       };
     },
@@ -61,17 +88,17 @@ export default {
     },
     methods: {
       getApiData: function (url) {
-        let self = this;
         axios.get(url)
-          .then(function (response) {
-            self.apiTotalCount = response.data.count;
-            self.apiListCache = response.data.entries;
-            self.apiList = self.apiListCache;
+          .then((response) => {
+            this.apiTotalCount = response.data.count;
+            this.apiListCache = response.data.entries;
+            this.apiListFiltered = this.apiListCache;
+            this.activatePager();
           })
-          .then(function () {
-            self.addFiltersList(self.apiListCache);
+          .then(() => {
+            this.addFiltersList(this.apiListCache);
           })
-          .catch(function (error) {
+          .catch((error) => {
             if (error.response) {
               // The request was made and the server responded with a status code
               // that falls out of the range of 2xx
@@ -80,14 +107,14 @@ export default {
               console.log(error.response.headers);
 
               // todo: add retry counter
-              self.getApiData(self.BACKUP_URL);
+              this.getApiData(this.BACKUP_URL);
             } else if (error.request) {
               // The request was made but no response was received
               // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
               // http.ClientRequest in node.js
 
               // todo: add retry counter
-              self.getApiData(self.BACKUP_URL);
+              this.getApiData(this.BACKUP_URL);
             } else {
               // Something happened in setting up the request that triggered an Error
               console.log("Error", error.message);
@@ -95,7 +122,34 @@ export default {
             console.log(error.config);
           });
       },
-      filter: function(arr, prop, item) {
+      activatePager: function () {
+        this.pager = null;
+        this.pager = new Paginate(this.apiListFiltered, this.perPage);
+        this.apiList = this.pager.page(0);
+        this.currentPage = this.pager.currentPage;
+        this.totalPages = this.pager.totalPages;
+        this.pagerButtons = true;
+      },
+      showPage: function (num) {
+        this.apiList = this.pager.page(num);
+      },
+      nextPage: function () {
+        if (!this.pager.hasNext()) {
+          this.apiList = this.pager.page(0);
+        } else {
+          this.apiList = this.pager.page(this.pager.currentPage + 1);
+        }
+        this.currentPage = this.pager.currentPage;
+      },
+      prevPage: function () {
+        if (this.pager.currentPage === 1) {
+          this.apiList = this.pager.page(this.pager.totalPages);
+        } else {
+          this.apiList = this.pager.page(this.pager.currentPage - 1);
+        }
+        this.currentPage = this.pager.currentPage;
+      },
+      filter: function (arr, prop, item) {
         let filtered = arr.filter(function (el) {
           return el[prop] === item;
         });
@@ -115,7 +169,7 @@ export default {
             catLength: l.length
           });
         });
-        temp = [];        
+        temp = null;
       },
       extractUnique: function (arr, cat) {
         let o = {};
