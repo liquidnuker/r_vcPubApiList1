@@ -44,13 +44,9 @@
       </ul>
     </div>
     <div class="col-sm-9">
-          <!-- main listing -->
-      <ul>
-        <li v-for="i in apiList">
-          {{ i }}
-          <!-- {{ i.API }} -->
-        </li>
-      </ul>
+      <!-- main listing -->
+      <vcApiList 
+      :pr-api-list="apiList" />
     </div>
   </div>
 </div>
@@ -58,6 +54,8 @@
 <script>
 import axios from "axios";
 import Paginate from "../js/vendor/Paginate.js";
+
+const vcApiList = () => import ('./vcApiList.vue');
 export default {
   data() {
       return {
@@ -81,6 +79,9 @@ export default {
 
         apiStatus: false
       };
+    },
+    components: {
+      vcApiList: vcApiList
     },
     mounted: function () {
       // this.getApiData(this.API_URL);

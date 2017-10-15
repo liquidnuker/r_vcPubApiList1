@@ -12,7 +12,7 @@ webpackJsonp([0],[
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Home_vue__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_19b7a970_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_Home_vue__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_19b7a970_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_Home_vue__ = __webpack_require__(40);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -986,13 +986,13 @@ module.exports = Cancel;
 //
 //
 //
-//
-//
-//
-//
 
 
 
+
+var vcApiList = function vcApiList() {
+  return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 37));
+};
 /* harmony default export */ __webpack_exports__["a"] = ({
   data: function data() {
     return {
@@ -1018,6 +1018,9 @@ module.exports = Cancel;
     };
   },
 
+  components: {
+    vcApiList: vcApiList
+  },
   mounted: function mounted() {
     // this.getApiData(this.API_URL);
     this.getApiData(this.BACKUP_URL);
@@ -2098,7 +2101,10 @@ Paginate.prototype.hasNext = function () {
 if (true) module.exports = Paginate;
 
 /***/ }),
-/* 37 */
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2165,9 +2171,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     return _c('li', [_vm._v("\r\n          " + _vm._s(i) + "\r\n        ")])
   }))]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-9"
-  }, [_c('ul', _vm._l((_vm.apiList), function(i) {
-    return _c('li', [_vm._v("\r\n          " + _vm._s(i) + "\r\n          ")])
-  }))])])])
+  }, [_c('vcApiList', {
+    attrs: {
+      "pr-api-list": _vm.apiList
+    }
+  })], 1)])])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('a', {
