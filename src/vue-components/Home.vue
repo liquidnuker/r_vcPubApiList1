@@ -3,32 +3,45 @@
   <span v-if="apiStatus">
     Status:
     <a href="https://travis-ci.org/toddmotto/public-apis">
-    <img src="https://travis-ci.org/toddmotto/public-apis.svg?branch=master" />
+      <img src="https://travis-ci.org/toddmotto/public-apis.svg?branch=master" />
     </a>
   </span>
-    <div class="row">
-      <div class="col-sm-12">
+  <div class="row">
+    <div class="col-sm-3">
       {{ apiTotalCount }} <br>
-        <!-- page controls -->
+      <!-- page controls -->
       <div>
         <span v-if="pagerButtons">
           <button @click="prevPage()">&lt;prevpage</button>
           <div class="custom-select pg_totalpages">
-          Page&nbsp;
-          <select v-model="currentPage">
-            <option @click="showPage(i)" v-for="i in totalPages" :value="i">{{ i }}</option>
-          </select>
+            Page&nbsp;
+            <select v-model="currentPage">
+              <option @click="showPage(i)" v-for="i in totalPages" :value="i">{{ i }}</option>
+            </select>
           </div>
           of {{ totalPages }}
           <button @click="nextPage()">nextPage&gt;</button>
         </span>
-        <button class="btn btn1-01" 
+        <button class="btn btn1-01"
         @click="showAll()">Show All</button>
       </div>
       <!-- /page controls -->
-      </div>
-        <div class="col-sm-3">
-      <!-- filters -->
+    </div>
+    <div class="col-sm-9">
+      <!-- authType filter -->
+      <ul>
+        <li v-for="i in authTypes">
+          <input type="checkbox" :id="i"
+         v-model="authTypeSelected" :value="i" />
+        <label v-bind:for="i" class="">{{ i }}</label>
+        </li>
+      </ul>
+      <p>Selected: {{ authTypeSelected }}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">
+      <!-- category filter -->
       <ul>
         <li v-for="i in categoryTypes">
           {{ i.catName }} {{ i.catLength }}
@@ -36,16 +49,10 @@
       </ul>
       <br>
       <br>
-
-      <ul>
-        <li v-for="i in authTypes">
-          {{ i }}
-        </li>
-      </ul>
     </div>
     <div class="col-sm-9">
       <!-- main listing -->
-      <vcApiList 
+      <vcApiList
       :pr-api-list="apiList" />
     </div>
   </div>
@@ -69,6 +76,7 @@ export default {
 
         categoryTypes: [],
         authTypes: "",
+        authTypeSelected: [], // checkbox
 
         // paginator 
         pager: null,
@@ -159,6 +167,8 @@ export default {
       addFiltersList: function (arr) {
         // for authTypes
         this.authTypes = this.extractUnique(arr, "Auth");
+        // this.authTypes[0] = "null";
+        this.toggleAuthTypeCheckbox(true);
 
         // for categoryTypes
         let temp = this.extractUnique(arr, "Category");
@@ -183,6 +193,17 @@ export default {
           }
         }
         return temp;
+      },
+      toggleAuthTypeCheckbox: function(checked) {
+        if (checked) {
+          // push
+          this.authTypeSelected = [];
+          for (let i in this.authTypes) {
+            this.authTypeSelected.push(this.authTypes[i]);
+          }
+        } else {
+          this.authTypeSelected = [];
+        }
       }
     }
 };

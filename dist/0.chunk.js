@@ -986,6 +986,13 @@ module.exports = Cancel;
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1006,6 +1013,7 @@ var vcApiList = function vcApiList() {
 
       categoryTypes: [],
       authTypes: "",
+      authTypeSelected: [], // checkbox
 
       // paginator 
       pager: null,
@@ -1098,6 +1106,8 @@ var vcApiList = function vcApiList() {
 
       // for authTypes
       this.authTypes = this.extractUnique(arr, "Auth");
+      // this.authTypes[0] = "null";
+      this.toggleAuthTypeCheckbox(true);
 
       // for categoryTypes
       var temp = this.extractUnique(arr, "Category");
@@ -1122,6 +1132,17 @@ var vcApiList = function vcApiList() {
         }
       }
       return temp;
+    },
+    toggleAuthTypeCheckbox: function toggleAuthTypeCheckbox(checked) {
+      if (checked) {
+        // push
+        this.authTypeSelected = [];
+        for (var i in this.authTypes) {
+          this.authTypeSelected.push(this.authTypes[i]);
+        }
+      } else {
+        this.authTypeSelected = [];
+      }
     }
   }
 });
@@ -2112,7 +2133,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   return _c('div', [(_vm.apiStatus) ? _c('span', [_vm._v("\r\n    Status:\r\n    "), _vm._m(0)]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
-    staticClass: "col-sm-12"
+    staticClass: "col-sm-3"
   }, [_vm._v("\r\n      " + _vm._s(_vm.apiTotalCount) + " "), _c('br'), _vm._v(" "), _c('div', [(_vm.pagerButtons) ? _c('span', [_c('button', {
     on: {
       "click": function($event) {
@@ -2121,7 +2142,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("<prevpage")]), _vm._v(" "), _c('div', {
     staticClass: "custom-select pg_totalpages"
-  }, [_vm._v("\r\n          Page \r\n          "), _c('select', {
+  }, [_vm._v("\r\n            Page \r\n            "), _c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -2164,12 +2185,53 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }
   }, [_vm._v("Show All")])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-9"
+  }, [_c('ul', _vm._l((_vm.authTypes), function(i) {
+    return _c('li', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.authTypeSelected),
+        expression: "authTypeSelected"
+      }],
+      attrs: {
+        "type": "checkbox",
+        "id": i
+      },
+      domProps: {
+        "value": i,
+        "checked": Array.isArray(_vm.authTypeSelected) ? _vm._i(_vm.authTypeSelected, i) > -1 : (_vm.authTypeSelected)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = _vm.authTypeSelected,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = i,
+              $$i = _vm._i($$a, $$v);
+            if ($$c) {
+              $$i < 0 && (_vm.authTypeSelected = $$a.concat($$v))
+            } else {
+              $$i > -1 && (_vm.authTypeSelected = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            _vm.authTypeSelected = $$c
+          }
+        }
+      }
+    }), _vm._v(" "), _c('label', {
+      attrs: {
+        "for": i
+      }
+    }, [_vm._v(_vm._s(i))])])
+  })), _vm._v(" "), _c('p', [_vm._v("Selected: " + _vm._s(_vm.authTypeSelected))])])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
     staticClass: "col-sm-3"
   }, [_c('ul', _vm._l((_vm.categoryTypes), function(i) {
     return _c('li', [_vm._v("\r\n          " + _vm._s(i.catName) + " " + _vm._s(i.catLength) + "\r\n        ")])
-  })), _vm._v(" "), _c('br'), _vm._v(" "), _c('br'), _vm._v(" "), _c('ul', _vm._l((_vm.authTypes), function(i) {
-    return _c('li', [_vm._v("\r\n          " + _vm._s(i) + "\r\n        ")])
-  }))]), _vm._v(" "), _c('div', {
+  })), _vm._v(" "), _c('br'), _vm._v(" "), _c('br')]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-9"
   }, [_c('vcApiList', {
     attrs: {
