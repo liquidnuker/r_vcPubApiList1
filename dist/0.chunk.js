@@ -933,6 +933,8 @@ module.exports = Cancel;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_vendor_Paginate_js__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_vendor_Paginate_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__js_vendor_Paginate_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_vendor_fuse_min_js__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_vendor_fuse_min_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__js_vendor_fuse_min_js__);
 //
 //
 //
@@ -1001,6 +1003,14 @@ module.exports = Cancel;
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -1032,7 +1042,9 @@ var vcApiList = function vcApiList() {
       pagerButtons: true,
       perPage: 20,
 
-      apiStatus: false
+      apiStatus: false,
+      inputSearchTimeOut: null,
+      inputSearchEntered: false
     };
   },
 
@@ -1051,7 +1063,7 @@ var vcApiList = function vcApiList() {
         _this.apiTotalCount = response.data.count;
         _this.apiListCache = response.data.entries;
         _this.apiListFiltered = _this.apiListCache;
-        _this.activatePager();
+        _this.activatePager(_this.apiListCache);
       }).then(function () {
         _this.addFiltersList(_this.apiListCache);
       }).catch(function (error) {
@@ -1078,9 +1090,9 @@ var vcApiList = function vcApiList() {
         console.log(error.config);
       });
     },
-    activatePager: function activatePager() {
+    activatePager: function activatePager(data) {
       this.pager = null;
-      this.pager = new __WEBPACK_IMPORTED_MODULE_1__js_vendor_Paginate_js___default.a(this.apiListFiltered, this.perPage);
+      this.pager = new __WEBPACK_IMPORTED_MODULE_1__js_vendor_Paginate_js___default.a(data, this.perPage);
       this.apiList = this.pager.page(0);
       this.currentPage = this.pager.currentPage;
       this.totalPages = this.pager.totalPages;
@@ -1195,7 +1207,25 @@ var vcApiList = function vcApiList() {
 
       authTemp = null;
       categoryTemp = null;
-      this.activatePager();
+      this.activatePager(this.apiListFiltered);
+    },
+    search: function search(value) {
+      var fuseOptions = {
+        shouldSort: true,
+        threshold: 0.6,
+        location: 0,
+        distance: 100,
+        maxPatternLength: 32,
+        minMatchCharLength: 1,
+        keys: ["API", "Description"]
+      };
+
+      var fuse = new __WEBPACK_IMPORTED_MODULE_2__js_vendor_fuse_min_js___default.a(this.apiListFiltered, fuseOptions);
+      var temp = fuse.search(value);
+      console.log(temp);
+      // 
+      // this.activatePager(temp);
+      // temp = null;      
     }
   }
 });
@@ -2187,58 +2217,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-sm-3"
-  }, [_vm._v("\r\n      " + _vm._s(_vm.apiTotalCount) + " "), _c('br'), _vm._v(" "), _c('div', [(_vm.pagerButtons) ? _c('span', [_c('button', {
-    on: {
-      "click": function($event) {
-        _vm.prevPage()
-      }
-    }
-  }, [_vm._v("<prevpage")]), _vm._v(" "), _c('div', {
-    staticClass: "custom-select pg_totalpages"
-  }, [_vm._v("\r\n            Page \r\n            "), _c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.currentPage),
-      expression: "currentPage"
-    }],
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.currentPage = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, _vm._l((_vm.totalPages), function(i) {
-    return _c('option', {
-      domProps: {
-        "value": i
-      },
-      on: {
-        "click": function($event) {
-          _vm.showPage(i)
-        }
-      }
-    }, [_vm._v(_vm._s(i))])
-  }))]), _vm._v("\r\n          of " + _vm._s(_vm.totalPages) + "\r\n          "), _c('button', {
-    on: {
-      "click": function($event) {
-        _vm.nextPage()
-      }
-    }
-  }, [_vm._v("nextPage>")])]) : _vm._e(), _vm._v(" "), _c('button', {
-    staticClass: "btn btn1-01",
-    on: {
-      "click": function($event) {
-        _vm.toggleAuthTypeCheckbox(true);
-        _vm.filterCategory('All')
-      }
-    }
-  }, [_vm._v("Show All")])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\r\n      " + _vm._s(_vm.apiTotalCount) + " "), _c('br')]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-9"
   }, [_c('ul', [_vm._l((_vm.authTypes), function(i) {
     return _c('li', [_c('input', {
@@ -2341,7 +2320,75 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_vm._v(_vm._s(i.catName) + " " + _vm._s(i.catLength))])])
   })), _vm._v(" "), _c('br'), _vm._v(" "), _c('br')]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-9"
-  }, [_vm._v("\r\n      currentCategory: " + _vm._s(_vm.currentCategory) + "\r\n      "), _c('vcApiList', {
+  }, [_c('label', {
+    attrs: {
+      "for": "api_search"
+    }
+  }, [_vm._v("Search " + _vm._s(_vm.currentCategory) + ":")]), _vm._v(" "), _c('input', {
+    attrs: {
+      "type": "text",
+      "name": "api_search",
+      "id": "api_search",
+      "placeholder": "Enter keyword/s..."
+    },
+    on: {
+      "keyup": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
+        _vm.search($event.target.value)
+      }
+    }
+  }), _vm._v(" "), _c('div', [(_vm.pagerButtons) ? _c('span', [_c('button', {
+    on: {
+      "click": function($event) {
+        _vm.prevPage()
+      }
+    }
+  }, [_vm._v("<prevpage")]), _vm._v(" "), _c('div', {
+    staticClass: "custom-select pg_totalpages"
+  }, [_vm._v("\r\n            Page \r\n            "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.currentPage),
+      expression: "currentPage"
+    }],
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.currentPage = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.totalPages), function(i) {
+    return _c('option', {
+      domProps: {
+        "value": i
+      },
+      on: {
+        "click": function($event) {
+          _vm.showPage(i)
+        }
+      }
+    }, [_vm._v(_vm._s(i))])
+  }))]), _vm._v("\r\n          of " + _vm._s(_vm.totalPages) + "\r\n          "), _c('button', {
+    on: {
+      "click": function($event) {
+        _vm.nextPage()
+      }
+    }
+  }, [_vm._v("nextPage>")])]) : _vm._e(), _vm._v(" "), _c('button', {
+    staticClass: "btn btn1-01",
+    on: {
+      "click": function($event) {
+        _vm.toggleAuthTypeCheckbox(true);
+        _vm.filterCategory('All')
+      }
+    }
+  }, [_vm._v("Show All")])]), _vm._v(" "), _c('br'), _vm._v(" "), _vm._v("\r\n      currentCategory: " + _vm._s(_vm.currentCategory) + "\r\n      "), _c('vcApiList', {
     attrs: {
       "pr-api-list": _vm.apiList
     }
@@ -2367,6 +2414,358 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-19b7a970", esExports)
   }
 }
+
+/***/ }),
+/* 41 */,
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+/*!
+ * Fuse.js v3.2.0 - Lightweight fuzzy-search (http://fusejs.io)
+ * 
+ * Copyright (c) 2012-2017 Kirollos Risk (http://kiro.me)
+ * All Rights Reserved. Apache Software License 2.0
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+!function (e, t) {
+  "object" == ( false ? "undefined" : _typeof(exports)) && "object" == ( false ? "undefined" : _typeof(module)) ? module.exports = t() :  true ? !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (t),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)) : "object" == (typeof exports === "undefined" ? "undefined" : _typeof(exports)) ? exports.Fuse = t() : e.Fuse = t();
+}(this, function () {
+  return function (e) {
+    function t(n) {
+      if (r[n]) return r[n].exports;var o = r[n] = { i: n, l: !1, exports: {} };return e[n].call(o.exports, o, o.exports, t), o.l = !0, o.exports;
+    }var r = {};return t.m = e, t.c = r, t.i = function (e) {
+      return e;
+    }, t.d = function (e, r, n) {
+      t.o(e, r) || Object.defineProperty(e, r, { configurable: !1, enumerable: !0, get: n });
+    }, t.n = function (e) {
+      var r = e && e.__esModule ? function () {
+        return e.default;
+      } : function () {
+        return e;
+      };return t.d(r, "a", r), r;
+    }, t.o = function (e, t) {
+      return Object.prototype.hasOwnProperty.call(e, t);
+    }, t.p = "", t(t.s = 8);
+  }([function (e, t, r) {
+    "use strict";
+    e.exports = function (e) {
+      return "[object Array]" === Object.prototype.toString.call(e);
+    };
+  }, function (e, t, r) {
+    "use strict";
+    function n(e, t) {
+      if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
+    }var o = function () {
+      function e(e, t) {
+        for (var r = 0; r < t.length; r++) {
+          var n = t[r];n.enumerable = n.enumerable || !1, n.configurable = !0, "value" in n && (n.writable = !0), Object.defineProperty(e, n.key, n);
+        }
+      }return function (t, r, n) {
+        return r && e(t.prototype, r), n && e(t, n), t;
+      };
+    }(),
+        i = r(5),
+        a = r(7),
+        s = r(4),
+        c = function () {
+      function e(t, r) {
+        var o = r.location,
+            i = void 0 === o ? 0 : o,
+            a = r.distance,
+            c = void 0 === a ? 100 : a,
+            h = r.threshold,
+            l = void 0 === h ? .6 : h,
+            u = r.maxPatternLength,
+            f = void 0 === u ? 32 : u,
+            d = r.isCaseSensitive,
+            v = void 0 !== d && d,
+            p = r.tokenSeparator,
+            g = void 0 === p ? / +/g : p,
+            y = r.findAllMatches,
+            m = void 0 !== y && y,
+            k = r.minMatchCharLength,
+            x = void 0 === k ? 1 : k;n(this, e), this.options = { location: i, distance: c, threshold: l, maxPatternLength: f, isCaseSensitive: v, tokenSeparator: g, findAllMatches: m, minMatchCharLength: x }, this.pattern = this.options.isCaseSensitive ? t : t.toLowerCase(), this.pattern.length <= f && (this.patternAlphabet = s(this.pattern));
+      }return o(e, [{ key: "search", value: function value(e) {
+          if (this.options.isCaseSensitive || (e = e.toLowerCase()), this.pattern === e) return { isMatch: !0, score: 0, matchedIndices: [[0, e.length - 1]] };var t = this.options,
+              r = t.maxPatternLength,
+              n = t.tokenSeparator;if (this.pattern.length > r) return i(e, this.pattern, n);var o = this.options,
+              s = o.location,
+              c = o.distance,
+              h = o.threshold,
+              l = o.findAllMatches,
+              u = o.minMatchCharLength;return a(e, this.pattern, this.patternAlphabet, { location: s, distance: c, threshold: h, findAllMatches: l, minMatchCharLength: u });
+        } }]), e;
+    }();e.exports = c;
+  }, function (e, t, r) {
+    "use strict";
+    var n = r(0),
+        o = function e(t, r, o) {
+      if (r) {
+        var i = r.indexOf("."),
+            a = r,
+            s = null;-1 !== i && (a = r.slice(0, i), s = r.slice(i + 1));var c = t[a];if (null !== c && void 0 !== c) if (s || "string" != typeof c && "number" != typeof c) {
+          if (n(c)) for (var h = 0, l = c.length; h < l; h += 1) {
+            e(c[h], s, o);
+          } else s && e(c, s, o);
+        } else o.push(c.toString());
+      } else o.push(t);return o;
+    };e.exports = function (e, t) {
+      return o(e, t, []);
+    };
+  }, function (e, t, r) {
+    "use strict";
+    e.exports = function () {
+      for (var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [], t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1, r = [], n = -1, o = -1, i = 0, a = e.length; i < a; i += 1) {
+        var s = e[i];s && -1 === n ? n = i : s || -1 === n || (o = i - 1, o - n + 1 >= t && r.push([n, o]), n = -1);
+      }return e[i - 1] && i - n >= t && r.push([n, i - 1]), r;
+    };
+  }, function (e, t, r) {
+    "use strict";
+    e.exports = function (e) {
+      for (var t = {}, r = e.length, n = 0; n < r; n += 1) {
+        t[e.charAt(n)] = 0;
+      }for (var o = 0; o < r; o += 1) {
+        t[e.charAt(o)] |= 1 << r - o - 1;
+      }return t;
+    };
+  }, function (e, t, r) {
+    "use strict";
+    e.exports = function (e, t) {
+      var r = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : / +/g,
+          n = new RegExp(t.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&").replace(r, "|")),
+          o = e.match(n),
+          i = !!o,
+          a = [];if (i) for (var s = 0, c = o.length; s < c; s += 1) {
+        var h = o[s];a.push([e.indexOf(h), h.length - 1]);
+      }return { score: i ? .5 : 1, isMatch: i, matchedIndices: a };
+    };
+  }, function (e, t, r) {
+    "use strict";
+    e.exports = function (e, t) {
+      var r = t.errors,
+          n = void 0 === r ? 0 : r,
+          o = t.currentLocation,
+          i = void 0 === o ? 0 : o,
+          a = t.expectedLocation,
+          s = void 0 === a ? 0 : a,
+          c = t.distance,
+          h = void 0 === c ? 100 : c,
+          l = n / e.length,
+          u = Math.abs(s - i);return h ? l + u / h : u ? 1 : l;
+    };
+  }, function (e, t, r) {
+    "use strict";
+    var n = r(6),
+        o = r(3);e.exports = function (e, t, r, i) {
+      for (var a = i.location, s = void 0 === a ? 0 : a, c = i.distance, h = void 0 === c ? 100 : c, l = i.threshold, u = void 0 === l ? .6 : l, f = i.findAllMatches, d = void 0 !== f && f, v = i.minMatchCharLength, p = void 0 === v ? 1 : v, g = s, y = e.length, m = u, k = e.indexOf(t, g), x = t.length, S = [], M = 0; M < y; M += 1) {
+        S[M] = 0;
+      }if (-1 !== k) {
+        var b = n(t, { errors: 0, currentLocation: k, expectedLocation: g, distance: h });if (m = Math.min(b, m), -1 !== (k = e.lastIndexOf(t, g + x))) {
+          var _ = n(t, { errors: 0, currentLocation: k, expectedLocation: g, distance: h });m = Math.min(_, m);
+        }
+      }k = -1;for (var L = [], w = 1, C = x + y, A = 1 << x - 1, I = 0; I < x; I += 1) {
+        for (var O = 0, F = C; O < F;) {
+          n(t, { errors: I, currentLocation: g + F, expectedLocation: g, distance: h }) <= m ? O = F : C = F, F = Math.floor((C - O) / 2 + O);
+        }C = F;var P = Math.max(1, g - F + 1),
+            j = d ? y : Math.min(g + F, y) + x,
+            z = Array(j + 2);z[j + 1] = (1 << I) - 1;for (var T = j; T >= P; T -= 1) {
+          var E = T - 1,
+              K = r[e.charAt(E)];if (K && (S[E] = 1), z[T] = (z[T + 1] << 1 | 1) & K, 0 !== I && (z[T] |= (L[T + 1] | L[T]) << 1 | 1 | L[T + 1]), z[T] & A && (w = n(t, { errors: I, currentLocation: E, expectedLocation: g, distance: h })) <= m) {
+            if (m = w, (k = E) <= g) break;P = Math.max(1, 2 * g - k);
+          }
+        }if (n(t, { errors: I + 1, currentLocation: g, expectedLocation: g, distance: h }) > m) break;L = z;
+      }return { isMatch: k >= 0, score: 0 === w ? .001 : w, matchedIndices: o(S, p) };
+    };
+  }, function (e, t, r) {
+    "use strict";
+    function n(e, t) {
+      if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
+    }var o = function () {
+      function e(e, t) {
+        for (var r = 0; r < t.length; r++) {
+          var n = t[r];n.enumerable = n.enumerable || !1, n.configurable = !0, "value" in n && (n.writable = !0), Object.defineProperty(e, n.key, n);
+        }
+      }return function (t, r, n) {
+        return r && e(t.prototype, r), n && e(t, n), t;
+      };
+    }(),
+        i = r(1),
+        a = r(2),
+        s = r(0),
+        c = function () {
+      function e(t, r) {
+        var o = r.location,
+            i = void 0 === o ? 0 : o,
+            s = r.distance,
+            c = void 0 === s ? 100 : s,
+            h = r.threshold,
+            l = void 0 === h ? .6 : h,
+            u = r.maxPatternLength,
+            f = void 0 === u ? 32 : u,
+            d = r.caseSensitive,
+            v = void 0 !== d && d,
+            p = r.tokenSeparator,
+            g = void 0 === p ? / +/g : p,
+            y = r.findAllMatches,
+            m = void 0 !== y && y,
+            k = r.minMatchCharLength,
+            x = void 0 === k ? 1 : k,
+            S = r.id,
+            M = void 0 === S ? null : S,
+            b = r.keys,
+            _ = void 0 === b ? [] : b,
+            L = r.shouldSort,
+            w = void 0 === L || L,
+            C = r.getFn,
+            A = void 0 === C ? a : C,
+            I = r.sortFn,
+            O = void 0 === I ? function (e, t) {
+          return e.score - t.score;
+        } : I,
+            F = r.tokenize,
+            P = void 0 !== F && F,
+            j = r.matchAllTokens,
+            z = void 0 !== j && j,
+            T = r.includeMatches,
+            E = void 0 !== T && T,
+            K = r.includeScore,
+            $ = void 0 !== K && K,
+            J = r.verbose,
+            N = void 0 !== J && J;n(this, e), this.options = { location: i, distance: c, threshold: l, maxPatternLength: f, isCaseSensitive: v, tokenSeparator: g, findAllMatches: m, minMatchCharLength: x, id: M, keys: _, includeMatches: E, includeScore: $, shouldSort: w, getFn: A, sortFn: O, verbose: N, tokenize: P, matchAllTokens: z }, this.setCollection(t);
+      }return o(e, [{ key: "setCollection", value: function value(e) {
+          return this.list = e, e;
+        } }, { key: "search", value: function value(e) {
+          this._log('---------\nSearch pattern: "' + e + '"');var t = this._prepareSearchers(e),
+              r = t.tokenSearchers,
+              n = t.fullSearcher,
+              o = this._search(r, n),
+              i = o.weights,
+              a = o.results;return this._computeScore(i, a), this.options.shouldSort && this._sort(a), this._format(a);
+        } }, { key: "_prepareSearchers", value: function value() {
+          var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : "",
+              t = [];if (this.options.tokenize) for (var r = e.split(this.options.tokenSeparator), n = 0, o = r.length; n < o; n += 1) {
+            t.push(new i(r[n], this.options));
+          }return { tokenSearchers: t, fullSearcher: new i(e, this.options) };
+        } }, { key: "_search", value: function value() {
+          var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [],
+              t = arguments[1],
+              r = this.list,
+              n = {},
+              o = [];if ("string" == typeof r[0]) {
+            for (var i = 0, a = r.length; i < a; i += 1) {
+              this._analyze({ key: "", value: r[i], record: i, index: i }, { resultMap: n, results: o, tokenSearchers: e, fullSearcher: t });
+            }return { weights: null, results: o };
+          }for (var s = {}, c = 0, h = r.length; c < h; c += 1) {
+            for (var l = r[c], u = 0, f = this.options.keys.length; u < f; u += 1) {
+              var d = this.options.keys[u];if ("string" != typeof d) {
+                if (s[d.name] = { weight: 1 - d.weight || 1 }, d.weight <= 0 || d.weight > 1) throw new Error("Key weight has to be > 0 and <= 1");d = d.name;
+              } else s[d] = { weight: 1 };this._analyze({ key: d, value: this.options.getFn(l, d), record: l, index: c }, { resultMap: n, results: o, tokenSearchers: e, fullSearcher: t });
+            }
+          }return { weights: s, results: o };
+        } }, { key: "_analyze", value: function value(e, t) {
+          var r = e.key,
+              n = e.arrayIndex,
+              o = void 0 === n ? -1 : n,
+              i = e.value,
+              a = e.record,
+              c = e.index,
+              h = t.tokenSearchers,
+              l = void 0 === h ? [] : h,
+              u = t.fullSearcher,
+              f = void 0 === u ? [] : u,
+              d = t.resultMap,
+              v = void 0 === d ? {} : d,
+              p = t.results,
+              g = void 0 === p ? [] : p;if (void 0 !== i && null !== i) {
+            var y = !1,
+                m = -1,
+                k = 0;if ("string" == typeof i) {
+              this._log("\nKey: " + ("" === r ? "-" : r));var x = f.search(i);if (this._log('Full text: "' + i + '", score: ' + x.score), this.options.tokenize) {
+                for (var S = i.split(this.options.tokenSeparator), M = [], b = 0; b < l.length; b += 1) {
+                  var _ = l[b];this._log('\nPattern: "' + _.pattern + '"');for (var L = !1, w = 0; w < S.length; w += 1) {
+                    var C = S[w],
+                        A = _.search(C),
+                        I = {};A.isMatch ? (I[C] = A.score, y = !0, L = !0, M.push(A.score)) : (I[C] = 1, this.options.matchAllTokens || M.push(1)), this._log('Token: "' + C + '", score: ' + I[C]);
+                  }L && (k += 1);
+                }m = M[0];for (var O = M.length, F = 1; F < O; F += 1) {
+                  m += M[F];
+                }m /= O, this._log("Token score average:", m);
+              }var P = x.score;m > -1 && (P = (P + m) / 2), this._log("Score average:", P);var j = !this.options.tokenize || !this.options.matchAllTokens || k >= l.length;if (this._log("\nCheck Matches: " + j), (y || x.isMatch) && j) {
+                var z = v[c];z ? z.output.push({ key: r, arrayIndex: o, value: i, score: P, matchedIndices: x.matchedIndices }) : (v[c] = { item: a, output: [{ key: r, arrayIndex: o, value: i, score: P, matchedIndices: x.matchedIndices }] }, g.push(v[c]));
+              }
+            } else if (s(i)) for (var T = 0, E = i.length; T < E; T += 1) {
+              this._analyze({ key: r, arrayIndex: T, value: i[T], record: a, index: c }, { resultMap: v, results: g, tokenSearchers: l, fullSearcher: f });
+            }
+          }
+        } }, { key: "_computeScore", value: function value(e, t) {
+          this._log("\n\nComputing score:\n");for (var r = 0, n = t.length; r < n; r += 1) {
+            for (var o = t[r].output, i = o.length, a = 0, s = 1, c = 0; c < i; c += 1) {
+              var h = e ? e[o[c].key].weight : 1,
+                  l = 1 === h ? o[c].score : o[c].score || .001,
+                  u = l * h;1 !== h ? s = Math.min(s, u) : (o[c].nScore = u, a += u);
+            }t[r].score = 1 === s ? a / i : s, this._log(t[r]);
+          }
+        } }, { key: "_sort", value: function value(e) {
+          this._log("\n\nSorting...."), e.sort(this.options.sortFn);
+        } }, { key: "_format", value: function value(e) {
+          var t = [];this._log("\n\nOutput:\n\n", JSON.stringify(e));var r = [];this.options.includeMatches && r.push(function (e, t) {
+            var r = e.output;t.matches = [];for (var n = 0, o = r.length; n < o; n += 1) {
+              var i = r[n];if (0 !== i.matchedIndices.length) {
+                var a = { indices: i.matchedIndices, value: i.value };i.key && (a.key = i.key), i.hasOwnProperty("arrayIndex") && i.arrayIndex > -1 && (a.arrayIndex = i.arrayIndex), t.matches.push(a);
+              }
+            }
+          }), this.options.includeScore && r.push(function (e, t) {
+            t.score = e.score;
+          });for (var n = 0, o = e.length; n < o; n += 1) {
+            var i = e[n];if (this.options.id && (i.item = this.options.getFn(i.item, this.options.id)[0]), r.length) {
+              for (var a = { item: i.item }, s = 0, c = r.length; s < c; s += 1) {
+                r[s](i, a);
+              }t.push(a);
+            } else t.push(i.item);
+          }return t;
+        } }, { key: "_log", value: function value() {
+          if (this.options.verbose) {
+            var e;(e = console).log.apply(e, arguments);
+          }
+        } }]), e;
+    }();e.exports = c;
+  }]);
+});
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(43)(module)))
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports) {
+
+module.exports = function(module) {
+	if(!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if(!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
 
 /***/ })
 ]);

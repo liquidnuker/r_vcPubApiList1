@@ -9,23 +9,6 @@
   <div class="row">
     <div class="col-sm-3">
       {{ apiTotalCount }} <br>
-      <!-- page controls -->
-      <div>
-        <span v-if="pagerButtons">
-          <button @click="prevPage()">&lt;prevpage</button>
-          <div class="custom-select pg_totalpages">
-            Page&nbsp;
-            <select v-model="currentPage">
-              <option @click="showPage(i)" v-for="i in totalPages" :value="i">{{ i }}</option>
-            </select>
-          </div>
-          of {{ totalPages }}
-          <button @click="nextPage()">nextPage&gt;</button>
-        </span>
-        <button class="btn btn1-01"
-        @click="toggleAuthTypeCheckbox(true); filterCategory('All')">Show All</button>
-      </div>
-      <!-- /page controls -->
     </div>
     <div class="col-sm-9">
       <!-- authType filter -->
@@ -58,6 +41,30 @@
       <br>
     </div>
     <div class="col-sm-9">
+      <label for="api_search">Search {{ currentCategory }}:</label> 
+      <input type="text" 
+      name="api_search" 
+      id="api_search" 
+      placeholder="Enter keyword/s..." 
+      @keyup.enter= "search($event.target.value)"  />
+      <!-- page controls -->
+      <div>
+        <span v-if="pagerButtons">
+          <button @click="prevPage()">&lt;prevpage</button>
+          <div class="custom-select pg_totalpages">
+            Page&nbsp;
+            <select v-model="currentPage">
+              <option @click="showPage(i)" v-for="i in totalPages" :value="i">{{ i }}</option>
+            </select>
+          </div>
+          of {{ totalPages }}
+          <button @click="nextPage()">nextPage&gt;</button>
+        </span>
+        <button class="btn btn1-01"
+        @click="toggleAuthTypeCheckbox(true); filterCategory('All')">Show All</button>
+      </div>
+      <!-- /page controls -->
+      <br>
       <!-- main listing -->
       currentCategory: {{ currentCategory }}
       <vcApiList
@@ -69,6 +76,7 @@
 <script>
 import axios from "axios";
 import Paginate from "../js/vendor/Paginate.js";
+import Fuse from "../js/vendor/fuse.min.js";
 
 const vcApiList = () => import ('./vcApiList.vue');
 export default {
@@ -95,7 +103,9 @@ export default {
         pagerButtons: true,
         perPage: 20,
 
-        apiStatus: false
+        apiStatus: false,
+        inputSearchTimeOut: null,
+        inputSearchEntered: false
       };
     },
     components: {
@@ -112,7 +122,7 @@ export default {
             this.apiTotalCount = response.data.count;
             this.apiListCache = response.data.entries;
             this.apiListFiltered = this.apiListCache;
-            this.activatePager();
+            this.activatePager(this.apiListCache);
           })
           .then(() => {
             this.addFiltersList(this.apiListCache);
@@ -141,9 +151,9 @@ export default {
             console.log(error.config);
           });
       },
-      activatePager: function () {
+      activatePager: function (data) {
         this.pager = null;
-        this.pager = new Paginate(this.apiListFiltered, this.perPage);
+        this.pager = new Paginate(data, this.perPage);
         this.apiList = this.pager.page(0);
         this.currentPage = this.pager.currentPage;
         this.totalPages = this.pager.totalPages;
@@ -253,9 +263,30 @@ export default {
         }
         
         authTemp = null;
-        categoryTemp = null;
-        this.activatePager();
+        categoryTemp = null;  
+        this.activatePager(this.apiListFiltered);
       },
+      search: function(value) {
+      let fuseOptions = {
+        shouldSort: true,
+        threshold: 0.6,
+        location: 0,
+        distance: 100,
+        maxPatternLength: 32,
+        minMatchCharLength: 1,
+        keys: [
+          "API",
+          "Description"
+        ]
+      };
+
+      let fuse = new Fuse(this.apiListFiltered, fuseOptions);
+      let temp = fuse.search(value);
+      console.log(temp);
+      // 
+      // this.activatePager(temp);
+      // temp = null;      
+      }      
     }
 };
 </script>
