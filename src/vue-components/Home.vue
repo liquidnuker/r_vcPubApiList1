@@ -2,8 +2,8 @@
 <div>
   <span v-if="apiStatus">
     Status:
-    <a href="https://travis-ci.org/toddmotto/public-apis">
-      <img src="https://travis-ci.org/toddmotto/public-apis.svg?branch=master" />
+    <a href="HTTPS://travis-ci.org/toddmotto/public-apis">
+      <img src="HTTPS://travis-ci.org/toddmotto/public-apis.svg?branch=master" />
     </a>
   </span>
   <div class="row">
@@ -23,7 +23,7 @@
           <button @click="nextPage()">nextPage&gt;</button>
         </span>
         <button class="btn btn1-01"
-        @click="filterCategory('All')">Show All</button>
+        @click="toggleAuthTypeCheckbox(true); filterCategory('All')">Show All</button>
       </div>
       <!-- /page controls -->
     </div>
@@ -32,8 +32,15 @@
       <ul>
         <li v-for="i in authTypes">
           <input type="checkbox" :id="i"
-         v-model="authTypeSelected" :value="i" />
-        <label v-bind:for="i" class="">{{ i }}</label>
+          v-model="authTypeSelected" :value="i" @change="filterAuthType()" />
+          <label v-bind:for="i" class="">{{ i }}</label>
+        </li>
+        <li role="separator" aria-expanded="true" aria-orientation="vertical">
+        </li>
+        <li>
+          <input type="checkbox" id="checkbox" v-model="https"
+          @change="filterAuthType()" />
+          <label for="checkbox">HTTPS only</label>
         </li>
       </ul>
       <p>Selected: {{ authTypeSelected }}</p>
@@ -79,6 +86,7 @@ export default {
         currentCategory: "All",
         authTypes: "",
         authTypeSelected: [], // checkbox
+        https: "",
 
         // paginator 
         pager: null,
@@ -89,11 +97,6 @@ export default {
 
         apiStatus: false
       };
-    },
-    watch: {
-      authTypeSelected: function () {
-        this.filterAuthType();
-      }
     },
     components: {
       vcApiList: vcApiList
@@ -226,6 +229,7 @@ export default {
           categoryTemp = this.apiListCache;
         }
 
+        // authType checkbox
         let authTemp = [];
         this.authTypeSelected.map((i) => {
           // get items of each authTypeSelected
@@ -234,13 +238,22 @@ export default {
           t2 = null;
         });
 
+        // HTTPS checkbox
+        if (this.https) {
+          console.log("https true");
+          let hTemp = this.filter(authTemp, "HTTPS", this.https);
+          this.apiListFiltered = hTemp;
+          hTemp = null;
+        } else {
+          this.apiListFiltered = authTemp;
+        }
+
         if (authTemp.length === 0) {
           console.log("no results");
         }
-
-        this.apiListFiltered = authTemp;
-        categoryTemp = null;
+        
         authTemp = null;
+        categoryTemp = null;
         this.activatePager();
       },
     }

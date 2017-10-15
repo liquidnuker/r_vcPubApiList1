@@ -994,6 +994,13 @@ module.exports = Cancel;
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1016,6 +1023,7 @@ var vcApiList = function vcApiList() {
       currentCategory: "All",
       authTypes: "",
       authTypeSelected: [], // checkbox
+      https: "",
 
       // paginator 
       pager: null,
@@ -1028,11 +1036,6 @@ var vcApiList = function vcApiList() {
     };
   },
 
-  watch: {
-    authTypeSelected: function authTypeSelected() {
-      this.filterAuthType();
-    }
-  },
   components: {
     vcApiList: vcApiList
   },
@@ -1167,6 +1170,7 @@ var vcApiList = function vcApiList() {
         categoryTemp = this.apiListCache;
       }
 
+      // authType checkbox
       var authTemp = [];
       this.authTypeSelected.map(function (i) {
         // get items of each authTypeSelected
@@ -1175,13 +1179,22 @@ var vcApiList = function vcApiList() {
         t2 = null;
       });
 
+      // HTTPS checkbox
+      if (this.https) {
+        console.log("https true");
+        var hTemp = this.filter(authTemp, "HTTPS", this.https);
+        this.apiListFiltered = hTemp;
+        hTemp = null;
+      } else {
+        this.apiListFiltered = authTemp;
+      }
+
       if (authTemp.length === 0) {
         console.log("no results");
       }
 
-      this.apiListFiltered = authTemp;
-      categoryTemp = null;
       authTemp = null;
+      categoryTemp = null;
       this.activatePager();
     }
   }
@@ -2221,12 +2234,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "btn btn1-01",
     on: {
       "click": function($event) {
+        _vm.toggleAuthTypeCheckbox(true);
         _vm.filterCategory('All')
       }
     }
   }, [_vm._v("Show All")])])]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-9"
-  }, [_c('ul', _vm._l((_vm.authTypes), function(i) {
+  }, [_c('ul', [_vm._l((_vm.authTypes), function(i) {
     return _c('li', [_c('input', {
       directives: [{
         name: "model",
@@ -2243,6 +2257,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "checked": Array.isArray(_vm.authTypeSelected) ? _vm._i(_vm.authTypeSelected, i) > -1 : (_vm.authTypeSelected)
       },
       on: {
+        "change": function($event) {
+          _vm.filterAuthType()
+        },
         "__c": function($event) {
           var $$a = _vm.authTypeSelected,
             $$el = $event.target,
@@ -2265,7 +2282,52 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "for": i
       }
     }, [_vm._v(_vm._s(i))])])
-  })), _vm._v(" "), _c('p', [_vm._v("Selected: " + _vm._s(_vm.authTypeSelected))])])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _c('li', {
+    attrs: {
+      "role": "separator",
+      "aria-expanded": "true",
+      "aria-orientation": "vertical"
+    }
+  }), _vm._v(" "), _c('li', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.https),
+      expression: "https"
+    }],
+    attrs: {
+      "type": "checkbox",
+      "id": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.https) ? _vm._i(_vm.https, null) > -1 : (_vm.https)
+    },
+    on: {
+      "change": function($event) {
+        _vm.filterAuthType()
+      },
+      "__c": function($event) {
+        var $$a = _vm.https,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$c) {
+            $$i < 0 && (_vm.https = $$a.concat($$v))
+          } else {
+            $$i > -1 && (_vm.https = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.https = $$c
+        }
+      }
+    }
+  }), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "checkbox"
+    }
+  }, [_vm._v("HTTPS only")])])], 2), _vm._v(" "), _c('p', [_vm._v("Selected: " + _vm._s(_vm.authTypeSelected))])])]), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-sm-3"
@@ -2288,11 +2350,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('a', {
     attrs: {
-      "href": "https://travis-ci.org/toddmotto/public-apis"
+      "href": "HTTPS://travis-ci.org/toddmotto/public-apis"
     }
   }, [_c('img', {
     attrs: {
-      "src": "https://travis-ci.org/toddmotto/public-apis.svg?branch=master"
+      "src": "HTTPS://travis-ci.org/toddmotto/public-apis.svg?branch=master"
     }
   })])
 }]
