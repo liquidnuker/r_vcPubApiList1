@@ -1028,6 +1028,11 @@ var vcApiList = function vcApiList() {
     };
   },
 
+  watch: {
+    authTypeSelected: function authTypeSelected() {
+      this.filterAuthType();
+    }
+  },
   components: {
     vcApiList: vcApiList
   },
@@ -1138,7 +1143,6 @@ var vcApiList = function vcApiList() {
     },
     toggleAuthTypeCheckbox: function toggleAuthTypeCheckbox(checked) {
       if (checked) {
-        // push
         this.authTypeSelected = [];
         for (var i in this.authTypes) {
           this.authTypeSelected.push(this.authTypes[i]);
@@ -1149,31 +1153,36 @@ var vcApiList = function vcApiList() {
     },
     filterCategory: function filterCategory(categoryType) {
       this.currentCategory = categoryType;
-      var temp = this.filter(this.apiListCache, "Category", categoryType);
-      this.apiListFiltered = temp;
-      temp = null;
-
-      // proceed to checked AuthTypes
       this.filterAuthType();
     },
     filterAuthType: function filterAuthType() {
       var _this3 = this;
 
-      if (this.authTypeSelected.length === 4) {
-        this.activatePager();
+      var categoryTemp = void 0;
+
+      if (this.currentCategory !== "All") {
+        categoryTemp = this.filter(this.apiListCache, "Category", this.currentCategory);
       } else {
-        var temp = [];
-        console.log(this.authTypeSelected);
-        this.authTypeSelected.map(function (i) {
-          // get items of each authTypeSelected
-          var t2 = _this3.filter(_this3.apiListFiltered, "Auth", i);
-          temp = temp.concat(t2);
-          t2 = null;
-        });
-        this.apiListFiltered = temp;
-        this.activatePager();
-        temp = null;
+        // to filter authTypes from default items
+        categoryTemp = this.apiListCache;
       }
+
+      var authTemp = [];
+      this.authTypeSelected.map(function (i) {
+        // get items of each authTypeSelected
+        var t2 = _this3.filter(categoryTemp, "Auth", i);
+        authTemp = authTemp.concat(t2);
+        t2 = null;
+      });
+
+      if (authTemp.length === 0) {
+        console.log("no results");
+      }
+
+      this.apiListFiltered = authTemp;
+      categoryTemp = null;
+      authTemp = null;
+      this.activatePager();
     }
   }
 });
@@ -2212,7 +2221,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "btn btn1-01",
     on: {
       "click": function($event) {
-        _vm.showAll()
+        _vm.filterCategory('All')
       }
     }
   }, [_vm._v("Show All")])])]), _vm._v(" "), _c('div', {

@@ -23,7 +23,7 @@
           <button @click="nextPage()">nextPage&gt;</button>
         </span>
         <button class="btn btn1-01"
-        @click="showAll()">Show All</button>
+        @click="filterCategory('All')">Show All</button>
       </div>
       <!-- /page controls -->
     </div>
@@ -89,6 +89,11 @@ export default {
 
         apiStatus: false
       };
+    },
+    watch: {
+      authTypeSelected: function () {
+        this.filterAuthType();
+      }
     },
     components: {
       vcApiList: vcApiList
@@ -199,7 +204,6 @@ export default {
       },
       toggleAuthTypeCheckbox: function(checked) {
         if (checked) {
-          // push
           this.authTypeSelected = [];
           for (let i in this.authTypes) {
             this.authTypeSelected.push(this.authTypes[i]);
@@ -208,31 +212,36 @@ export default {
           this.authTypeSelected = [];
         }
       },
-      filterCategory: function(categoryType) {
+      filterCategory: function (categoryType) {
         this.currentCategory = categoryType;
-        let temp = this.filter(this.apiListCache, "Category", categoryType);
-        this.apiListFiltered = temp;
-        temp = null;
-
-        // proceed to checked AuthTypes
         this.filterAuthType();
       },
-      filterAuthType: function() {
-        if (this.authTypeSelected.length === 4) {
-          this.activatePager();
+      filterAuthType: function () {
+        let categoryTemp;
+
+        if (this.currentCategory !== "All") {
+          categoryTemp = this.filter(this.apiListCache, "Category", this.currentCategory);
         } else {
-          let temp = [];
-          console.log(this.authTypeSelected);
-          this.authTypeSelected.map((i) => {
-            // get items of each authTypeSelected
-            let t2 = this.filter(this.apiListFiltered, "Auth", i);
-            temp = temp.concat(t2);
-            t2 = null;
-          });
-          this.apiListFiltered = temp;
-          this.activatePager();
-          temp = null;
+          // to filter authTypes from default items
+          categoryTemp = this.apiListCache;
         }
+
+        let authTemp = [];
+        this.authTypeSelected.map((i) => {
+          // get items of each authTypeSelected
+          let t2 = this.filter(categoryTemp, "Auth", i);
+          authTemp = authTemp.concat(t2);
+          t2 = null;
+        });
+
+        if (authTemp.length === 0) {
+          console.log("no results");
+        }
+
+        this.apiListFiltered = authTemp;
+        categoryTemp = null;
+        authTemp = null;
+        this.activatePager();
       },
     }
 };
