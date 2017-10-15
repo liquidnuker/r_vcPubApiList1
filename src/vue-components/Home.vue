@@ -1,6 +1,6 @@
 <template>
 <div>
-  <span v-if="apiStatus">
+  <span v-if="status.api">
     Status:
     <a href="HTTPS://travis-ci.org/toddmotto/public-apis">
       <img src="HTTPS://travis-ci.org/toddmotto/public-apis.svg?branch=master" />
@@ -41,6 +41,7 @@
       <br>
     </div>
     <div class="col-sm-9">
+      <!-- search -->
       <label for="api_search">Search {{ currentCategory }}:</label> 
       <input type="text" 
       name="api_search" 
@@ -103,7 +104,11 @@ export default {
         pagerButtons: true,
         perPage: 20,
 
-        apiStatus: false,
+        // messages
+        status: {
+          api: false
+        },
+
         inputSearchTimeOut: null,
         inputSearchEntered: false
       };
@@ -267,25 +272,28 @@ export default {
         this.activatePager(this.apiListFiltered);
       },
       search: function(value) {
-      let fuseOptions = {
-        shouldSort: true,
-        threshold: 0.6,
-        location: 0,
-        distance: 100,
-        maxPatternLength: 32,
-        minMatchCharLength: 1,
-        keys: [
+        let fuseOptions = {
+          shouldSort: true,
+          threshold: 0.6,
+          location: 0,
+          distance: 100,
+          maxPatternLength: 32,
+          minMatchCharLength: 1,
+          keys: [
           "API",
           "Description"
-        ]
-      };
+          ]
+        };
 
-      let fuse = new Fuse(this.apiListFiltered, fuseOptions);
-      let temp = fuse.search(value);
-      console.log(temp);
-      // 
-      // this.activatePager(temp);
-      // temp = null;      
+        let fuse = new Fuse(this.apiListFiltered, fuseOptions);
+        let temp = fuse.search(value);
+
+        if (temp.length === 0) {
+          console.log("no search results");
+        } else {
+          this.activatePager(temp);
+          temp = null;      
+        }        
       }      
     }
 };

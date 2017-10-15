@@ -1042,7 +1042,11 @@ var vcApiList = function vcApiList() {
       pagerButtons: true,
       perPage: 20,
 
-      apiStatus: false,
+      // messages
+      status: {
+        api: false
+      },
+
       inputSearchTimeOut: null,
       inputSearchEntered: false
     };
@@ -1222,10 +1226,13 @@ var vcApiList = function vcApiList() {
 
       var fuse = new __WEBPACK_IMPORTED_MODULE_2__js_vendor_fuse_min_js___default.a(this.apiListFiltered, fuseOptions);
       var temp = fuse.search(value);
-      console.log(temp);
-      // 
-      // this.activatePager(temp);
-      // temp = null;      
+
+      if (temp.length === 0) {
+        console.log("no search results");
+      } else {
+        this.activatePager(temp);
+        temp = null;
+      }
     }
   }
 });
@@ -2213,7 +2220,7 @@ if (true) module.exports = Paginate;
 
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [(_vm.apiStatus) ? _c('span', [_vm._v("\r\n    Status:\r\n    "), _vm._m(0)]) : _vm._e(), _vm._v(" "), _c('div', {
+  return _c('div', [(_vm.status.api) ? _c('span', [_vm._v("\r\n    Status:\r\n    "), _vm._m(0)]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-sm-3"
