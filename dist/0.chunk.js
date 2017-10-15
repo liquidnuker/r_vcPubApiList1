@@ -993,6 +993,7 @@ module.exports = Cancel;
 //
 //
 //
+//
 
 
 
@@ -1012,6 +1013,7 @@ var vcApiList = function vcApiList() {
       apiList: "", // displayed/paginated items
 
       categoryTypes: [],
+      currentCategory: "All",
       authTypes: "",
       authTypeSelected: [], // checkbox
 
@@ -1096,10 +1098,23 @@ var vcApiList = function vcApiList() {
       this.currentPage = this.pager.currentPage;
     },
     filter: function filter(arr, prop, item) {
+      // ret array
       var filtered = arr.filter(function (el) {
         return el[prop] === item;
       });
       return filtered;
+    },
+    extractUnique: function extractUnique(arr, cat) {
+      var o = {};
+      var temp = [];
+      for (var i = 0, l = arr.length; i < l; i++) {
+        if (!o[arr[i][cat]]) {
+          o[arr[i][cat]] = true;
+          temp.push(arr[i][cat]);
+          // temp.push(arr[i].Category);
+        }
+      }
+      return temp;
     },
     addFiltersList: function addFiltersList(arr) {
       var _this2 = this;
@@ -1121,18 +1136,6 @@ var vcApiList = function vcApiList() {
       });
       temp = null;
     },
-    extractUnique: function extractUnique(arr, cat) {
-      var o = {};
-      var temp = [];
-      for (var i = 0, l = arr.length; i < l; i++) {
-        if (!o[arr[i][cat]]) {
-          o[arr[i][cat]] = true;
-          temp.push(arr[i][cat]);
-          // temp.push(arr[i].Category);
-        }
-      }
-      return temp;
-    },
     toggleAuthTypeCheckbox: function toggleAuthTypeCheckbox(checked) {
       if (checked) {
         // push
@@ -1142,6 +1145,34 @@ var vcApiList = function vcApiList() {
         }
       } else {
         this.authTypeSelected = [];
+      }
+    },
+    filterCategory: function filterCategory(categoryType) {
+      this.currentCategory = categoryType;
+      var temp = this.filter(this.apiListCache, "Category", categoryType);
+      this.apiListFiltered = temp;
+      temp = null;
+
+      // proceed to checked AuthTypes
+      this.filterAuthType();
+    },
+    filterAuthType: function filterAuthType() {
+      var _this3 = this;
+
+      if (this.authTypeSelected.length === 4) {
+        this.activatePager();
+      } else {
+        var temp = [];
+        console.log(this.authTypeSelected);
+        this.authTypeSelected.map(function (i) {
+          // get items of each authTypeSelected
+          var t2 = _this3.filter(_this3.apiListFiltered, "Auth", i);
+          temp = temp.concat(t2);
+          t2 = null;
+        });
+        this.apiListFiltered = temp;
+        this.activatePager();
+        temp = null;
       }
     }
   }
@@ -2230,10 +2261,16 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "col-sm-3"
   }, [_c('ul', _vm._l((_vm.categoryTypes), function(i) {
-    return _c('li', [_vm._v("\r\n          " + _vm._s(i.catName) + " " + _vm._s(i.catLength) + "\r\n        ")])
+    return _c('li', [_c('p', {
+      on: {
+        "click": function($event) {
+          _vm.filterCategory(i.catName)
+        }
+      }
+    }, [_vm._v(_vm._s(i.catName) + " " + _vm._s(i.catLength))])])
   })), _vm._v(" "), _c('br'), _vm._v(" "), _c('br')]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-9"
-  }, [_c('vcApiList', {
+  }, [_vm._v("\r\n      currentCategory: " + _vm._s(_vm.currentCategory) + "\r\n      "), _c('vcApiList', {
     attrs: {
       "pr-api-list": _vm.apiList
     }

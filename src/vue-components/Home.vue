@@ -44,7 +44,7 @@
       <!-- category filter -->
       <ul>
         <li v-for="i in categoryTypes">
-          {{ i.catName }} {{ i.catLength }}
+          <p @click="filterCategory(i.catName)">{{ i.catName }} {{ i.catLength }}</p>
         </li>
       </ul>
       <br>
@@ -52,6 +52,7 @@
     </div>
     <div class="col-sm-9">
       <!-- main listing -->
+      currentCategory: {{ currentCategory }}
       <vcApiList
       :pr-api-list="apiList" />
     </div>
@@ -75,6 +76,7 @@ export default {
         apiList: "", // displayed/paginated items
 
         categoryTypes: [],
+        currentCategory: "All",
         authTypes: "",
         authTypeSelected: [], // checkbox
 
@@ -159,10 +161,23 @@ export default {
         this.currentPage = this.pager.currentPage;
       },
       filter: function (arr, prop, item) {
+        // ret array
         let filtered = arr.filter(function (el) {
           return el[prop] === item;
         });
         return filtered;
+      },
+      extractUnique: function (arr, cat) {
+        let o = {};
+        let temp = [];
+        for (let i = 0, l = arr.length; i < l; i++) {
+          if (!o[arr[i][cat]]) {
+            o[arr[i][cat]] = true;
+            temp.push(arr[i][cat]);
+            // temp.push(arr[i].Category);
+          }
+        }
+        return temp;
       },
       addFiltersList: function (arr) {
         // for authTypes
@@ -182,18 +197,6 @@ export default {
         });
         temp = null;
       },
-      extractUnique: function (arr, cat) {
-        let o = {};
-        let temp = [];
-        for (let i = 0, l = arr.length; i < l; i++) {
-          if (!o[arr[i][cat]]) {
-            o[arr[i][cat]] = true;
-            temp.push(arr[i][cat]);
-            // temp.push(arr[i].Category);
-          }
-        }
-        return temp;
-      },
       toggleAuthTypeCheckbox: function(checked) {
         if (checked) {
           // push
@@ -204,7 +207,33 @@ export default {
         } else {
           this.authTypeSelected = [];
         }
-      }
+      },
+      filterCategory: function(categoryType) {
+        this.currentCategory = categoryType;
+        let temp = this.filter(this.apiListCache, "Category", categoryType);
+        this.apiListFiltered = temp;
+        temp = null;
+
+        // proceed to checked AuthTypes
+        this.filterAuthType();
+      },
+      filterAuthType: function() {
+        if (this.authTypeSelected.length === 4) {
+          this.activatePager();
+        } else {
+          let temp = [];
+          console.log(this.authTypeSelected);
+          this.authTypeSelected.map((i) => {
+            // get items of each authTypeSelected
+            let t2 = this.filter(this.apiListFiltered, "Auth", i);
+            temp = temp.concat(t2);
+            t2 = null;
+          });
+          this.apiListFiltered = temp;
+          this.activatePager();
+          temp = null;
+        }
+      },
     }
 };
 </script>
