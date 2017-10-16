@@ -29,7 +29,7 @@
 /******/
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		0: 0
+/******/ 		2: 0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -158,7 +158,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 // import "./js/router.js"
 
 var vcHome = function vcHome() {
-  return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 3));
+  return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 2));
 };
 
 new Vue({

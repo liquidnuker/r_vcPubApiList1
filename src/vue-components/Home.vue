@@ -115,6 +115,7 @@
 import axios from "axios";
 import Paginate from "../js/vendor/Paginate.js";
 import Fuse from "../js/vendor/fuse.min.js";
+import {arr_filter} from "../js/arr_filter.js";
 
 const vcApiList = () => import ('./vcApiList.vue');
 export default {
@@ -223,13 +224,6 @@ export default {
         }
         this.currentPage = this.pager.currentPage;
       },
-      filter: function (arr, prop, item) {
-        // ret array
-        let filtered = arr.filter(function (el) {
-          return el[prop] === item;
-        });
-        return filtered;
-      },
       extractUnique: function (arr, cat) {
         let o = {};
         let temp = [];
@@ -251,7 +245,7 @@ export default {
         let temp = this.extractUnique(arr, "Category");
         // filter to get length of each item then push
         temp.map((i) => {
-          let l = this.filter(this.apiListCache, "Category", i);
+          let l = arr_filter(this.apiListCache, "Category", i);
           this.categoryTypes.push({
             catName: i,
             catLength: l.length
@@ -279,7 +273,7 @@ export default {
         let categoryTemp;
 
         if (this.currentCategory !== "All") {
-          categoryTemp = this.filter(this.apiListCache, "Category", this.currentCategory);
+          categoryTemp = arr_filter(this.apiListCache, "Category", this.currentCategory);
         } else {
           // to filter authTypes from default items
           categoryTemp = this.apiListCache;
@@ -289,14 +283,14 @@ export default {
         let authTemp = [];
         this.authTypeSelected.map((i) => {
           // get items of each authTypeSelected
-          let t2 = this.filter(categoryTemp, "Auth", i);
+          let t2 = arr_filter(categoryTemp, "Auth", i);
           authTemp = authTemp.concat(t2);
           t2 = null;
         });
 
         // HTTPS checkbox
         if (this.https) {
-          let hTemp = this.filter(authTemp, "HTTPS", this.https);
+          let hTemp = arr_filter(authTemp, "HTTPS", this.https);
           this.apiListFiltered = hTemp;
           hTemp = null;
         } else {
