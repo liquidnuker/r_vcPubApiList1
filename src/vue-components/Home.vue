@@ -91,6 +91,7 @@
         <!-- sorter -->
         <div class="col-xs-12 col-sm-7">
           API
+          <button @click="sortAPI()">{{ sortAsc ? 'sortAsc' : 'sortDesc' }} </button>
         </div>
         <div class="col-xs-12 col-sm-2">
           Category
@@ -133,6 +134,7 @@ export default {
         authTypeSelected: [], // checkbox
         https: "",
 
+
         // paginator 
         pager: null,
         currentPage: "",
@@ -140,6 +142,8 @@ export default {
         pagerButtons: true,
         perPage: 20,
         perPageItems: [10, 20, 40, 60, 100],
+
+        sortAsc: true,
 
         // messages
         status: {
@@ -330,6 +334,40 @@ export default {
           this.activatePager(temp);
           temp = null;      
         }        
+      },
+      sortItem: function(item, data) {
+        // ret array
+        this.item = item;
+
+        data.sort((a, b) => {
+          let itemToSort = this.item;
+          let tempA = a[itemToSort].toUpperCase(); 
+          let tempB = b[itemToSort].toUpperCase(); 
+          if (tempA < tempB) {
+            return -1;
+          }
+          if (tempA > tempB) {
+            return 1;
+          }
+
+          // names must be equal
+          return 0;
+        });
+        return data;
+                
+      },
+      sortAPI: function() {
+        this.sortAsc = !this.sortAsc;
+        let sorted = this.sortItem("API", this.apiListFiltered);
+
+        if (!this.sortAsc) {
+          // sort asc
+          this.apiListFiltered = sorted;
+        } else {
+          this.apiListFiltered = sorted.reverse();
+        }
+        this.sorted = null;
+        this.activatePager(this.apiListFiltered);
       }      
     }
 };

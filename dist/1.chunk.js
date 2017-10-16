@@ -1140,6 +1140,7 @@ module.exports = Cancel;
 //
 //
 //
+//
 
 
 
@@ -1172,6 +1173,8 @@ var vcApiList = function vcApiList() {
       pagerButtons: true,
       perPage: 20,
       perPageItems: [10, 20, 40, 60, 100],
+
+      sortAsc: true,
 
       // messages
       status: {
@@ -1363,6 +1366,41 @@ var vcApiList = function vcApiList() {
         this.activatePager(temp);
         temp = null;
       }
+    },
+    sortItem: function sortItem(item, data) {
+      var _this4 = this;
+
+      // ret array
+      this.item = item;
+
+      data.sort(function (a, b) {
+        var itemToSort = _this4.item;
+        var tempA = a[itemToSort].toUpperCase();
+        var tempB = b[itemToSort].toUpperCase();
+        if (tempA < tempB) {
+          return -1;
+        }
+        if (tempA > tempB) {
+          return 1;
+        }
+
+        // names must be equal
+        return 0;
+      });
+      return data;
+    },
+    sortAPI: function sortAPI() {
+      this.sortAsc = !this.sortAsc;
+      var sorted = this.sortItem("API", this.apiListFiltered);
+
+      if (!this.sortAsc) {
+        // sort asc
+        this.apiListFiltered = sorted;
+      } else {
+        this.apiListFiltered = sorted.reverse();
+      }
+      this.sorted = null;
+      this.activatePager(this.apiListFiltered);
     }
   }
 });
@@ -2916,7 +2954,23 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.filterCategory('All')
       }
     }
-  }, [_vm._v("Show All")])]), _vm._v(" "), _c('br'), _vm._v(" "), (_vm.currentCategory === 'All') ? _c('p', [_vm._v("Showing All Items")]) : _c('p', [_vm._v("currentCategory: " + _vm._s(_vm.currentCategory))]), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('vcApiList', {
+  }, [_vm._v("Show All")])]), _vm._v(" "), _c('br'), _vm._v(" "), (_vm.currentCategory === 'All') ? _c('p', [_vm._v("Showing All Items")]) : _c('p', [_vm._v("currentCategory: " + _vm._s(_vm.currentCategory))]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-xs-12 col-sm-7"
+  }, [_vm._v("\r\n          API\r\n          "), _c('button', {
+    on: {
+      "click": function($event) {
+        _vm.sortAPI()
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.sortAsc ? 'sortAsc' : 'sortDesc') + " ")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-12 col-sm-2"
+  }, [_vm._v("\r\n          Category\r\n        ")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-12 col-sm-2"
+  }, [_vm._v("\r\n          Auth\r\n        ")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-12 col-sm-1"
+  }, [_vm._v("\r\n          HTTPS\r\n        ")])]), _vm._v(" "), _c('vcApiList', {
     attrs: {
       "pr-api-list": _vm.apiList
     }
@@ -2932,18 +2986,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "src": "https://travis-ci.org/toddmotto/public-apis.svg?branch=master"
     }
   })])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-xs-12 col-sm-7"
-  }, [_vm._v("\r\n          API\r\n        ")]), _vm._v(" "), _c('div', {
-    staticClass: "col-xs-12 col-sm-2"
-  }, [_vm._v("\r\n          Category\r\n        ")]), _vm._v(" "), _c('div', {
-    staticClass: "col-xs-12 col-sm-2"
-  }, [_vm._v("\r\n          Auth\r\n        ")]), _vm._v(" "), _c('div', {
-    staticClass: "col-xs-12 col-sm-1"
-  }, [_vm._v("\r\n          HTTPS\r\n        ")])])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
