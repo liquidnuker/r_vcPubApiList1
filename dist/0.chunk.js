@@ -1028,6 +1028,7 @@ module.exports = Cancel;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_vendor_fuse_min_js__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_vendor_fuse_min_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__js_vendor_fuse_min_js__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__js_arr_filter_js__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__js_arr_extractUnique_js__ = __webpack_require__(41);
 //
 //
 //
@@ -1141,6 +1142,7 @@ module.exports = Cancel;
 //
 //
 //
+
 
 
 
@@ -1255,27 +1257,15 @@ var vcApiList = function vcApiList() {
       }
       this.currentPage = this.pager.currentPage;
     },
-    extractUnique: function extractUnique(arr, cat) {
-      var o = {};
-      var temp = [];
-      for (var i = 0, l = arr.length; i < l; i++) {
-        if (!o[arr[i][cat]]) {
-          o[arr[i][cat]] = true;
-          temp.push(arr[i][cat]);
-          // temp.push(arr[i].Category);
-        }
-      }
-      return temp;
-    },
     addFiltersList: function addFiltersList(arr) {
       var _this2 = this;
 
       // for authTypes
-      this.authTypes = this.extractUnique(arr, "Auth");
+      this.authTypes = __WEBPACK_IMPORTED_MODULE_4__js_arr_extractUnique_js__["a" /* arr_extractUnique */](arr, "Auth");
       this.toggleAuthTypeCheckbox(true);
 
       // for categoryTypes
-      var temp = this.extractUnique(arr, "Category");
+      var temp = __WEBPACK_IMPORTED_MODULE_4__js_arr_extractUnique_js__["a" /* arr_extractUnique */](arr, "Category");
       // filter to get length of each item then push
       temp.map(function (i) {
         var l = __WEBPACK_IMPORTED_MODULE_3__js_arr_filter_js__["a" /* arr_filter */](_this2.apiListCache, "Category", i);
@@ -2734,7 +2724,6 @@ module.exports = function(module) {
 //   "prop": "item",
 //   ...
 // }...
-
 var arr_filter = function arr_filter(arr, prop, item) {
   var af = arr.filter(function (el) {
     return el[prop] === item;
@@ -3010,6 +2999,36 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-19b7a970", esExports)
   }
 }
+
+/***/ }),
+/* 40 */,
+/* 41 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return arr_extractUnique; });
+// ret array of unique prop: val
+// "arr": [
+// { 
+//   "cat": "cat2"
+// },
+// { 
+//   "cat": "cat2" 
+// ...
+var arr_extractUnique = function arr_extractUnique(arr, cat) {
+  var o = {};
+  var temp = [];
+  for (var i = 0, l = arr.length; i < l; i++) {
+    if (!o[arr[i][cat]]) {
+      o[arr[i][cat]] = true;
+      temp.push(arr[i][cat]);
+      // temp.push(arr[i].Cat);
+    }
+  }
+  return temp;
+};
+
+
 
 /***/ })
 ]);

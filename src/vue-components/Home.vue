@@ -116,6 +116,7 @@ import axios from "axios";
 import Paginate from "../js/vendor/Paginate.js";
 import Fuse from "../js/vendor/fuse.min.js";
 import {arr_filter} from "../js/arr_filter.js";
+import {arr_extractUnique} from "../js/arr_extractUnique.js";
 
 const vcApiList = () => import ('./vcApiList.vue');
 export default {
@@ -224,25 +225,13 @@ export default {
         }
         this.currentPage = this.pager.currentPage;
       },
-      extractUnique: function (arr, cat) {
-        let o = {};
-        let temp = [];
-        for (let i = 0, l = arr.length; i < l; i++) {
-          if (!o[arr[i][cat]]) {
-            o[arr[i][cat]] = true;
-            temp.push(arr[i][cat]);
-            // temp.push(arr[i].Category);
-          }
-        }
-        return temp;
-      },
       addFiltersList: function (arr) {
         // for authTypes
-        this.authTypes = this.extractUnique(arr, "Auth");
+        this.authTypes = arr_extractUnique(arr, "Auth");
         this.toggleAuthTypeCheckbox(true);
 
         // for categoryTypes
-        let temp = this.extractUnique(arr, "Category");
+        let temp = arr_extractUnique(arr, "Category");
         // filter to get length of each item then push
         temp.map((i) => {
           let l = arr_filter(this.apiListCache, "Category", i);
