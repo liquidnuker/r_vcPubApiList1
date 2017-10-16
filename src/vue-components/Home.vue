@@ -16,7 +16,8 @@
         <li v-for="i in authTypes">
           <input type="checkbox" :id="i"
           v-model="authTypeSelected" :value="i" @change="filterAuthType()" />
-          <label v-bind:for="i" class="">{{ i }}</label>
+          <label v-if="i === null" v-bind:for="i" class="">None</label>
+          <label v-else v-bind:for="i" class="">{{ i }}</label>
         </li>
         <li role="separator" aria-expanded="true" aria-orientation="vertical">
         </li>
@@ -54,9 +55,18 @@
           <button @click="prevPage()">&lt;prevpage</button>
           <div class="custom-select pg_totalpages">
             Page&nbsp;
+            <!-- page jump -->
             <select v-model="currentPage">
               <option @click="showPage(i)" v-for="i in totalPages" :value="i">{{ i }}</option>
             </select>
+
+            <!-- perPage -->
+            Items per page:
+            <select v-model="perPage">
+              <option @click="activatePager(apiListFiltered)" 
+              v-for="i in perPageItems" :value="i">{{ i }}</option>
+            </select>
+
           </div>
           of {{ totalPages }}
           <button @click="nextPage()">nextPage&gt;</button>
@@ -68,8 +78,25 @@
       <br>
       <!-- main listing -->
       currentCategory: {{ currentCategory }}
+      <div class="row">
+        <!-- sorter -->
+        <div class="col-xs-12 col-sm-7">
+          API
+        </div>
+        <div class="col-xs-12 col-sm-2">
+          Category
+        </div>
+        <div class="col-xs-12 col-sm-2">
+          Auth
+        </div>
+        <div class="col-xs-12 col-sm-1">
+          HTTPS
+        </div>
+        <!-- /sorter -->
+      </div>
       <vcApiList
       :pr-api-list="apiList" />
+      <!-- /main listing -->
     </div>
   </div>
 </div>
@@ -103,6 +130,7 @@ export default {
         totalPages: "",
         pagerButtons: true,
         perPage: 20,
+        perPageItems: [10, 20, 40, 60, 100],
 
         // messages
         status: {
@@ -281,7 +309,7 @@ export default {
           minMatchCharLength: 1,
           keys: [
           "API",
-          "Description"
+          "Link"
           ]
         };
 

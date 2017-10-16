@@ -1,12 +1,12 @@
 webpackJsonp([1],{
 
-/***/ 37:
+/***/ 39:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_vcApiList_vue__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6a12d2f2_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_vcApiList_vue__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_vcApiList_vue__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6a12d2f2_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_vcApiList_vue__ = __webpack_require__(41);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -51,10 +51,28 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 38:
+/***/ 40:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -79,14 +97,33 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 39:
+/***/ 41:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('ul', _vm._l((_vm.prApiList), function(i) {
-    return _c('li', [_vm._v("\r\n      " + _vm._s(i) + "\r\n      ")])
-  }))])
+  return _c('div', [_c('table', {
+    staticClass: "col-xs-12",
+    staticStyle: {
+      "border": "1px solid #000"
+    }
+  }, [_c('tbody', _vm._l((_vm.prApiList), function(i) {
+    return _c('tr', {
+      staticClass: "row"
+    }, [_c('td', {
+      staticClass: "col-xs-12 col-sm-7"
+    }, [_c('h2', [_vm._v(_vm._s(i.API))]), _vm._v(" "), _c('summary', [_c('p', [_vm._v(_vm._s(i.Description))])]), _vm._v(" "), _c('a', {
+      attrs: {
+        "href": i.Link
+      }
+    }, [_vm._v(_vm._s(i.Link))])]), _vm._v(" "), _c('td', {
+      staticClass: "col-xs-12 col-sm-2"
+    }, [_c('p', [_vm._v(_vm._s(i.Category))])]), _vm._v(" "), _c('td', {
+      staticClass: "col-xs-12 col-sm-2"
+    }, [(!i.Auth) ? _c('p', [_vm._v(" ")]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v(_vm._s(i.Auth))])]), _vm._v(" "), _c('td', {
+      staticClass: "col-xs-12 col-sm-1"
+    }, [(i.HTTPS) ? _c('p', [_vm._v("Yes")]) : _c('p', [_vm._v(" ")])])])
+  }))])])
 }
 var staticRenderFns = []
 render._withStripped = true

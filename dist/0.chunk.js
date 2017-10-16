@@ -12,7 +12,7 @@ webpackJsonp([0],[
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Home_vue__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_19b7a970_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_Home_vue__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_19b7a970_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_Home_vue__ = __webpack_require__(42);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -933,8 +933,36 @@ module.exports = Cancel;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_vendor_Paginate_js__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_vendor_Paginate_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__js_vendor_Paginate_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_vendor_fuse_min_js__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_vendor_fuse_min_js__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_vendor_fuse_min_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__js_vendor_fuse_min_js__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1016,7 +1044,7 @@ module.exports = Cancel;
 
 
 var vcApiList = function vcApiList() {
-  return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 37));
+  return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 39));
 };
 /* harmony default export */ __webpack_exports__["a"] = ({
   data: function data() {
@@ -1041,6 +1069,7 @@ var vcApiList = function vcApiList() {
       totalPages: "",
       pagerButtons: true,
       perPage: 20,
+      perPageItems: [10, 20, 40, 60, 100],
 
       // messages
       status: {
@@ -1221,7 +1250,7 @@ var vcApiList = function vcApiList() {
         distance: 100,
         maxPatternLength: 32,
         minMatchCharLength: 1,
-        keys: ["API", "Description"]
+        keys: ["API", "Link"]
       };
 
       var fuse = new __WEBPACK_IMPORTED_MODULE_2__js_vendor_fuse_min_js___default.a(this.apiListFiltered, fuseOptions);
@@ -2212,219 +2241,7 @@ Paginate.prototype.hasNext = function () {
 if (true) module.exports = Paginate;
 
 /***/ }),
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [(_vm.status.api) ? _c('span', [_vm._v("\r\n    Status:\r\n    "), _vm._m(0)]) : _vm._e(), _vm._v(" "), _c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-sm-3"
-  }, [_vm._v("\r\n      " + _vm._s(_vm.apiTotalCount) + " "), _c('br')]), _vm._v(" "), _c('div', {
-    staticClass: "col-sm-9"
-  }, [_c('ul', [_vm._l((_vm.authTypes), function(i) {
-    return _c('li', [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.authTypeSelected),
-        expression: "authTypeSelected"
-      }],
-      attrs: {
-        "type": "checkbox",
-        "id": i
-      },
-      domProps: {
-        "value": i,
-        "checked": Array.isArray(_vm.authTypeSelected) ? _vm._i(_vm.authTypeSelected, i) > -1 : (_vm.authTypeSelected)
-      },
-      on: {
-        "change": function($event) {
-          _vm.filterAuthType()
-        },
-        "__c": function($event) {
-          var $$a = _vm.authTypeSelected,
-            $$el = $event.target,
-            $$c = $$el.checked ? (true) : (false);
-          if (Array.isArray($$a)) {
-            var $$v = i,
-              $$i = _vm._i($$a, $$v);
-            if ($$c) {
-              $$i < 0 && (_vm.authTypeSelected = $$a.concat($$v))
-            } else {
-              $$i > -1 && (_vm.authTypeSelected = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-            }
-          } else {
-            _vm.authTypeSelected = $$c
-          }
-        }
-      }
-    }), _vm._v(" "), _c('label', {
-      attrs: {
-        "for": i
-      }
-    }, [_vm._v(_vm._s(i))])])
-  }), _vm._v(" "), _c('li', {
-    attrs: {
-      "role": "separator",
-      "aria-expanded": "true",
-      "aria-orientation": "vertical"
-    }
-  }), _vm._v(" "), _c('li', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.https),
-      expression: "https"
-    }],
-    attrs: {
-      "type": "checkbox",
-      "id": "checkbox"
-    },
-    domProps: {
-      "checked": Array.isArray(_vm.https) ? _vm._i(_vm.https, null) > -1 : (_vm.https)
-    },
-    on: {
-      "change": function($event) {
-        _vm.filterAuthType()
-      },
-      "__c": function($event) {
-        var $$a = _vm.https,
-          $$el = $event.target,
-          $$c = $$el.checked ? (true) : (false);
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$c) {
-            $$i < 0 && (_vm.https = $$a.concat($$v))
-          } else {
-            $$i > -1 && (_vm.https = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-          }
-        } else {
-          _vm.https = $$c
-        }
-      }
-    }
-  }), _vm._v(" "), _c('label', {
-    attrs: {
-      "for": "checkbox"
-    }
-  }, [_vm._v("HTTPS only")])])], 2), _vm._v(" "), _c('p', [_vm._v("Selected: " + _vm._s(_vm.authTypeSelected))])])]), _vm._v(" "), _c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-sm-3"
-  }, [_c('ul', _vm._l((_vm.categoryTypes), function(i) {
-    return _c('li', [_c('p', {
-      on: {
-        "click": function($event) {
-          _vm.filterCategory(i.catName)
-        }
-      }
-    }, [_vm._v(_vm._s(i.catName) + " " + _vm._s(i.catLength))])])
-  })), _vm._v(" "), _c('br'), _vm._v(" "), _c('br')]), _vm._v(" "), _c('div', {
-    staticClass: "col-sm-9"
-  }, [_c('label', {
-    attrs: {
-      "for": "api_search"
-    }
-  }, [_vm._v("Search " + _vm._s(_vm.currentCategory) + ":")]), _vm._v(" "), _c('input', {
-    attrs: {
-      "type": "text",
-      "name": "api_search",
-      "id": "api_search",
-      "placeholder": "Enter keyword/s..."
-    },
-    on: {
-      "keyup": function($event) {
-        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
-        _vm.search($event.target.value)
-      }
-    }
-  }), _vm._v(" "), _c('div', [(_vm.pagerButtons) ? _c('span', [_c('button', {
-    on: {
-      "click": function($event) {
-        _vm.prevPage()
-      }
-    }
-  }, [_vm._v("<prevpage")]), _vm._v(" "), _c('div', {
-    staticClass: "custom-select pg_totalpages"
-  }, [_vm._v("\r\n            Page \r\n            "), _c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.currentPage),
-      expression: "currentPage"
-    }],
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.currentPage = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, _vm._l((_vm.totalPages), function(i) {
-    return _c('option', {
-      domProps: {
-        "value": i
-      },
-      on: {
-        "click": function($event) {
-          _vm.showPage(i)
-        }
-      }
-    }, [_vm._v(_vm._s(i))])
-  }))]), _vm._v("\r\n          of " + _vm._s(_vm.totalPages) + "\r\n          "), _c('button', {
-    on: {
-      "click": function($event) {
-        _vm.nextPage()
-      }
-    }
-  }, [_vm._v("nextPage>")])]) : _vm._e(), _vm._v(" "), _c('button', {
-    staticClass: "btn btn1-01",
-    on: {
-      "click": function($event) {
-        _vm.toggleAuthTypeCheckbox(true);
-        _vm.filterCategory('All')
-      }
-    }
-  }, [_vm._v("Show All")])]), _vm._v(" "), _c('br'), _vm._v(" "), _vm._v("\r\n      currentCategory: " + _vm._s(_vm.currentCategory) + "\r\n      "), _c('vcApiList', {
-    attrs: {
-      "pr-api-list": _vm.apiList
-    }
-  })], 1)])])
-}
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', {
-    attrs: {
-      "href": "HTTPS://travis-ci.org/toddmotto/public-apis"
-    }
-  }, [_c('img', {
-    attrs: {
-      "src": "HTTPS://travis-ci.org/toddmotto/public-apis.svg?branch=master"
-    }
-  })])
-}]
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-19b7a970", esExports)
-  }
-}
-
-/***/ }),
-/* 41 */,
-/* 42 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -2744,10 +2561,10 @@ if (false) {
     }();e.exports = c;
   }]);
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(43)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(38)(module)))
 
 /***/ }),
-/* 43 */
+/* 38 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -2773,6 +2590,262 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [(_vm.status.api) ? _c('span', [_vm._v("\r\n    Status:\r\n    "), _vm._m(0)]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-sm-3"
+  }, [_vm._v("\r\n      " + _vm._s(_vm.apiTotalCount) + " "), _c('br')]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-9"
+  }, [_c('ul', [_vm._l((_vm.authTypes), function(i) {
+    return _c('li', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.authTypeSelected),
+        expression: "authTypeSelected"
+      }],
+      attrs: {
+        "type": "checkbox",
+        "id": i
+      },
+      domProps: {
+        "value": i,
+        "checked": Array.isArray(_vm.authTypeSelected) ? _vm._i(_vm.authTypeSelected, i) > -1 : (_vm.authTypeSelected)
+      },
+      on: {
+        "change": function($event) {
+          _vm.filterAuthType()
+        },
+        "__c": function($event) {
+          var $$a = _vm.authTypeSelected,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = i,
+              $$i = _vm._i($$a, $$v);
+            if ($$c) {
+              $$i < 0 && (_vm.authTypeSelected = $$a.concat($$v))
+            } else {
+              $$i > -1 && (_vm.authTypeSelected = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            _vm.authTypeSelected = $$c
+          }
+        }
+      }
+    }), _vm._v(" "), (i === null) ? _c('label', {
+      attrs: {
+        "for": i
+      }
+    }, [_vm._v("None")]) : _c('label', {
+      attrs: {
+        "for": i
+      }
+    }, [_vm._v(_vm._s(i))])])
+  }), _vm._v(" "), _c('li', {
+    attrs: {
+      "role": "separator",
+      "aria-expanded": "true",
+      "aria-orientation": "vertical"
+    }
+  }), _vm._v(" "), _c('li', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.https),
+      expression: "https"
+    }],
+    attrs: {
+      "type": "checkbox",
+      "id": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.https) ? _vm._i(_vm.https, null) > -1 : (_vm.https)
+    },
+    on: {
+      "change": function($event) {
+        _vm.filterAuthType()
+      },
+      "__c": function($event) {
+        var $$a = _vm.https,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$c) {
+            $$i < 0 && (_vm.https = $$a.concat($$v))
+          } else {
+            $$i > -1 && (_vm.https = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.https = $$c
+        }
+      }
+    }
+  }), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "checkbox"
+    }
+  }, [_vm._v("HTTPS only")])])], 2), _vm._v(" "), _c('p', [_vm._v("Selected: " + _vm._s(_vm.authTypeSelected))])])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-sm-3"
+  }, [_c('ul', _vm._l((_vm.categoryTypes), function(i) {
+    return _c('li', [_c('p', {
+      on: {
+        "click": function($event) {
+          _vm.filterCategory(i.catName)
+        }
+      }
+    }, [_vm._v(_vm._s(i.catName) + " " + _vm._s(i.catLength))])])
+  })), _vm._v(" "), _c('br'), _vm._v(" "), _c('br')]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-9"
+  }, [_c('label', {
+    attrs: {
+      "for": "api_search"
+    }
+  }, [_vm._v("Search " + _vm._s(_vm.currentCategory) + ":")]), _vm._v(" "), _c('input', {
+    attrs: {
+      "type": "text",
+      "name": "api_search",
+      "id": "api_search",
+      "placeholder": "Enter keyword/s..."
+    },
+    on: {
+      "keyup": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
+        _vm.search($event.target.value)
+      }
+    }
+  }), _vm._v(" "), _c('div', [(_vm.pagerButtons) ? _c('span', [_c('button', {
+    on: {
+      "click": function($event) {
+        _vm.prevPage()
+      }
+    }
+  }, [_vm._v("<prevpage")]), _vm._v(" "), _c('div', {
+    staticClass: "custom-select pg_totalpages"
+  }, [_vm._v("\r\n            Page \r\n            "), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.currentPage),
+      expression: "currentPage"
+    }],
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.currentPage = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.totalPages), function(i) {
+    return _c('option', {
+      domProps: {
+        "value": i
+      },
+      on: {
+        "click": function($event) {
+          _vm.showPage(i)
+        }
+      }
+    }, [_vm._v(_vm._s(i))])
+  })), _vm._v(" "), _vm._v("\r\n            Items per page:\r\n            "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.perPage),
+      expression: "perPage"
+    }],
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.perPage = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.perPageItems), function(i) {
+    return _c('option', {
+      domProps: {
+        "value": i
+      },
+      on: {
+        "click": function($event) {
+          _vm.activatePager(_vm.apiListFiltered)
+        }
+      }
+    }, [_vm._v(_vm._s(i))])
+  }))]), _vm._v("\r\n          of " + _vm._s(_vm.totalPages) + "\r\n          "), _c('button', {
+    on: {
+      "click": function($event) {
+        _vm.nextPage()
+      }
+    }
+  }, [_vm._v("nextPage>")])]) : _vm._e(), _vm._v(" "), _c('button', {
+    staticClass: "btn btn1-01",
+    on: {
+      "click": function($event) {
+        _vm.toggleAuthTypeCheckbox(true);
+        _vm.filterCategory('All')
+      }
+    }
+  }, [_vm._v("Show All")])]), _vm._v(" "), _c('br'), _vm._v(" "), _vm._v("\r\n      currentCategory: " + _vm._s(_vm.currentCategory) + "\r\n      "), _vm._m(1), _vm._v(" "), _c('vcApiList', {
+    attrs: {
+      "pr-api-list": _vm.apiList
+    }
+  })], 1)])])
+}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('a', {
+    attrs: {
+      "href": "HTTPS://travis-ci.org/toddmotto/public-apis"
+    }
+  }, [_c('img', {
+    attrs: {
+      "src": "HTTPS://travis-ci.org/toddmotto/public-apis.svg?branch=master"
+    }
+  })])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-xs-12 col-sm-7"
+  }, [_vm._v("\r\n          API\r\n        ")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-12 col-sm-2"
+  }, [_vm._v("\r\n          Category\r\n        ")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-12 col-sm-2"
+  }, [_vm._v("\r\n          Auth\r\n        ")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-12 col-sm-1"
+  }, [_vm._v("\r\n          HTTPS\r\n        ")])])
+}]
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-19b7a970", esExports)
+  }
+}
 
 /***/ })
 ]);
