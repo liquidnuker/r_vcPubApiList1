@@ -1,9 +1,9 @@
 // ret array asc order
 // "arr": [
-//         {
-//             "item": "Name",
-//             ...
-//         },...
+// {
+//   "item": "Name",
+//   ...
+// },...
 
 const arr_sortValue = function (item, arr) {
  this.item = item;

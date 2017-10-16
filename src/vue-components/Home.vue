@@ -114,10 +114,10 @@
 <script>
 import axios from "axios";
 import Paginate from "../js/vendor/Paginate.js";
-import Fuse from "../js/vendor/fuse.min.js";
 import {arr_filter} from "../js/arr_filter.js";
 import {arr_extractUnique} from "../js/arr_extractUnique.js";
 import {arr_sortValue} from "../js/arr_sortValue.js";
+import {search_fuse} from "../js/search_fuse.js";
 
 const vcApiList = () => import ('./vcApiList.vue');
 export default {
@@ -295,28 +295,13 @@ export default {
         this.activatePager(this.apiListFiltered);
       },
       search: function(value) {
-        let fuseOptions = {
-          shouldSort: true,
-          threshold: 0.6,
-          location: 0,
-          distance: 100,
-          maxPatternLength: 32,
-          minMatchCharLength: 1,
-          keys: [
-          "API",
-          "Link"
-          ]
-        };
-        
+        let res = search_fuse(this.apiListFiltered, value, ["API","Link"]);
 
-        let fuse = new Fuse(this.apiListFiltered, fuseOptions);
-        let temp = fuse.search(value);
-
-        if (temp.length === 0) {
+        if (res.length === 0) {
           console.log("no search results");
         } else {
-          this.activatePager(temp);
-          temp = null;      
+          this.activatePager(res);
+          res = null;      
         }        
       },
       sortAPI: function() {

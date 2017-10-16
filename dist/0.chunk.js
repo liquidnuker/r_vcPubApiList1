@@ -1025,11 +1025,10 @@ module.exports = Cancel;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_vendor_Paginate_js__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_vendor_Paginate_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__js_vendor_Paginate_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_vendor_fuse_min_js__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_vendor_fuse_min_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__js_vendor_fuse_min_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__js_arr_filter_js__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__js_arr_extractUnique_js__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__js_arr_sortValue_js__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_arr_filter_js__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__js_arr_extractUnique_js__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__js_arr_sortValue_js__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__js_search_fuse_js__ = __webpack_require__(43);
 //
 //
 //
@@ -1262,14 +1261,14 @@ var vcApiList = function vcApiList() {
       var _this2 = this;
 
       // for authTypes
-      this.authTypes = __WEBPACK_IMPORTED_MODULE_4__js_arr_extractUnique_js__["a" /* arr_extractUnique */](arr, "Auth");
+      this.authTypes = __WEBPACK_IMPORTED_MODULE_3__js_arr_extractUnique_js__["a" /* arr_extractUnique */](arr, "Auth");
       this.toggleAuthTypeCheckbox(true);
 
       // for categoryTypes
-      var temp = __WEBPACK_IMPORTED_MODULE_4__js_arr_extractUnique_js__["a" /* arr_extractUnique */](arr, "Category");
+      var temp = __WEBPACK_IMPORTED_MODULE_3__js_arr_extractUnique_js__["a" /* arr_extractUnique */](arr, "Category");
       // filter to get length of each item then push
       temp.map(function (i) {
-        var l = __WEBPACK_IMPORTED_MODULE_3__js_arr_filter_js__["a" /* arr_filter */](_this2.apiListCache, "Category", i);
+        var l = __WEBPACK_IMPORTED_MODULE_2__js_arr_filter_js__["a" /* arr_filter */](_this2.apiListCache, "Category", i);
         _this2.categoryTypes.push({
           catName: i,
           catLength: l.length
@@ -1297,7 +1296,7 @@ var vcApiList = function vcApiList() {
       var categoryTemp = void 0;
 
       if (this.currentCategory !== "All") {
-        categoryTemp = __WEBPACK_IMPORTED_MODULE_3__js_arr_filter_js__["a" /* arr_filter */](this.apiListCache, "Category", this.currentCategory);
+        categoryTemp = __WEBPACK_IMPORTED_MODULE_2__js_arr_filter_js__["a" /* arr_filter */](this.apiListCache, "Category", this.currentCategory);
       } else {
         // to filter authTypes from default items
         categoryTemp = this.apiListCache;
@@ -1307,14 +1306,14 @@ var vcApiList = function vcApiList() {
       var authTemp = [];
       this.authTypeSelected.map(function (i) {
         // get items of each authTypeSelected
-        var t2 = __WEBPACK_IMPORTED_MODULE_3__js_arr_filter_js__["a" /* arr_filter */](categoryTemp, "Auth", i);
+        var t2 = __WEBPACK_IMPORTED_MODULE_2__js_arr_filter_js__["a" /* arr_filter */](categoryTemp, "Auth", i);
         authTemp = authTemp.concat(t2);
         t2 = null;
       });
 
       // HTTPS checkbox
       if (this.https) {
-        var hTemp = __WEBPACK_IMPORTED_MODULE_3__js_arr_filter_js__["a" /* arr_filter */](authTemp, "HTTPS", this.https);
+        var hTemp = __WEBPACK_IMPORTED_MODULE_2__js_arr_filter_js__["a" /* arr_filter */](authTemp, "HTTPS", this.https);
         this.apiListFiltered = hTemp;
         hTemp = null;
       } else {
@@ -1330,29 +1329,18 @@ var vcApiList = function vcApiList() {
       this.activatePager(this.apiListFiltered);
     },
     search: function search(value) {
-      var fuseOptions = {
-        shouldSort: true,
-        threshold: 0.6,
-        location: 0,
-        distance: 100,
-        maxPatternLength: 32,
-        minMatchCharLength: 1,
-        keys: ["API", "Link"]
-      };
+      var res = __WEBPACK_IMPORTED_MODULE_5__js_search_fuse_js__["a" /* search_fuse */](this.apiListFiltered, value, ["API", "Link"]);
 
-      var fuse = new __WEBPACK_IMPORTED_MODULE_2__js_vendor_fuse_min_js___default.a(this.apiListFiltered, fuseOptions);
-      var temp = fuse.search(value);
-
-      if (temp.length === 0) {
+      if (res.length === 0) {
         console.log("no search results");
       } else {
-        this.activatePager(temp);
-        temp = null;
+        this.activatePager(res);
+        res = null;
       }
     },
     sortAPI: function sortAPI() {
       this.sortAsc = !this.sortAsc;
-      var sorted = __WEBPACK_IMPORTED_MODULE_5__js_arr_sortValue_js__["a" /* arr_sortValue */]("API", this.apiListFiltered);
+      var sorted = __WEBPACK_IMPORTED_MODULE_4__js_arr_sortValue_js__["a" /* arr_sortValue */]("API", this.apiListFiltered);
 
       if (!this.sortAsc) {
         // sort asc
@@ -3017,10 +3005,10 @@ var arr_extractUnique = function arr_extractUnique(arr, cat) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return arr_sortValue; });
 // ret array asc order
 // "arr": [
-//         {
-//             "item": "Name",
-//             ...
-//         },...
+// {
+//   "item": "Name",
+//   ...
+// },...
 
 var arr_sortValue = function arr_sortValue(item, arr) {
   var _this = this;
@@ -3042,6 +3030,44 @@ var arr_sortValue = function arr_sortValue(item, arr) {
     return 0;
   });
   return arr;
+};
+
+
+
+/***/ }),
+/* 43 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return search_fuse; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_vendor_fuse_min_js__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_vendor_fuse_min_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__js_vendor_fuse_min_js__);
+
+
+// ret array
+// data: array
+// value: item to search
+// fk: array of prop 
+
+// "data": [
+// {
+//   "fk1": "ValueA",
+//   "fk2": "ValueB",
+//   ...
+
+var search_fuse = function search_fuse(data, value, fk) {
+  var fuseOptions = {
+    shouldSort: true,
+    threshold: 0.6,
+    location: 0,
+    distance: 100,
+    maxPatternLength: 32,
+    minMatchCharLength: 1,
+    keys: fk
+  };
+
+  var fuse = new __WEBPACK_IMPORTED_MODULE_0__js_vendor_fuse_min_js___default.a(data, fuseOptions);
+  return fuse.search(value);
 };
 
 
