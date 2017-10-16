@@ -1038,6 +1038,15 @@ module.exports = Cancel;
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1198,6 +1207,9 @@ var vcApiList = function vcApiList() {
       } else {
         this.authTypeSelected = [];
       }
+
+      // uncheck https checkbox when showing all items
+      this.https = false;
     },
     filterCategory: function filterCategory(categoryType) {
       this.currentCategory = categoryType;
@@ -1226,7 +1238,6 @@ var vcApiList = function vcApiList() {
 
       // HTTPS checkbox
       if (this.https) {
-        console.log("https true");
         var hTemp = this.filter(authTemp, "HTTPS", this.https);
         this.apiListFiltered = hTemp;
         hTemp = null;
@@ -2604,9 +2615,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-sm-3"
-  }, [_vm._v("\r\n      " + _vm._s(_vm.apiTotalCount) + " "), _c('br')]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\r\n      ---------\r\n    ")]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-9"
-  }, [_c('ul', [_vm._l((_vm.authTypes), function(i) {
+  }, [_c('ul', [_c('li', [_vm._v("\r\n          Auth:\r\n        ")]), _vm._v(" "), _vm._l((_vm.authTypes), function(i) {
     return _c('li', [_c('input', {
       directives: [{
         name: "model",
@@ -2658,7 +2669,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "aria-expanded": "true",
       "aria-orientation": "vertical"
     }
-  }), _vm._v(" "), _c('li', [_c('input', {
+  }, [_vm._v("\r\n        -----------\r\n        ")]), _vm._v(" "), _c('li', [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -2697,11 +2708,18 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "for": "checkbox"
     }
-  }, [_vm._v("HTTPS only")])])], 2), _vm._v(" "), _c('p', [_vm._v("Selected: " + _vm._s(_vm.authTypeSelected))])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("HTTPS")])])], 2)])]), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-sm-3"
-  }, [_c('ul', _vm._l((_vm.categoryTypes), function(i) {
+  }, [_c('ul', [_c('li', [_c('p', {
+    on: {
+      "click": function($event) {
+        _vm.toggleAuthTypeCheckbox(true);
+        _vm.filterCategory('All')
+      }
+    }
+  }, [_vm._v("\r\n            All Items: " + _vm._s(_vm.apiTotalCount) + "\r\n          ")])]), _vm._v(" "), _vm._l((_vm.categoryTypes), function(i) {
     return _c('li', [_c('p', {
       on: {
         "click": function($event) {
@@ -2709,7 +2727,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }
       }
     }, [_vm._v(_vm._s(i.catName) + " " + _vm._s(i.catLength))])])
-  })), _vm._v(" "), _c('br'), _vm._v(" "), _c('br')]), _vm._v(" "), _c('div', {
+  })], 2), _vm._v(" "), _c('br'), _vm._v(" "), _c('br')]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-9"
   }, [_c('label', {
     attrs: {
@@ -2808,7 +2826,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.filterCategory('All')
       }
     }
-  }, [_vm._v("Show All")])]), _vm._v(" "), _c('br'), _vm._v(" "), _vm._v("\r\n      currentCategory: " + _vm._s(_vm.currentCategory) + "\r\n      "), _vm._m(1), _vm._v(" "), _c('vcApiList', {
+  }, [_vm._v("Show All")])]), _vm._v(" "), _c('br'), _vm._v(" "), (_vm.currentCategory === 'All') ? _c('p', [_vm._v("Showing All Items")]) : _c('p', [_vm._v("currentCategory: " + _vm._s(_vm.currentCategory))]), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('vcApiList', {
     attrs: {
       "pr-api-list": _vm.apiList
     }
@@ -2817,11 +2835,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('a', {
     attrs: {
-      "href": "HTTPS://travis-ci.org/toddmotto/public-apis"
+      "href": "https://travis-ci.org/toddmotto/public-apis"
     }
   }, [_c('img', {
     attrs: {
-      "src": "HTTPS://travis-ci.org/toddmotto/public-apis.svg?branch=master"
+      "src": "https://travis-ci.org/toddmotto/public-apis.svg?branch=master"
     }
   })])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

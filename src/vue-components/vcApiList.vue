@@ -18,7 +18,7 @@
           <p>{{ i.Auth }}</p>
         </td>
         <td class="col-xs-12 col-sm-1">
-          <p v-if="i.HTTPS">Yes</p>
+          <p v-if="i.HTTPS">&#x2714;</p>
           <p v-else="i.HTTPS">&nbsp;</p>
         </td>
       </tr>

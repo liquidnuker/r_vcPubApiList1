@@ -122,7 +122,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "col-xs-12 col-sm-2"
     }, [(!i.Auth) ? _c('p', [_vm._v(" ")]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v(_vm._s(i.Auth))])]), _vm._v(" "), _c('td', {
       staticClass: "col-xs-12 col-sm-1"
-    }, [(i.HTTPS) ? _c('p', [_vm._v("Yes")]) : _c('p', [_vm._v(" ")])])])
+    }, [(i.HTTPS) ? _c('p', [_vm._v("✔")]) : _c('p', [_vm._v(" ")])])])
   }))])])
 }
 var staticRenderFns = []

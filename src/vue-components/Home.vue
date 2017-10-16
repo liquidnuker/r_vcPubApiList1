@@ -2,17 +2,20 @@
 <div>
   <span v-if="status.api">
     Status:
-    <a href="HTTPS://travis-ci.org/toddmotto/public-apis">
-      <img src="HTTPS://travis-ci.org/toddmotto/public-apis.svg?branch=master" />
+    <a href="https://travis-ci.org/toddmotto/public-apis">
+      <img src="https://travis-ci.org/toddmotto/public-apis.svg?branch=master" />
     </a>
   </span>
   <div class="row">
     <div class="col-sm-3">
-      {{ apiTotalCount }} <br>
+      ---------
     </div>
     <div class="col-sm-9">
       <!-- authType filter -->
       <ul>
+        <li>
+          Auth:
+        </li>
         <li v-for="i in authTypes">
           <input type="checkbox" :id="i"
           v-model="authTypeSelected" :value="i" @change="filterAuthType()" />
@@ -20,20 +23,25 @@
           <label v-else v-bind:for="i" class="">{{ i }}</label>
         </li>
         <li role="separator" aria-expanded="true" aria-orientation="vertical">
+        -----------
         </li>
         <li>
           <input type="checkbox" id="checkbox" v-model="https"
           @change="filterAuthType()" />
-          <label for="checkbox">HTTPS only</label>
+          <label for="checkbox">HTTPS</label>
         </li>
       </ul>
-      <p>Selected: {{ authTypeSelected }}</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-3">
       <!-- category filter -->
       <ul>
+        <li>
+          <p @click="toggleAuthTypeCheckbox(true); filterCategory('All')">
+            All Items: {{ apiTotalCount }}
+          </p>
+        </li>
         <li v-for="i in categoryTypes">
           <p @click="filterCategory(i.catName)">{{ i.catName }} {{ i.catLength }}</p>
         </li>
@@ -77,7 +85,8 @@
       <!-- /page controls -->
       <br>
       <!-- main listing -->
-      currentCategory: {{ currentCategory }}
+      <p v-if="currentCategory==='All'">Showing All Items</p>
+      <p v-else>currentCategory: {{ currentCategory }}</p>
       <div class="row">
         <!-- sorter -->
         <div class="col-xs-12 col-sm-7">
@@ -138,7 +147,6 @@ export default {
         },
 
         inputSearchTimeOut: null,
-        inputSearchEntered: false
       };
     },
     components: {
@@ -233,7 +241,6 @@ export default {
       addFiltersList: function (arr) {
         // for authTypes
         this.authTypes = this.extractUnique(arr, "Auth");
-        // this.authTypes[0] = "null";
         this.toggleAuthTypeCheckbox(true);
 
         // for categoryTypes
@@ -257,6 +264,8 @@ export default {
         } else {
           this.authTypeSelected = [];
         }
+        // uncheck https checkbox when showing all items
+        this.https = false;
       },
       filterCategory: function (categoryType) {
         this.currentCategory = categoryType;
@@ -283,7 +292,6 @@ export default {
 
         // HTTPS checkbox
         if (this.https) {
-          console.log("https true");
           let hTemp = this.filter(authTemp, "HTTPS", this.https);
           this.apiListFiltered = hTemp;
           hTemp = null;
