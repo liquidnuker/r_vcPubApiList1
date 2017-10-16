@@ -1029,6 +1029,7 @@ module.exports = Cancel;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_vendor_fuse_min_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__js_vendor_fuse_min_js__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__js_arr_filter_js__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__js_arr_extractUnique_js__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__js_arr_sortValue_js__ = __webpack_require__(42);
 //
 //
 //
@@ -1142,6 +1143,7 @@ module.exports = Cancel;
 //
 //
 //
+
 
 
 
@@ -1182,9 +1184,8 @@ var vcApiList = function vcApiList() {
       // messages
       status: {
         api: false
-      },
+      }
 
-      inputSearchTimeOut: null
     };
   },
 
@@ -1349,31 +1350,9 @@ var vcApiList = function vcApiList() {
         temp = null;
       }
     },
-    sortItem: function sortItem(item, data) {
-      var _this3 = this;
-
-      // ret array
-      this.item = item;
-
-      data.sort(function (a, b) {
-        var itemToSort = _this3.item;
-        var tempA = a[itemToSort].toUpperCase();
-        var tempB = b[itemToSort].toUpperCase();
-        if (tempA < tempB) {
-          return -1;
-        }
-        if (tempA > tempB) {
-          return 1;
-        }
-
-        // names must be equal
-        return 0;
-      });
-      return data;
-    },
     sortAPI: function sortAPI() {
       this.sortAsc = !this.sortAsc;
-      var sorted = this.sortItem("API", this.apiListFiltered);
+      var sorted = __WEBPACK_IMPORTED_MODULE_5__js_arr_sortValue_js__["a" /* arr_sortValue */]("API", this.apiListFiltered);
 
       if (!this.sortAsc) {
         // sort asc
@@ -3026,6 +3005,43 @@ var arr_extractUnique = function arr_extractUnique(arr, cat) {
     }
   }
   return temp;
+};
+
+
+
+/***/ }),
+/* 42 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return arr_sortValue; });
+// ret array asc order
+// "arr": [
+//         {
+//             "item": "Name",
+//             ...
+//         },...
+
+var arr_sortValue = function arr_sortValue(item, arr) {
+  var _this = this;
+
+  this.item = item;
+
+  arr.sort(function (a, b) {
+    var itemToSort = _this.item;
+    var tempA = a[itemToSort].toUpperCase();
+    var tempB = b[itemToSort].toUpperCase();
+    if (tempA < tempB) {
+      return -1;
+    }
+    if (tempA > tempB) {
+      return 1;
+    }
+
+    // names must be equal
+    return 0;
+  });
+  return arr;
 };
 
 

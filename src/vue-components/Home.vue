@@ -117,6 +117,7 @@ import Paginate from "../js/vendor/Paginate.js";
 import Fuse from "../js/vendor/fuse.min.js";
 import {arr_filter} from "../js/arr_filter.js";
 import {arr_extractUnique} from "../js/arr_extractUnique.js";
+import {arr_sortValue} from "../js/arr_sortValue.js";
 
 const vcApiList = () => import ('./vcApiList.vue');
 export default {
@@ -152,7 +153,6 @@ export default {
           api: false
         },
 
-        inputSearchTimeOut: null,
       };
     },
     components: {
@@ -307,6 +307,7 @@ export default {
           "Link"
           ]
         };
+        
 
         let fuse = new Fuse(this.apiListFiltered, fuseOptions);
         let temp = fuse.search(value);
@@ -318,30 +319,9 @@ export default {
           temp = null;      
         }        
       },
-      sortItem: function(item, data) {
-        // ret array
-        this.item = item;
-
-        data.sort((a, b) => {
-          let itemToSort = this.item;
-          let tempA = a[itemToSort].toUpperCase(); 
-          let tempB = b[itemToSort].toUpperCase(); 
-          if (tempA < tempB) {
-            return -1;
-          }
-          if (tempA > tempB) {
-            return 1;
-          }
-
-          // names must be equal
-          return 0;
-        });
-        return data;
-                
-      },
       sortAPI: function() {
         this.sortAsc = !this.sortAsc;
-        let sorted = this.sortItem("API", this.apiListFiltered);
+        let sorted = arr_sortValue("API", this.apiListFiltered);
 
         if (!this.sortAsc) {
           // sort asc
