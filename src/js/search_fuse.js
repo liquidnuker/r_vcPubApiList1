@@ -3,15 +3,14 @@ import Fuse from "../js/vendor/fuse.min.js";
 // ret array
 // data: array
 // value: item to search
-// fk: array of prop 
+// searchKeys: array of prop 
 
 // "data": [
 // {
-//   "fk1": "ValueA",
-//   "fk2": "ValueB",
+//   "searchKeys1": "ValueA",
+//   "searchKeys2": "ValueB",
 //   ...
-
-const search_fuse = function (data, value, fk) {
+const search_fuse = function (opts) {
   let fuseOptions = {
     shouldSort: true,
     threshold: 0.6,
@@ -19,11 +18,11 @@ const search_fuse = function (data, value, fk) {
     distance: 100,
     maxPatternLength: 32,
     minMatchCharLength: 1,
-    keys: fk
+    keys: opts.searchKeys
   };
 
-  let fuse = new Fuse(data, fuseOptions);
-  return fuse.search(value);
+  let fuse = new Fuse(opts.data, fuseOptions);
+  return fuse.search(opts.value);
 };
 
 export {search_fuse};

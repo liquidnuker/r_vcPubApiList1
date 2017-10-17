@@ -60,7 +60,7 @@
       <!-- page controls -->
       <div>
         <span v-if="pagerButtons">
-          <button @click="prevPage()">&lt;prevpage</button>
+          <button @click="turnPage()">&lt;prevpage</button>
           <div class="custom-select pg_totalpages">
             Page&nbsp;
             <!-- page jump -->
@@ -77,7 +77,7 @@
 
           </div>
           of {{ totalPages }}
-          <button @click="nextPage()">nextPage&gt;</button>
+          <button @click="turnPage(true)">nextPage&gt;</button>
         </span>
         <button class="btn btn1-01"
         @click="toggleAuthTypeCheckbox(true); filterCategory('All')">Show All</button>
@@ -91,10 +91,11 @@
         <!-- sorter -->
         <div class="col-xs-12 col-sm-7">
           API
-          <button @click="sortAPI()">{{ sortAsc ? 'sortAsc' : 'sortDesc' }} </button>
+          <button @click="sort_table('API')">{{ sortAsc ? 'sortAsc' : 'sortDesc' }} </button>
         </div>
         <div class="col-xs-12 col-sm-2">
           Category
+          <button @click="sort_table('Category')">{{ sortAsc ? 'sortAsc' : 'sortDesc' }} </button>
         </div>
         <div class="col-xs-12 col-sm-2">
           Auth
@@ -113,11 +114,11 @@
 </template>
 <script>
 import axios from "axios";
-import Paginate from "../js/vendor/Paginate.js";
 import {arr_filter} from "../js/arr_filter.js";
 import {arr_extractUnique} from "../js/arr_extractUnique.js";
 import {arr_sortValue} from "../js/arr_sortValue.js";
 import {search_fuse} from "../js/search_fuse.js";
+import Paginate from "../js/vendor/Paginate.js";
 
 const vcApiList = () => import ('./vcApiList.vue');
 export default {
@@ -209,22 +210,24 @@ export default {
       showPage: function (num) {
         this.apiList = this.pager.page(num);
       },
-      nextPage: function () {
+      turnPage: function(page) {
+      if (page) { 
+        // next
         if (!this.pager.hasNext()) {
           this.apiList = this.pager.page(0);
         } else {
-          this.apiList = this.pager.page(this.pager.currentPage + 1);
+          this.apiList = this.pager.next();
         }
-        this.currentPage = this.pager.currentPage;
-      },
-      prevPage: function () {
+      } else { 
+        // prev
         if (this.pager.currentPage === 1) {
           this.apiList = this.pager.page(this.pager.totalPages);
         } else {
-          this.apiList = this.pager.page(this.pager.currentPage - 1);
+          this.apiList = this.pager.prev();
         }
-        this.currentPage = this.pager.currentPage;
-      },
+      }
+      this.currentPage = this.pager.currentPage;
+    },
       addFiltersList: function (arr) {
         // for authTypes
         this.authTypes = arr_extractUnique(arr, "Auth");
@@ -295,7 +298,11 @@ export default {
         this.activatePager(this.apiListFiltered);
       },
       search: function(value) {
-        let res = search_fuse(this.apiListFiltered, value, ["API","Link"]);
+        let res = search_fuse({
+          data: this.apiListFiltered,
+          value: value,
+          searchKeys: ["API","Link"]
+        });
 
         if (res.length === 0) {
           console.log("no search results");
@@ -304,9 +311,9 @@ export default {
           res = null;      
         }        
       },
-      sortAPI: function() {
+      sort_table: function(sortBy) {
         this.sortAsc = !this.sortAsc;
-        let sorted = arr_sortValue("API", this.apiListFiltered);
+        let sorted = arr_sortValue(sortBy, this.apiListFiltered);
 
         if (!this.sortAsc) {
           // sort asc

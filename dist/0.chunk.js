@@ -7,7 +7,7 @@ webpackJsonp([0],[
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Home_vue__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_19b7a970_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_Home_vue__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_19b7a970_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_Home_vue__ = __webpack_require__(43);
 var disposed = false
 var normalizeComponent = __webpack_require__(5)
 /* script */
@@ -1023,12 +1023,13 @@ module.exports = Cancel;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_vendor_Paginate_js__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_vendor_Paginate_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__js_vendor_Paginate_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_arr_filter_js__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__js_arr_extractUnique_js__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__js_arr_sortValue_js__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__js_search_fuse_js__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_arr_filter_js__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_arr_extractUnique_js__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__js_arr_sortValue_js__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__js_search_fuse_js__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__js_vendor_Paginate_js__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__js_vendor_Paginate_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__js_vendor_Paginate_js__);
+//
 //
 //
 //
@@ -1151,7 +1152,7 @@ module.exports = Cancel;
 
 
 var vcApiList = function vcApiList() {
-  return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 36));
+  return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 40));
 };
 /* harmony default export */ __webpack_exports__["a"] = ({
   data: function data() {
@@ -1232,7 +1233,7 @@ var vcApiList = function vcApiList() {
     },
     activatePager: function activatePager(data) {
       this.pager = null;
-      this.pager = new __WEBPACK_IMPORTED_MODULE_1__js_vendor_Paginate_js___default.a(data, this.perPage);
+      this.pager = new __WEBPACK_IMPORTED_MODULE_5__js_vendor_Paginate_js___default.a(data, this.perPage);
       this.apiList = this.pager.page(0);
       this.currentPage = this.pager.currentPage;
       this.totalPages = this.pager.totalPages;
@@ -1241,19 +1242,21 @@ var vcApiList = function vcApiList() {
     showPage: function showPage(num) {
       this.apiList = this.pager.page(num);
     },
-    nextPage: function nextPage() {
-      if (!this.pager.hasNext()) {
-        this.apiList = this.pager.page(0);
+    turnPage: function turnPage(page) {
+      if (page) {
+        // next
+        if (!this.pager.hasNext()) {
+          this.apiList = this.pager.page(0);
+        } else {
+          this.apiList = this.pager.next();
+        }
       } else {
-        this.apiList = this.pager.page(this.pager.currentPage + 1);
-      }
-      this.currentPage = this.pager.currentPage;
-    },
-    prevPage: function prevPage() {
-      if (this.pager.currentPage === 1) {
-        this.apiList = this.pager.page(this.pager.totalPages);
-      } else {
-        this.apiList = this.pager.page(this.pager.currentPage - 1);
+        // prev
+        if (this.pager.currentPage === 1) {
+          this.apiList = this.pager.page(this.pager.totalPages);
+        } else {
+          this.apiList = this.pager.prev();
+        }
       }
       this.currentPage = this.pager.currentPage;
     },
@@ -1261,14 +1264,14 @@ var vcApiList = function vcApiList() {
       var _this2 = this;
 
       // for authTypes
-      this.authTypes = __WEBPACK_IMPORTED_MODULE_3__js_arr_extractUnique_js__["a" /* arr_extractUnique */](arr, "Auth");
+      this.authTypes = __WEBPACK_IMPORTED_MODULE_2__js_arr_extractUnique_js__["a" /* arr_extractUnique */](arr, "Auth");
       this.toggleAuthTypeCheckbox(true);
 
       // for categoryTypes
-      var temp = __WEBPACK_IMPORTED_MODULE_3__js_arr_extractUnique_js__["a" /* arr_extractUnique */](arr, "Category");
+      var temp = __WEBPACK_IMPORTED_MODULE_2__js_arr_extractUnique_js__["a" /* arr_extractUnique */](arr, "Category");
       // filter to get length of each item then push
       temp.map(function (i) {
-        var l = __WEBPACK_IMPORTED_MODULE_2__js_arr_filter_js__["a" /* arr_filter */](_this2.apiListCache, "Category", i);
+        var l = __WEBPACK_IMPORTED_MODULE_1__js_arr_filter_js__["a" /* arr_filter */](_this2.apiListCache, "Category", i);
         _this2.categoryTypes.push({
           catName: i,
           catLength: l.length
@@ -1296,7 +1299,7 @@ var vcApiList = function vcApiList() {
       var categoryTemp = void 0;
 
       if (this.currentCategory !== "All") {
-        categoryTemp = __WEBPACK_IMPORTED_MODULE_2__js_arr_filter_js__["a" /* arr_filter */](this.apiListCache, "Category", this.currentCategory);
+        categoryTemp = __WEBPACK_IMPORTED_MODULE_1__js_arr_filter_js__["a" /* arr_filter */](this.apiListCache, "Category", this.currentCategory);
       } else {
         // to filter authTypes from default items
         categoryTemp = this.apiListCache;
@@ -1306,14 +1309,14 @@ var vcApiList = function vcApiList() {
       var authTemp = [];
       this.authTypeSelected.map(function (i) {
         // get items of each authTypeSelected
-        var t2 = __WEBPACK_IMPORTED_MODULE_2__js_arr_filter_js__["a" /* arr_filter */](categoryTemp, "Auth", i);
+        var t2 = __WEBPACK_IMPORTED_MODULE_1__js_arr_filter_js__["a" /* arr_filter */](categoryTemp, "Auth", i);
         authTemp = authTemp.concat(t2);
         t2 = null;
       });
 
       // HTTPS checkbox
       if (this.https) {
-        var hTemp = __WEBPACK_IMPORTED_MODULE_2__js_arr_filter_js__["a" /* arr_filter */](authTemp, "HTTPS", this.https);
+        var hTemp = __WEBPACK_IMPORTED_MODULE_1__js_arr_filter_js__["a" /* arr_filter */](authTemp, "HTTPS", this.https);
         this.apiListFiltered = hTemp;
         hTemp = null;
       } else {
@@ -1329,7 +1332,11 @@ var vcApiList = function vcApiList() {
       this.activatePager(this.apiListFiltered);
     },
     search: function search(value) {
-      var res = __WEBPACK_IMPORTED_MODULE_5__js_search_fuse_js__["a" /* search_fuse */](this.apiListFiltered, value, ["API", "Link"]);
+      var res = __WEBPACK_IMPORTED_MODULE_4__js_search_fuse_js__["a" /* search_fuse */]({
+        data: this.apiListFiltered,
+        value: value,
+        searchKeys: ["API", "Link"]
+      });
 
       if (res.length === 0) {
         console.log("no search results");
@@ -1338,9 +1345,9 @@ var vcApiList = function vcApiList() {
         res = null;
       }
     },
-    sortAPI: function sortAPI() {
+    sort_table: function sort_table(sortBy) {
       this.sortAsc = !this.sortAsc;
-      var sorted = __WEBPACK_IMPORTED_MODULE_4__js_arr_sortValue_js__["a" /* arr_sortValue */]("API", this.apiListFiltered);
+      var sorted = __WEBPACK_IMPORTED_MODULE_3__js_arr_sortValue_js__["a" /* arr_sortValue */](sortBy, this.apiListFiltered);
 
       if (!this.sortAsc) {
         // sort asc
@@ -2230,106 +2237,131 @@ module.exports = function spread(callback) {
 
 /***/ }),
 /* 32 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/**
- * Creates a new `Paginate` form a givin `Array`,
- * optionally with a specific `Number` of items per page.
- *
- * @param {Array} data
- * @param {Number} [perPage=10]
- * @constructor
- * @api public
- */
-
-function Paginate(data, perPage) {
-
-  if (!data) throw new Error('Required Argument Missing');
-  if (!(data instanceof Array)) throw new Error('Invalid Argument Type');
-
-  this.data = data;
-  this.perPage = perPage || 10;
-  this.currentPage = 0;
-  this.totalPages = Math.ceil(this.data.length / this.perPage);
-}
-
-/**
- * Calculates the offset.
- *
- * @return {Number}
- * @api private
- */
-
-Paginate.prototype.offset = function () {
-
-  return (this.currentPage - 1) * this.perPage;
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return arr_filter; });
+// ret array with item/s found
+// "arr": [
+// {
+//   "prop": "item",
+//   ...
+// }...
+var arr_filter = function arr_filter(arr, prop, item) {
+  var af = arr.filter(function (el) {
+    return el[prop] === item;
+  });
+  return af;
 };
 
-/**
- * Returns the specified `page`.
- *
- * @param {Number} pageNum
- * @return {Array}
- * @api public
- */
 
-Paginate.prototype.page = function (pageNum) {
-
-  if (pageNum < 1) pageNum = 1;
-  if (pageNum > this.totalPages) pageNum = this.totalPages;
-
-  this.currentPage = pageNum;
-
-  var start = this.offset(),
-      end = start + this.perPage;
-
-  return this.data.slice(start, end);
-};
-
-/**
- * Returns the next `page`.
- *
- * @return {Array}
- * @api public
- */
-
-Paginate.prototype.next = function () {
-
-  return this.page(this.currentPage + 1);
-};
-
-/**
- * Returns the previous `page`.
- *
- * @return {Array}
- * @api public
- */
-
-Paginate.prototype.prev = function () {
-
-  return this.page(this.currentPage - 1);
-};
-
-/**
- * Checks if there is a next `page`.
- *
- * @return {Boolean}
- * @api public
- */
-
-Paginate.prototype.hasNext = function () {
-
-  return this.currentPage < this.totalPages;
-};
-
-/**
- * Expose `Paginate`
- */
-
-if (true) module.exports = Paginate;
 
 /***/ }),
 /* 33 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return arr_extractUnique; });
+// ret array of unique prop: val
+// "arr": [
+// { 
+//   "cat": "cat2"
+// },
+// { 
+//   "cat": "cat2" 
+// ...
+var arr_extractUnique = function arr_extractUnique(arr, cat) {
+  var o = {};
+  var temp = [];
+  for (var i = 0, l = arr.length; i < l; i++) {
+    if (!o[arr[i][cat]]) {
+      o[arr[i][cat]] = true;
+      temp.push(arr[i][cat]);
+      // temp.push(arr[i].Cat);
+    }
+  }
+  return temp;
+};
+
+
+
+/***/ }),
+/* 34 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return arr_sortValue; });
+// ret array asc order
+// "arr": [
+// {
+//   "item": "Name",
+//   ...
+// },...
+
+var arr_sortValue = function arr_sortValue(item, arr) {
+  var _this = this;
+
+  this.item = item;
+
+  arr.sort(function (a, b) {
+    var itemToSort = _this.item;
+    var tempA = a[itemToSort].toUpperCase();
+    var tempB = b[itemToSort].toUpperCase();
+    if (tempA < tempB) {
+      return -1;
+    }
+    if (tempA > tempB) {
+      return 1;
+    }
+
+    // names must be equal
+    return 0;
+  });
+  return arr;
+};
+
+
+
+/***/ }),
+/* 35 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return search_fuse; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_vendor_fuse_min_js__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_vendor_fuse_min_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__js_vendor_fuse_min_js__);
+
+
+// ret array
+// data: array
+// value: item to search
+// fk: array of prop 
+
+// "data": [
+// {
+//   "fk1": "ValueA",
+//   "fk2": "ValueB",
+//   ...
+// const search_fuse = function (data, value, fk) {
+var search_fuse = function search_fuse(opts) {
+  var fuseOptions = {
+    shouldSort: true,
+    threshold: 0.6,
+    location: 0,
+    distance: 100,
+    maxPatternLength: 32,
+    minMatchCharLength: 1,
+    keys: opts.searchKeys
+  };
+
+  var fuse = new __WEBPACK_IMPORTED_MODULE_0__js_vendor_fuse_min_js___default.a(opts.data, fuseOptions);
+  return fuse.search(opts.value);
+};
+
+
+
+/***/ }),
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -2649,10 +2681,10 @@ if (true) module.exports = Paginate;
     }();e.exports = c;
   }]);
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(37)(module)))
 
 /***/ }),
-/* 34 */
+/* 37 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -2680,31 +2712,111 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 35 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return arr_filter; });
-// ret array with item/s found
-// "arr": [
-// {
-//   "prop": "item",
-//   ...
-// }...
-var arr_filter = function arr_filter(arr, prop, item) {
-  var af = arr.filter(function (el) {
-    return el[prop] === item;
-  });
-  return af;
-};
-
-
-
-/***/ }),
-/* 36 */,
-/* 37 */,
 /* 38 */,
 /* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Creates a new `Paginate` form a givin `Array`,
+ * optionally with a specific `Number` of items per page.
+ *
+ * @param {Array} data
+ * @param {Number} [perPage=10]
+ * @constructor
+ * @api public
+ */
+
+function Paginate(data, perPage) {
+
+  if (!data) throw new Error('Required Argument Missing');
+  if (!(data instanceof Array)) throw new Error('Invalid Argument Type');
+
+  this.data = data;
+  this.perPage = perPage || 10;
+  this.currentPage = 0;
+  this.totalPages = Math.ceil(this.data.length / this.perPage);
+}
+
+/**
+ * Calculates the offset.
+ *
+ * @return {Number}
+ * @api private
+ */
+
+Paginate.prototype.offset = function () {
+
+  return (this.currentPage - 1) * this.perPage;
+};
+
+/**
+ * Returns the specified `page`.
+ *
+ * @param {Number} pageNum
+ * @return {Array}
+ * @api public
+ */
+
+Paginate.prototype.page = function (pageNum) {
+
+  if (pageNum < 1) pageNum = 1;
+  if (pageNum > this.totalPages) pageNum = this.totalPages;
+
+  this.currentPage = pageNum;
+
+  var start = this.offset(),
+      end = start + this.perPage;
+
+  return this.data.slice(start, end);
+};
+
+/**
+ * Returns the next `page`.
+ *
+ * @return {Array}
+ * @api public
+ */
+
+Paginate.prototype.next = function () {
+
+  return this.page(this.currentPage + 1);
+};
+
+/**
+ * Returns the previous `page`.
+ *
+ * @return {Array}
+ * @api public
+ */
+
+Paginate.prototype.prev = function () {
+
+  return this.page(this.currentPage - 1);
+};
+
+/**
+ * Checks if there is a next `page`.
+ *
+ * @return {Boolean}
+ * @api public
+ */
+
+Paginate.prototype.hasNext = function () {
+
+  return this.currentPage < this.totalPages;
+};
+
+/**
+ * Expose `Paginate`
+ */
+
+if (true) module.exports = Paginate;
+
+/***/ }),
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2847,7 +2959,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }), _vm._v(" "), _c('div', [(_vm.pagerButtons) ? _c('span', [_c('button', {
     on: {
       "click": function($event) {
-        _vm.prevPage()
+        _vm.turnPage()
       }
     }
   }, [_vm._v("<prevpage")]), _vm._v(" "), _c('div', {
@@ -2913,7 +3025,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }))]), _vm._v("\r\n          of " + _vm._s(_vm.totalPages) + "\r\n          "), _c('button', {
     on: {
       "click": function($event) {
-        _vm.nextPage()
+        _vm.turnPage(true)
       }
     }
   }, [_vm._v("nextPage>")])]) : _vm._e(), _vm._v(" "), _c('button', {
@@ -2931,12 +3043,18 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("\r\n          API\r\n          "), _c('button', {
     on: {
       "click": function($event) {
-        _vm.sortAPI()
+        _vm.sort_table('API')
       }
     }
   }, [_vm._v(_vm._s(_vm.sortAsc ? 'sortAsc' : 'sortDesc') + " ")])]), _vm._v(" "), _c('div', {
     staticClass: "col-xs-12 col-sm-2"
-  }, [_vm._v("\r\n          Category\r\n        ")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\r\n          Category\r\n          "), _c('button', {
+    on: {
+      "click": function($event) {
+        _vm.sort_table('Category')
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.sortAsc ? 'sortAsc' : 'sortDesc') + " ")])]), _vm._v(" "), _c('div', {
     staticClass: "col-xs-12 col-sm-2"
   }, [_vm._v("\r\n          Auth\r\n        ")]), _vm._v(" "), _c('div', {
     staticClass: "col-xs-12 col-sm-1"
@@ -2966,111 +3084,6 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-19b7a970", esExports)
   }
 }
-
-/***/ }),
-/* 40 */,
-/* 41 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return arr_extractUnique; });
-// ret array of unique prop: val
-// "arr": [
-// { 
-//   "cat": "cat2"
-// },
-// { 
-//   "cat": "cat2" 
-// ...
-var arr_extractUnique = function arr_extractUnique(arr, cat) {
-  var o = {};
-  var temp = [];
-  for (var i = 0, l = arr.length; i < l; i++) {
-    if (!o[arr[i][cat]]) {
-      o[arr[i][cat]] = true;
-      temp.push(arr[i][cat]);
-      // temp.push(arr[i].Cat);
-    }
-  }
-  return temp;
-};
-
-
-
-/***/ }),
-/* 42 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return arr_sortValue; });
-// ret array asc order
-// "arr": [
-// {
-//   "item": "Name",
-//   ...
-// },...
-
-var arr_sortValue = function arr_sortValue(item, arr) {
-  var _this = this;
-
-  this.item = item;
-
-  arr.sort(function (a, b) {
-    var itemToSort = _this.item;
-    var tempA = a[itemToSort].toUpperCase();
-    var tempB = b[itemToSort].toUpperCase();
-    if (tempA < tempB) {
-      return -1;
-    }
-    if (tempA > tempB) {
-      return 1;
-    }
-
-    // names must be equal
-    return 0;
-  });
-  return arr;
-};
-
-
-
-/***/ }),
-/* 43 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return search_fuse; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_vendor_fuse_min_js__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_vendor_fuse_min_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__js_vendor_fuse_min_js__);
-
-
-// ret array
-// data: array
-// value: item to search
-// fk: array of prop 
-
-// "data": [
-// {
-//   "fk1": "ValueA",
-//   "fk2": "ValueB",
-//   ...
-
-var search_fuse = function search_fuse(data, value, fk) {
-  var fuseOptions = {
-    shouldSort: true,
-    threshold: 0.6,
-    location: 0,
-    distance: 100,
-    maxPatternLength: 32,
-    minMatchCharLength: 1,
-    keys: fk
-  };
-
-  var fuse = new __WEBPACK_IMPORTED_MODULE_0__js_vendor_fuse_min_js___default.a(data, fuseOptions);
-  return fuse.search(value);
-};
-
-
 
 /***/ })
 ]);
