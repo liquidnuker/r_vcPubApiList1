@@ -1158,6 +1158,32 @@ var store = {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2841,13 +2867,44 @@ if (true) module.exports = Paginate;
 
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [(_vm.status.api) ? _c('span', [_vm._v("\r\n    Status:\r\n    "), _vm._m(0)]) : _vm._e(), _vm._v(" "), _c('div', {
+  return _c('div', [_vm._m(0), _vm._v(" "), _c('main', {
+    staticClass: "row container-fluid"
+  }, [_c('div', {
+    staticClass: "row container"
+  }, [_c('section', {
+    staticClass: "col-sm-3",
+    attrs: {
+      "role": "directory"
+    }
+  }, [_c('nav', {
+    staticClass: "vcnavSide101",
+    attrs: {
+      "role": "navigation"
+    }
+  }, [_c('h2', {
+    staticClass: "vcnavSide101_heading"
+  }, [_vm._v("Categories")]), _vm._v(" "), _c('ul', [_c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.toggleAuthTypeCheckbox(true);
+        _vm.filterCategory('All')
+      }
+    }
+  }, [_vm._v("\r\n              All Items: " + _vm._s(_vm.apiTotalCount) + "\r\n            ")])]), _vm._v(" "), _vm._l((_vm.categoryTypes), function(i, index) {
+    return _c('li', [_c('p', {
+      on: {
+        "click": function($event) {
+          _vm.filterCategory(i.catName)
+        }
+      }
+    }, [_vm._v(_vm._s(i.catName) + " " + _vm._s(i.catLength))])])
+  })], 2)])]), _vm._v(" "), _c('section', {
+    staticClass: "col-sm-9 apilist_display"
+  }, [_c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-sm-3"
-  }, [_vm._v("\r\n      ---------\r\n    ")]), _vm._v(" "), _c('div', {
-    staticClass: "col-sm-9"
-  }, [_c('ul', [_c('li', [_vm._v("\r\n          Auth:\r\n        ")]), _vm._v(" "), _vm._l((_vm.authTypes), function(i) {
+  }, [_c('ul', [_c('li', [_vm._v("\r\n              Auth:\r\n            ")]), _vm._v(" "), _vm._l((_vm.authTypes), function(i) {
     return _c('li', [_c('input', {
       directives: [{
         name: "model",
@@ -2899,7 +2956,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "aria-expanded": "true",
       "aria-orientation": "vertical"
     }
-  }, [_vm._v("\r\n        -----------\r\n        ")]), _vm._v(" "), _c('li', [_c('input', {
+  }, [_vm._v("\r\n              -----------\r\n            ")]), _vm._v(" "), _c('li', [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -2938,28 +2995,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "for": "checkbox"
     }
-  }, [_vm._v("HTTPS")])])], 2)])]), _vm._v(" "), _c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-sm-3"
-  }, [_c('ul', [_c('li', [_c('p', {
-    on: {
-      "click": function($event) {
-        _vm.toggleAuthTypeCheckbox(true);
-        _vm.filterCategory('All')
-      }
-    }
-  }, [_vm._v("\r\n            All Items: " + _vm._s(_vm.apiTotalCount) + "\r\n          ")])]), _vm._v(" "), _vm._l((_vm.categoryTypes), function(i) {
-    return _c('li', [_c('p', {
-      on: {
-        "click": function($event) {
-          _vm.filterCategory(i.catName)
-        }
-      }
-    }, [_vm._v(_vm._s(i.catName) + " " + _vm._s(i.catLength))])])
-  })], 2), _vm._v(" "), _c('br'), _vm._v(" "), _c('br')]), _vm._v(" "), _c('div', {
+  }, [_vm._v("HTTPS only")])])], 2)]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-9"
-  }, [_c('vcSearch', {
+  }, [_c('div', [_c('vcSearch', {
     attrs: {
       "pr-current-category": _vm.currentCategory
     },
@@ -2968,7 +3006,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.search()
       }
     }
-  }), _vm._v(" "), _c('div', [(_vm.pagerButtons) ? _c('span', [_c('button', {
+  })], 1), _vm._v(" "), _c('div', [(_vm.pagerButtons) ? _c('span', [_c('button', {
+    staticClass: "btn btn1-01",
     on: {
       "click": function($event) {
         _vm.prevPage()
@@ -2976,7 +3015,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("<prevpage")]), _vm._v(" "), _c('div', {
     staticClass: "custom-select pg_totalpages"
-  }, [_vm._v("\r\n            Page \r\n            "), _vm._v(" "), _c('select', {
+  }, [_c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -3005,7 +3044,16 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }
       }
     }, [_vm._v(_vm._s(i))])
-  })), _vm._v(" "), _vm._v("\r\n            Items per page:\r\n            "), _c('select', {
+  }))]), _vm._v("\r\n              of " + _vm._s(_vm.totalPages) + "\r\n              "), _c('button', {
+    staticClass: "btn btn1-01",
+    on: {
+      "click": function($event) {
+        _vm.nextPage()
+      }
+    }
+  }, [_vm._v("nextPage>")]), _vm._v("\r\n              Items per page:\r\n              "), _c('div', {
+    staticClass: "custom-select pg_itemsperpage"
+  }, [_c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -3034,13 +3082,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }
       }
     }, [_vm._v(_vm._s(i))])
-  }))]), _vm._v("\r\n          of " + _vm._s(_vm.totalPages) + "\r\n          "), _c('button', {
-    on: {
-      "click": function($event) {
-        _vm.nextPage()
-      }
-    }
-  }, [_vm._v("nextPage>")])]) : _vm._e(), _vm._v(" "), _c('button', {
+  }))])]) : _vm._e()])])]), _vm._v(" "), _c('section', {
+    staticClass: "row apilist"
+  }, [_c('div', {
+    staticClass: "col-sm-12"
+  }, [(_vm.currentCategory === 'All') ? _c('p', [_vm._v("Showing All Items")]) : _c('p', [_vm._v("currentCategory: " + _vm._s(_vm.currentCategory))]), _vm._v(" "), _c('button', {
     staticClass: "btn btn1-01",
     on: {
       "click": function($event) {
@@ -3048,44 +3094,50 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.filterCategory('All')
       }
     }
-  }, [_vm._v("Show All")])]), _vm._v(" "), _c('br'), _vm._v(" "), (_vm.currentCategory === 'All') ? _c('p', [_vm._v("Showing All Items")]) : _c('p', [_vm._v("currentCategory: " + _vm._s(_vm.currentCategory))]), _vm._v(" "), _c('div', {
+  }, [_vm._v("Show All")]), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-xs-12 col-sm-7"
-  }, [_vm._v("\r\n          API\r\n          "), _c('button', {
+  }, [_vm._v("\r\n              API\r\n              "), _c('button', {
     on: {
       "click": function($event) {
         _vm.sort_table('API')
       }
     }
-  }, [_vm._v(_vm._s(_vm.sortAsc ? 'sortAsc' : 'sortDesc') + " ")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\r\n                " + _vm._s(_vm.sortAsc ? 'sortAsc' : 'sortDesc') + "\r\n              ")])]), _vm._v(" "), _c('div', {
     staticClass: "col-xs-12 col-sm-2"
-  }, [_vm._v("\r\n          Category\r\n          "), _c('button', {
+  }, [_vm._v("\r\n              Category\r\n              "), _c('button', {
     on: {
       "click": function($event) {
         _vm.sort_table('Category')
       }
     }
-  }, [_vm._v(_vm._s(_vm.sortAsc ? 'sortAsc' : 'sortDesc') + " ")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\r\n                " + _vm._s(_vm.sortAsc ? 'sortAsc' : 'sortDesc') + "\r\n              ")])]), _vm._v(" "), _c('div', {
     staticClass: "col-xs-12 col-sm-2"
-  }, [_vm._v("\r\n          Auth\r\n        ")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\r\n              Auth\r\n            ")]), _vm._v(" "), _c('div', {
     staticClass: "col-xs-12 col-sm-1"
-  }, [_vm._v("\r\n          HTTPS\r\n        ")])]), _vm._v(" "), _c('vcApiList', {
+  }, [_vm._v("\r\n              HTTPS\r\n            ")])]), _vm._v(" "), _c('vcApiList', {
     attrs: {
       "pr-api-list": _vm.apiList
     }
-  })], 1)])])
+  })], 1)])])])]), _vm._v(" "), _vm._m(1)])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', {
-    attrs: {
-      "href": "https://travis-ci.org/toddmotto/public-apis"
-    }
-  }, [_c('img', {
-    attrs: {
-      "src": "https://travis-ci.org/toddmotto/public-apis.svg?branch=master"
-    }
-  })])
+  return _c('header', {
+    staticClass: "row container-fluid"
+  }, [_c('div', {
+    staticClass: "row container"
+  }, [_c('div', {
+    staticClass: "col-sm-12"
+  }, [_vm._v("header")])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('footer', {
+    staticClass: "row container-fluid"
+  }, [_c('div', {
+    staticClass: "row container"
+  }, [_c('div', {
+    staticClass: "col-sm-12"
+  }, [_vm._v("footer")])])])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }

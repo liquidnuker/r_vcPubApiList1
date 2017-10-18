@@ -1,0 +1,117 @@
+main.container-fluid {
+  > .container {
+    @extend %padd--4;
+    background-color: #666;
+  }
+}
+
+header.container-fluid,
+footer.container-fluid {
+  background-color: #ccc;
+}
+
+.apilist_display {
+  padding-left: 4px;
+}
+
+.apilist_display {
+  .row {
+    background-color: #eee;
+  }
+}
+
+// vcnavSide101
+// ==================================================/
+@mixin vcnavSide101_theme() {
+  .vcnavSide101 {
+    a {    
+      color: #d5d5d5;
+
+      &:hover {
+        color: #fff;
+      }
+    }
+
+    .vcnavSide101_heading {
+      background-color: #f0f0f0;
+      color: #141416;
+    }
+
+    li {
+      background-color: #2c2d32;  
+      border-bottom: 1px solid #5c5d60;
+
+      &:nth-of-type(odd) {
+        background-color: #343437;
+      }
+    }
+  }
+}
+@include vcnavSide101_theme();
+
+.vcnavSide101 {
+  .vcnavSide101_heading {
+    @extend %padd--4;
+  }
+
+  a {
+    @extend %display--block;
+
+    &:hover {
+      text-decoration: none;  
+    }
+  }
+
+  li {
+    @extend %padd--6;
+    height: 34px;
+    
+    &:last-of-type {
+      border-bottom: none;
+    }
+  }
+}
+
+// pg_totalpages
+// ==================================================/
+// mobile portrait (320x480) 
+@include mq($from: mobile) {
+  .pg_totalpages {
+    width: 100%;
+  }
+}
+
+// *mobile landscape (480x320)
+@include mq($from: mobileLandscape) {
+  .pg_totalpages {
+    height: 30px;
+    vertical-align: text-bottom;
+    width: auto;  
+  }
+
+  .pg_totalpages {
+    margin-left: -1px;
+  }
+}
+
+// pg_itemsperpage
+// ==================================================/
+// mobile portrait (320x480) 
+@include mq($from: mobile) {
+  .pg_itemsperpage {
+    width: 100%;
+  }
+}
+
+// *mobile landscape (480x320)
+@include mq($from: mobileLandscape) {
+  .pg_itemsperpage {
+    height: 30px;
+    vertical-align: text-bottom;
+    width: auto;  
+  }
+
+  .pg_itemsperpage {
+    margin-left: -1px;
+  }
+}

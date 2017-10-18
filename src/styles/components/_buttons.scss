@@ -14,7 +14,7 @@ input [type="button"],
 [type="submit"] {
   // see vendor/normalize.scss for other properties
   @extend %mp--0;
-  @extend %btn_font--sans-serif;
+  // @extend %btn_font--sans-serif;
 }
 
 .btn {
