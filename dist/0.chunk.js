@@ -1173,17 +1173,6 @@ var store = {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -1228,7 +1217,7 @@ var vcSearch = function vcSearch() {
 
       // messages
       status: {
-        api: false
+        search: "status.search"
       }
 
     };
@@ -1340,6 +1329,7 @@ var vcSearch = function vcSearch() {
       this.filterAuthType();
     },
     filterAuthType: function filterAuthType() {
+      this.status.search = "";
       var categoryTemp = void 0;
 
       if (this.currentCategory !== "All") {
@@ -1376,6 +1366,7 @@ var vcSearch = function vcSearch() {
       this.activatePager(this.apiListFiltered);
     },
     search: function search() {
+      var t0 = performance.now();
       var res = __WEBPACK_IMPORTED_MODULE_4__js_search_fuse_js__["a" /* search_fuse */]({
         data: this.apiListFiltered,
         value: __WEBPACK_IMPORTED_MODULE_6__js_store_js__["a" /* store */].fc.searchKeyword,
@@ -1383,8 +1374,10 @@ var vcSearch = function vcSearch() {
       });
 
       if (res.length === 0) {
-        console.log("no search results");
+        this.status.search = "No results found";
       } else {
+        var t1 = performance.now();
+        this.status.search = "Found " + res.length + " items " + (t1 - t0) + "ms";
         this.activatePager(res);
         res = null;
         __WEBPACK_IMPORTED_MODULE_6__js_store_js__["a" /* store */].fc.searchKeyword = null;
@@ -2867,10 +2860,10 @@ if (true) module.exports = Paginate;
 
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_vm._m(0), _vm._v(" "), _c('main', {
+  return _c('div', [_c('div', {
     staticClass: "row container-fluid"
   }, [_c('div', {
-    staticClass: "row container"
+    staticClass: "row container apilist_holder"
   }, [_c('section', {
     staticClass: "col-sm-3",
     attrs: {
@@ -2890,8 +2883,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.filterCategory('All')
       }
     }
-  }, [_vm._v("\r\n              All Items: " + _vm._s(_vm.apiTotalCount) + "\r\n            ")])]), _vm._v(" "), _vm._l((_vm.categoryTypes), function(i, index) {
-    return _c('li', [_c('p', {
+  }, [_vm._v("\r\n                All Items: " + _vm._s(_vm.apiTotalCount) + "\r\n              ")])]), _vm._v(" "), _vm._l((_vm.categoryTypes), function(i, index) {
+    return _c('li', [_c('a', {
       on: {
         "click": function($event) {
           _vm.filterCategory(i.catName)
@@ -2904,7 +2897,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-sm-3"
-  }, [_c('ul', [_c('li', [_vm._v("\r\n              Auth:\r\n            ")]), _vm._v(" "), _vm._l((_vm.authTypes), function(i) {
+  }, [_c('ul', [_c('li', [_vm._v("\r\n                Auth:\r\n              ")]), _vm._v(" "), _vm._l((_vm.authTypes), function(i) {
     return _c('li', [_c('input', {
       directives: [{
         name: "model",
@@ -2956,7 +2949,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "aria-expanded": "true",
       "aria-orientation": "vertical"
     }
-  }, [_vm._v("\r\n              -----------\r\n            ")]), _vm._v(" "), _c('li', [_c('input', {
+  }, [_vm._v("\r\n                -----------\r\n              ")]), _vm._v(" "), _c('li', [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -3044,14 +3037,14 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }
       }
     }, [_vm._v(_vm._s(i))])
-  }))]), _vm._v("\r\n              of " + _vm._s(_vm.totalPages) + "\r\n              "), _c('button', {
+  }))]), _vm._v("\r\n                of " + _vm._s(_vm.totalPages) + "\r\n                "), _c('button', {
     staticClass: "btn btn1-01",
     on: {
       "click": function($event) {
         _vm.nextPage()
       }
     }
-  }, [_vm._v("nextPage>")]), _vm._v("\r\n              Items per page:\r\n              "), _c('div', {
+  }, [_vm._v("nextPage>")]), _vm._v("\r\n                Items per page:\r\n                "), _c('div', {
     staticClass: "custom-select pg_itemsperpage"
   }, [_c('select', {
     directives: [{
@@ -3086,7 +3079,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "row apilist"
   }, [_c('div', {
     staticClass: "col-sm-12"
-  }, [(_vm.currentCategory === 'All') ? _c('p', [_vm._v("Showing All Items")]) : _c('p', [_vm._v("currentCategory: " + _vm._s(_vm.currentCategory))]), _vm._v(" "), _c('button', {
+  }, [(_vm.currentCategory === 'All') ? _c('p', [_vm._v("Showing All Items")]) : _c('p', [_vm._v("currentCategory: " + _vm._s(_vm.currentCategory))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.status.search))]), _vm._v(" "), _c('button', {
     staticClass: "btn btn1-01",
     on: {
       "click": function($event) {
@@ -3098,47 +3091,31 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-xs-12 col-sm-7"
-  }, [_vm._v("\r\n              API\r\n              "), _c('button', {
+  }, [_vm._v("\r\n                API\r\n                "), _c('button', {
     on: {
       "click": function($event) {
         _vm.sort_table('API')
       }
     }
-  }, [_vm._v("\r\n                " + _vm._s(_vm.sortAsc ? 'sortAsc' : 'sortDesc') + "\r\n              ")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\r\n                " + _vm._s(_vm.sortAsc ? 'sortAsc' : 'sortDesc') + "\r\n                ")])]), _vm._v(" "), _c('div', {
     staticClass: "col-xs-12 col-sm-2"
-  }, [_vm._v("\r\n              Category\r\n              "), _c('button', {
+  }, [_vm._v("\r\n                Category\r\n                "), _c('button', {
     on: {
       "click": function($event) {
         _vm.sort_table('Category')
       }
     }
-  }, [_vm._v("\r\n                " + _vm._s(_vm.sortAsc ? 'sortAsc' : 'sortDesc') + "\r\n              ")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\r\n                " + _vm._s(_vm.sortAsc ? 'sortAsc' : 'sortDesc') + "\r\n                ")])]), _vm._v(" "), _c('div', {
     staticClass: "col-xs-12 col-sm-2"
-  }, [_vm._v("\r\n              Auth\r\n            ")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\r\n                Auth\r\n              ")]), _vm._v(" "), _c('div', {
     staticClass: "col-xs-12 col-sm-1"
-  }, [_vm._v("\r\n              HTTPS\r\n            ")])]), _vm._v(" "), _c('vcApiList', {
+  }, [_vm._v("\r\n                HTTPS\r\n              ")])]), _vm._v(" "), _c('vcApiList', {
     attrs: {
       "pr-api-list": _vm.apiList
     }
-  })], 1)])])])]), _vm._v(" "), _vm._m(1)])
+  })], 1)])])])])])
 }
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('header', {
-    staticClass: "row container-fluid"
-  }, [_c('div', {
-    staticClass: "row container"
-  }, [_c('div', {
-    staticClass: "col-sm-12"
-  }, [_vm._v("header")])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('footer', {
-    staticClass: "row container-fluid"
-  }, [_c('div', {
-    staticClass: "row container"
-  }, [_c('div', {
-    staticClass: "col-sm-12"
-  }, [_vm._v("footer")])])])
-}]
+var staticRenderFns = []
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

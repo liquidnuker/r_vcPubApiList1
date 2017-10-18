@@ -1,13 +1,28 @@
-main.container-fluid {
-  > .container {
-    @extend %padd--4;
-    background-color: #666;
-  }
-}
+// body {
+//   @extend %pos--relative;
+// }
 
 header.container-fluid,
 footer.container-fluid {
   background-color: #ccc;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: underline;  
+
+  &:hover {
+    text-decoration: none; 
+  }
+}
+
+.main_app_status {
+  @include center-both;
+}
+
+.apilist_holder {
+  @extend %padd--4;
+  background-color: #666;
 }
 
 .apilist_display {
@@ -56,10 +71,6 @@ footer.container-fluid {
 
   a {
     @extend %display--block;
-
-    &:hover {
-      text-decoration: none;  
-    }
   }
 
   li {

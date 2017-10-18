@@ -36,7 +36,7 @@ input,select,html,body,div,span,h1,h2,h3,h4,h5,h6,p,a,code,s,i,ul,li,label,table
   padding: 0;
 }
 
-.btn1-01,main.container-fluid > .container,.vcnavSide101 .vcnavSide101_heading {
+.btn1-01,.apilist_holder,.vcnavSide101 .vcnavSide101_heading {
   padding: 4px;
 }
 
@@ -609,12 +609,30 @@ summary {
   }
 }
 
-main.container-fluid > .container {
-  background-color: #666;
-}
-
 header.container-fluid,footer.container-fluid {
   background-color: #ccc;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.main_app_status {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.apilist_holder {
+  background-color: #666;
 }
 
 .apilist_display {
@@ -645,10 +663,6 @@ header.container-fluid,footer.container-fluid {
 
 .vcnavSide101 li:nth-of-type(odd) {
   background-color: #343437;
-}
-
-.vcnavSide101 a:hover {
-  text-decoration: none;
 }
 
 .vcnavSide101 li {
