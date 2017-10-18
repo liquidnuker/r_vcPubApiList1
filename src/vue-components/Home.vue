@@ -51,16 +51,13 @@
     </div>
     <div class="col-sm-9">
       <!-- search -->
-      <label for="api_search">Search {{ currentCategory }}:</label> 
-      <input type="text" 
-      name="api_search" 
-      id="api_search" 
-      placeholder="Enter keyword/s..." 
-      @keyup.enter= "search($event.target.value)"  />
+      <vcSearch 
+      :pr-current-category="currentCategory"
+      @search="search()" />
       <!-- page controls -->
       <div>
         <span v-if="pagerButtons">
-          <button @click="turnPage()">&lt;prevpage</button>
+          <button @click="prevPage()">&lt;prevpage</button>
           <div class="custom-select pg_totalpages">
             Page&nbsp;
             <!-- page jump -->
@@ -77,7 +74,7 @@
 
           </div>
           of {{ totalPages }}
-          <button @click="turnPage(true)">nextPage&gt;</button>
+          <button @click="nextPage()">nextPage&gt;</button>
         </span>
         <button class="btn btn1-01"
         @click="toggleAuthTypeCheckbox(true); filterCategory('All')">Show All</button>
@@ -119,8 +116,10 @@ import {arr_extractUnique} from "../js/arr_extractUnique.js";
 import {arr_sortValue} from "../js/arr_sortValue.js";
 import {search_fuse} from "../js/search_fuse.js";
 import Paginate from "../js/vendor/Paginate.js";
+import {store} from "../js/store.js";
 
 const vcApiList = () => import ('./vcApiList.vue');
+const vcSearch = () => import ('./vcSearch.vue');
 export default {
   data() {
       return {
@@ -157,7 +156,8 @@ export default {
       };
     },
     components: {
-      vcApiList: vcApiList
+      vcApiList: vcApiList,
+      vcSearch: vcSearch
     },
     mounted: function () {
       // this.getApiData(this.API_URL);
@@ -210,24 +210,22 @@ export default {
       showPage: function (num) {
         this.apiList = this.pager.page(num);
       },
-      turnPage: function(page) {
-      if (page) { 
-        // next
-        if (!this.pager.hasNext()) {
-          this.apiList = this.pager.page(0);
-        } else {
-          this.apiList = this.pager.next();
-        }
-      } else { 
-        // prev
+      prevPage: function() {
         if (this.pager.currentPage === 1) {
           this.apiList = this.pager.page(this.pager.totalPages);
         } else {
           this.apiList = this.pager.prev();
         }
-      }
-      this.currentPage = this.pager.currentPage;
-    },
+        this.currentPage = this.pager.currentPage;
+      },
+      nextPage: function() {
+        if (!this.pager.hasNext()) {
+          this.apiList = this.pager.page(0);
+        } else {
+          this.apiList = this.pager.next();
+        }
+        this.currentPage = this.pager.currentPage;
+      },
       addFiltersList: function (arr) {
         // for authTypes
         this.authTypes = arr_extractUnique(arr, "Auth");
@@ -297,10 +295,10 @@ export default {
         categoryTemp = null;  
         this.activatePager(this.apiListFiltered);
       },
-      search: function(value) {
+      search: function() {
         let res = search_fuse({
           data: this.apiListFiltered,
-          value: value,
+          value: store.fc.searchKeyword,
           searchKeys: ["API","Link"]
         });
 
@@ -308,7 +306,8 @@ export default {
           console.log("no search results");
         } else {
           this.activatePager(res);
-          res = null;      
+          res = null;
+          store.fc.searchKeyword = null;      
         }        
       },
       sort_table: function(sortBy) {
