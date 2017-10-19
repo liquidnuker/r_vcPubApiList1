@@ -1,10 +1,5 @@
-// body {
-//   @extend %pos--relative;
-// }
-
-header.container-fluid,
-footer.container-fluid {
-  background-color: #ccc;
+body {
+  @extend %system_normal--300;
 }
 
 a {
@@ -16,40 +11,30 @@ a {
   }
 }
 
+h2 {
+  @extend %padd--4;
+  background-color: #fff; // temp bg
+}
+
+header.container-fluid,
+footer.container-fluid {
+  background-color: #ccc;
+}
+
 .main_app_status {
   @include center-both;
 }
 
-.apilist_holder {
-  @extend %padd--4;
-  background-color: #666;
-}
-
-.apilist_display {
-  padding-left: 4px;
-}
-
-.apilist_display {
-  .row {
-    background-color: #eee;
-  }
-}
-
-// vcnavSide101
+// apilist_categories nav
 // ==================================================/
-@mixin vcnavSide101_theme() {
-  .vcnavSide101 {
+@mixin apilist_categories_theme() {
+  .apilist_categories {
     a {    
       color: #d5d5d5;
 
       &:hover {
         color: #fff;
       }
-    }
-
-    .vcnavSide101_heading {
-      background-color: #f0f0f0;
-      color: #141416;
     }
 
     li {
@@ -62,16 +47,18 @@ a {
     }
   }
 }
-@include vcnavSide101_theme();
+@include apilist_categories_theme();
 
-.vcnavSide101 {
-  .vcnavSide101_heading {
-    @extend %padd--4;
-  }
-
+.apilist_categories {
   a {
-    @extend %display--block;
+    @extend %display--inline-block;
   }
+
+  .apilist_categories_count {
+    @extend %display--inline-block;
+    background-color: #ccc;
+    padding: 0 2px 0 2px; /* trbl */
+    }
 
   li {
     @extend %padd--6;
@@ -80,6 +67,78 @@ a {
     &:last-of-type {
       border-bottom: none;
     }
+  }
+}
+
+// auth filter
+// ==================================================/
+.authtype_filter {
+  @extend %padd--4;
+  background-color: #eee;
+}
+
+.api_status_holder {
+  margin-top: 4px;
+}
+
+.api_status {
+  @extend %padd--4;
+  background-color: #eee;
+}
+
+.apilist_sorter {
+  margin-top: 4px;
+  background-color: #eee;
+  > div {
+    @extend %padd--4;
+    vertical-align: baseline;
+  }
+}
+
+.apilist_searchbox {
+  @extend %padd--4;
+  margin-left: 4px;
+  background-color: #eee;
+  height: inherit;
+}
+
+.apilist {
+  @extend %padd--4;
+  background-color: #666;
+}
+
+.apilist_display {
+  padding-left: 4px;
+}
+
+.apilist_holder {
+  background-color: #eee;
+}
+
+.apilist_table {
+  tr {
+    border-bottom: 1px solid #000;
+  }
+
+  td {
+    @extend %padd--4;
+  }  
+}
+
+.pg_holder {
+  @extend %display--inline-block;
+  border: 1px solid #fff;
+  
+  .custom-select {
+    line-height: 1.15;  
+  }
+
+  .btn {
+    vertical-align: baseline;
+  }
+
+  p {
+    @extend %display--inline-block;
   }
 }
 
@@ -96,7 +155,7 @@ a {
 @include mq($from: mobileLandscape) {
   .pg_totalpages {
     height: 30px;
-    vertical-align: text-bottom;
+    vertical-align: baseline;
     width: auto;  
   }
 
@@ -118,7 +177,7 @@ a {
 @include mq($from: mobileLandscape) {
   .pg_itemsperpage {
     height: 30px;
-    vertical-align: text-bottom;
+    // vertical-align: text-bottom;
     width: auto;  
   }
 
@@ -126,3 +185,7 @@ a {
     margin-left: -1px;
   }
 }
+
+
+
+

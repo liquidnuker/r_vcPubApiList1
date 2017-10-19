@@ -1173,6 +1173,11 @@ var store = {
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -1366,7 +1371,7 @@ var vcSearch = function vcSearch() {
       this.activatePager(this.apiListFiltered);
     },
     search: function search() {
-      var t0 = performance.now();
+      // let t0 = performance.now();
       var res = __WEBPACK_IMPORTED_MODULE_4__js_search_fuse_js__["a" /* search_fuse */]({
         data: this.apiListFiltered,
         value: __WEBPACK_IMPORTED_MODULE_6__js_store_js__["a" /* store */].fc.searchKeyword,
@@ -1376,8 +1381,9 @@ var vcSearch = function vcSearch() {
       if (res.length === 0) {
         this.status.search = "No results found";
       } else {
-        var t1 = performance.now();
-        this.status.search = "Found " + res.length + " items " + (t1 - t0) + "ms";
+        // let t1 = performance.now();
+        // this.status.search = `Found ${res.length} items ${t1 - t0}`;
+        this.status.search = "Found " + res.length + " items";
         this.activatePager(res);
         res = null;
         __WEBPACK_IMPORTED_MODULE_6__js_store_js__["a" /* store */].fc.searchKeyword = null;
@@ -1388,7 +1394,6 @@ var vcSearch = function vcSearch() {
       var sorted = __WEBPACK_IMPORTED_MODULE_3__js_arr_sortValue_js__["a" /* arr_sortValue */](sortBy, this.apiListFiltered);
 
       if (!this.sortAsc) {
-        // sort asc
         this.apiListFiltered = sorted;
       } else {
         this.apiListFiltered = sorted.reverse();
@@ -2863,41 +2868,45 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   return _c('div', [_c('div', {
     staticClass: "row container-fluid"
   }, [_c('div', {
-    staticClass: "row container apilist_holder"
+    staticClass: "row container apilist"
   }, [_c('section', {
     staticClass: "col-sm-3",
     attrs: {
       "role": "directory"
     }
-  }, [_c('nav', {
-    staticClass: "vcnavSide101",
+  }, [_c('h2', [_vm._v("Categories")]), _vm._v(" "), _c('nav', {
+    staticClass: "apilist_categories",
     attrs: {
       "role": "navigation"
     }
-  }, [_c('h2', {
-    staticClass: "vcnavSide101_heading"
-  }, [_vm._v("Categories")]), _vm._v(" "), _c('ul', [_c('li', [_c('a', {
+  }, [_c('ul', [_c('li', [_c('a', {
     on: {
       "click": function($event) {
         _vm.toggleAuthTypeCheckbox(true);
         _vm.filterCategory('All')
       }
     }
-  }, [_vm._v("\r\n                All Items: " + _vm._s(_vm.apiTotalCount) + "\r\n              ")])]), _vm._v(" "), _vm._l((_vm.categoryTypes), function(i, index) {
+  }, [_vm._v("\r\n                All Items:\r\n              ")]), _vm._v(" "), _c('span', {
+    staticClass: "apilist_categories_count"
+  }, [_vm._v(_vm._s(_vm.apiTotalCount))])]), _vm._v(" "), _vm._l((_vm.categoryTypes), function(i, index) {
     return _c('li', [_c('a', {
       on: {
         "click": function($event) {
           _vm.filterCategory(i.catName)
         }
       }
-    }, [_vm._v(_vm._s(i.catName) + " " + _vm._s(i.catLength))])])
-  })], 2)])]), _vm._v(" "), _c('section', {
+    }, [_vm._v(_vm._s(i.catName) + "\r\n              ")]), _vm._v(" "), _c('span', {
+      staticClass: "apilist_categories_count"
+    }, [_vm._v(_vm._s(i.catLength))])])
+  })], 2)])]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-9 apilist_display"
   }, [_c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-sm-3"
-  }, [_c('ul', [_c('li', [_vm._v("\r\n                Auth:\r\n              ")]), _vm._v(" "), _vm._l((_vm.authTypes), function(i) {
+  }, [_c('section', {
+    staticClass: "authtype_filter"
+  }, [_c('h2', [_vm._v("Auth:")]), _vm._v(" "), _c('ul', [_vm._l((_vm.authTypes), function(i) {
     return _c('li', [_c('input', {
       directives: [{
         name: "model",
@@ -2949,7 +2958,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "aria-expanded": "true",
       "aria-orientation": "vertical"
     }
-  }, [_vm._v("\r\n                -----------\r\n              ")]), _vm._v(" "), _c('li', [_c('input', {
+  }, [_vm._v("\r\n                   \r\n                ")]), _vm._v(" "), _c('li', [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -2988,9 +2997,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "for": "checkbox"
     }
-  }, [_vm._v("HTTPS only")])])], 2)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("HTTPS only")])])], 2)])]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-9"
-  }, [_c('div', [_c('vcSearch', {
+  }, [_c('div', {
+    staticClass: "apilist_searchbox"
+  }, [_c('vcSearch', {
     attrs: {
       "pr-current-category": _vm.currentCategory
     },
@@ -2999,7 +3010,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.search()
       }
     }
-  })], 1), _vm._v(" "), _c('div', [(_vm.pagerButtons) ? _c('span', [_c('button', {
+  }), _vm._v(" "), _c('div', [(_vm.pagerButtons) ? _c('span', {
+    staticClass: "pg_holder"
+  }, [_c('button', {
     staticClass: "btn btn1-01",
     on: {
       "click": function($event) {
@@ -3037,14 +3050,14 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }
       }
     }, [_vm._v(_vm._s(i))])
-  }))]), _vm._v("\r\n                of " + _vm._s(_vm.totalPages) + "\r\n                "), _c('button', {
+  }))]), _vm._v(" "), _c('p', [_vm._v("of " + _vm._s(_vm.totalPages))]), _vm._v(" "), _c('button', {
     staticClass: "btn btn1-01",
     on: {
       "click": function($event) {
         _vm.nextPage()
       }
     }
-  }, [_vm._v("nextPage>")]), _vm._v("\r\n                Items per page:\r\n                "), _c('div', {
+  }, [_vm._v("nextPage>")]), _vm._v(" "), _c('p', [_vm._v("Items per page:")]), _vm._v(" "), _c('div', {
     staticClass: "custom-select pg_itemsperpage"
   }, [_c('select', {
     directives: [{
@@ -3075,11 +3088,43 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }
       }
     }, [_vm._v(_vm._s(i))])
-  }))])]) : _vm._e()])])]), _vm._v(" "), _c('section', {
-    staticClass: "row apilist"
+  }))])]) : _vm._e()])], 1)])]), _vm._v(" "), _c('div', {
+    staticClass: "row api_status_holder"
+  }, [_c('div', {
+    staticClass: "col-sm-12 api_status"
+  }, [(_vm.currentCategory === 'All') ? _c('p', [_vm._v("Showing All Items")]) : _c('p', [_vm._v("currentCategory: " + _vm._s(_vm.currentCategory))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.status.search))])])]), _vm._v(" "), _c('div', {
+    staticClass: "row apilist_sorter"
+  }, [_c('div', {
+    staticClass: "col-xs-12 col-sm-7"
+  }, [_vm._v("\r\n            API\r\n            "), _c('button', {
+    staticClass: "btn btn1-01",
+    on: {
+      "click": function($event) {
+        _vm.sort_table('API')
+      }
+    }
+  }, [_vm._v("\r\n            " + _vm._s(_vm.sortAsc ? 'sortAsc' : 'sortDesc') + "\r\n            ")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-12 col-sm-2"
+  }, [_vm._v("\r\n            Category\r\n            "), _c('button', {
+    staticClass: "btn btn1-01",
+    on: {
+      "click": function($event) {
+        _vm.sort_table('Category')
+      }
+    }
+  }, [_vm._v("\r\n            " + _vm._s(_vm.sortAsc ? 'sortAsc' : 'sortDesc') + "\r\n            ")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-12 col-sm-2"
+  }, [_vm._v("\r\n            Auth\r\n          ")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-12 col-sm-1"
+  }, [_vm._v("\r\n            HTTPS\r\n          ")])]), _vm._v(" "), _c('div', {
+    staticClass: "row apilist_holder"
   }, [_c('div', {
     staticClass: "col-sm-12"
-  }, [(_vm.currentCategory === 'All') ? _c('p', [_vm._v("Showing All Items")]) : _c('p', [_vm._v("currentCategory: " + _vm._s(_vm.currentCategory))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.status.search))]), _vm._v(" "), _c('button', {
+  }, [_c('vcApiList', {
+    attrs: {
+      "pr-api-list": _vm.apiList
+    }
+  })], 1)])])])]), _vm._v(" "), _c('button', {
     staticClass: "btn btn1-01",
     on: {
       "click": function($event) {
@@ -3087,33 +3132,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.filterCategory('All')
       }
     }
-  }, [_vm._v("Show All")]), _vm._v(" "), _c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-xs-12 col-sm-7"
-  }, [_vm._v("\r\n                API\r\n                "), _c('button', {
-    on: {
-      "click": function($event) {
-        _vm.sort_table('API')
-      }
-    }
-  }, [_vm._v("\r\n                " + _vm._s(_vm.sortAsc ? 'sortAsc' : 'sortDesc') + "\r\n                ")])]), _vm._v(" "), _c('div', {
-    staticClass: "col-xs-12 col-sm-2"
-  }, [_vm._v("\r\n                Category\r\n                "), _c('button', {
-    on: {
-      "click": function($event) {
-        _vm.sort_table('Category')
-      }
-    }
-  }, [_vm._v("\r\n                " + _vm._s(_vm.sortAsc ? 'sortAsc' : 'sortDesc') + "\r\n                ")])]), _vm._v(" "), _c('div', {
-    staticClass: "col-xs-12 col-sm-2"
-  }, [_vm._v("\r\n                Auth\r\n              ")]), _vm._v(" "), _c('div', {
-    staticClass: "col-xs-12 col-sm-1"
-  }, [_vm._v("\r\n                HTTPS\r\n              ")])]), _vm._v(" "), _c('vcApiList', {
-    attrs: {
-      "pr-api-list": _vm.apiList
-    }
-  })], 1)])])])])])
+  }, [_vm._v("Show All")])])
 }
 var staticRenderFns = []
 render._withStripped = true

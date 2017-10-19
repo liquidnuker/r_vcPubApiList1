@@ -1,10 +1,10 @@
 <template>
 <div>
-  <table class="col-xs-12" style="border: 1px solid #000;">
+  <table class="col-xs-12 apilist_table">
     <tbody>
       <tr v-for="i in prApiList" class="row">
         <td class="col-xs-12 col-sm-7">
-          <h2>{{ i.API }}</h2>
+          <p>{{ i.API }}</p>
           <summary>
           <p>{{ i.Description }}</p>
           </summary>

@@ -19,11 +19,11 @@
   position: relative;
 }
 
-footer,header,nav,section,main,.custom-select::after,.vcnavSide101 a {
+footer,header,nav,section,main,.custom-select::after {
   display: block;
 }
 
-.btn,.custom-select {
+.btn,.custom-select,.apilist_categories a,.apilist_categories .apilist_categories_count,.pg_holder,.pg_holder p {
   display: inline-block;
 }
 
@@ -36,11 +36,11 @@ input,select,html,body,div,span,h1,h2,h3,h4,h5,h6,p,a,code,s,i,ul,li,label,table
   padding: 0;
 }
 
-.btn1-01,.apilist_holder,.vcnavSide101 .vcnavSide101_heading {
+.btn1-01,h2,.authtype_filter,.api_status,.apilist_sorter > div,.apilist_searchbox,.apilist,.apilist_table td {
   padding: 4px;
 }
 
-.vcnavSide101 li {
+.apilist_categories li {
   padding: 6px;
 }
 
@@ -178,6 +178,10 @@ summary {
   font-style: normal;
   font-weight: 400;
   src: local(".SFNSText-Regular"), local(".HelveticaNeueDeskInterface-Regular"), local(".LucidaGrandeUI"), local("Segoe UI"), local("Ubuntu"), local("Roboto-Regular"), local("DroidSans"), local("Tahoma");
+}
+
+body {
+  font-family: "system_normal--300";
 }
 
 .btn {
@@ -609,10 +613,6 @@ summary {
   }
 }
 
-header.container-fluid,footer.container-fluid {
-  background-color: #ccc;
-}
-
 a {
   cursor: pointer;
   text-decoration: underline;
@@ -620,6 +620,14 @@ a {
 
 a:hover {
   text-decoration: none;
+}
+
+h2 {
+  background-color: #fff;
+}
+
+header.container-fluid,footer.container-fluid {
+  background-color: #ccc;
 }
 
 .main_app_status {
@@ -631,7 +639,65 @@ a:hover {
   transform: translate(-50%, -50%);
 }
 
-.apilist_holder {
+.apilist_categories a {
+  color: #d5d5d5;
+}
+
+.apilist_categories a:hover {
+  color: #fff;
+}
+
+.apilist_categories li {
+  background-color: #2c2d32;
+  border-bottom: 1px solid #5c5d60;
+}
+
+.apilist_categories li:nth-of-type(odd) {
+  background-color: #343437;
+}
+
+.apilist_categories .apilist_categories_count {
+  background-color: #ccc;
+  padding: 0 2px 0 2px;
+  /* trbl */
+}
+
+.apilist_categories li {
+  height: 34px;
+}
+
+.apilist_categories li:last-of-type {
+  border-bottom: none;
+}
+
+.authtype_filter {
+  background-color: #eee;
+}
+
+.api_status_holder {
+  margin-top: 4px;
+}
+
+.api_status {
+  background-color: #eee;
+}
+
+.apilist_sorter {
+  margin-top: 4px;
+  background-color: #eee;
+}
+
+.apilist_sorter > div {
+  vertical-align: baseline;
+}
+
+.apilist_searchbox {
+  margin-left: 4px;
+  background-color: #eee;
+  height: inherit;
+}
+
+.apilist {
   background-color: #666;
 }
 
@@ -639,38 +705,24 @@ a:hover {
   padding-left: 4px;
 }
 
-.apilist_display .row {
+.apilist_holder {
   background-color: #eee;
 }
 
-.vcnavSide101 a {
-  color: #d5d5d5;
+.apilist_table tr {
+  border-bottom: 1px solid #000;
 }
 
-.vcnavSide101 a:hover {
-  color: #fff;
+.pg_holder {
+  border: 1px solid #fff;
 }
 
-.vcnavSide101 .vcnavSide101_heading {
-  background-color: #f0f0f0;
-  color: #141416;
+.pg_holder .custom-select {
+  line-height: 1.15;
 }
 
-.vcnavSide101 li {
-  background-color: #2c2d32;
-  border-bottom: 1px solid #5c5d60;
-}
-
-.vcnavSide101 li:nth-of-type(odd) {
-  background-color: #343437;
-}
-
-.vcnavSide101 li {
-  height: 34px;
-}
-
-.vcnavSide101 li:last-of-type {
-  border-bottom: none;
+.pg_holder .btn {
+  vertical-align: baseline;
 }
 
 @media (min-width: 20em) {
@@ -682,7 +734,7 @@ a:hover {
 @media (min-width: 30em) {
   .pg_totalpages {
     height: 30px;
-    vertical-align: text-bottom;
+    vertical-align: baseline;
     width: auto;
   }
 
@@ -700,17 +752,10 @@ a:hover {
 @media (min-width: 30em) {
   .pg_itemsperpage {
     height: 30px;
-    vertical-align: text-bottom;
     width: auto;
   }
 
   .pg_itemsperpage {
     margin-left: -1px;
   }
-}
-
-[class|="col"] {
-  position: relative;
-  min-height: 1px;
-  border: 1px solid #000;
 }

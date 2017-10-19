@@ -103,16 +103,13 @@ if (false) {(function () {
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('table', {
-    staticClass: "col-xs-12",
-    staticStyle: {
-      "border": "1px solid #000"
-    }
+    staticClass: "col-xs-12 apilist_table"
   }, [_c('tbody', _vm._l((_vm.prApiList), function(i) {
     return _c('tr', {
       staticClass: "row"
     }, [_c('td', {
       staticClass: "col-xs-12 col-sm-7"
-    }, [_c('h2', [_vm._v(_vm._s(i.API))]), _vm._v(" "), _c('summary', [_c('p', [_vm._v(_vm._s(i.Description))])]), _vm._v(" "), _c('a', {
+    }, [_c('p', [_vm._v(_vm._s(i.API))]), _vm._v(" "), _c('summary', [_c('p', [_vm._v(_vm._s(i.Description))])]), _vm._v(" "), _c('a', {
       attrs: {
         "href": i.Link
       }

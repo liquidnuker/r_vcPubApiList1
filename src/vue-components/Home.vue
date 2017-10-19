@@ -2,126 +2,131 @@
 <div>
   <!-- category list + api listing -->
   <div class="row container-fluid">
-    <div class="row container apilist_holder">
+    <div class="row container apilist">
       <section role="directory" class="col-sm-3">
-        <!-- begin vcnavSide101 -->
-        <nav class="vcnavSide101" role="navigation">
-          <h2 class="vcnavSide101_heading">Categories</h2>
+        <h2>Categories</h2>
+        <!-- begin apilist_categories -->
+        <nav class="apilist_categories" role="navigation">
           <ul>
             <li>
               <a @click="toggleAuthTypeCheckbox(true); filterCategory('All')">
-                All Items: {{ apiTotalCount }}
+                All Items:
               </a>
+              <span class="apilist_categories_count">{{ apiTotalCount }}</span>
             </li>
             <li v-for="(i, index) in categoryTypes">
-              <a @click="filterCategory(i.catName)">{{ i.catName }} {{ i.catLength }}</a>
+              <a @click="filterCategory(i.catName)">{{ i.catName }}
+              </a>
+              <span class="apilist_categories_count">{{ i.catLength }}</span>
             </li>
           </ul>
         </nav>
-        <!-- end vcnavSide101 -->
+        <!-- end apilist_categories -->
       </section>
-      <section class="col-sm-9 apilist_display">
+      <div class="col-sm-9 apilist_display">
         <!-- auth filter, top pager controls -->
         <div class="row">
           <div class="col-sm-3">
-            <!-- auth filter -->
-            <ul>
-              <li>
-                Auth:
-              </li>
-              <li v-for="i in authTypes">
-                <input type="checkbox" :id="i"
-                v-model="authTypeSelected" :value="i" @change="filterAuthType()" />
-                <label v-if="i === null" v-bind:for="i" class="">None</label>
-                <label v-else v-bind:for="i" class="">{{ i }}</label>
-              </li>
-              <li role="separator" aria-expanded="true" aria-orientation="vertical">
-                -----------
-              </li>
-              <li>
-                <input type="checkbox" id="checkbox" v-model="https"
-                @change="filterAuthType()" />
-                <label for="checkbox">HTTPS only</label>
-              </li>
-            </ul>
-            <!-- /auth filter -->
+            <section class="authtype_filter">
+              <h2>Auth:</h2>
+              <!-- auth filter -->
+              <ul>
+                <li v-for="i in authTypes">
+                  <input type="checkbox" :id="i"
+                  v-model="authTypeSelected" :value="i" @change="filterAuthType()" />
+                  <label v-if="i === null" v-bind:for="i" class="">None</label>
+                  <label v-else v-bind:for="i" class="">{{ i }}</label>
+                </li>
+                <li role="separator" aria-expanded="true" aria-orientation="vertical">
+                  &nbsp;
+                </li>
+                <li>
+                  <input type="checkbox" id="checkbox" v-model="https"
+                  @change="filterAuthType()" />
+                  <label for="checkbox">HTTPS only</label>
+                </li>
+              </ul>
+              <!-- /auth filter -->
+            </section>
           </div>
           <div class="col-sm-9">
-            <!-- search -->
-            <div>
+            <div class="apilist_searchbox">
+              <!-- search -->
               <vcSearch
               :pr-current-category="currentCategory"
               @search="search()" />
+              <!-- /search -->
+              <!-- top pager controls -->
+              <div>
+                <span class="pg_holder" v-if="pagerButtons">
+                  <button class="btn btn1-01" @click="prevPage()">&lt;prevpage</button>
+                  <div class="custom-select pg_totalpages">
+                    <select v-model="currentPage">
+                      <option v-for="i in totalPages" :value="i"
+                      @click="showPage(i)" >{{ i }}</option>
+                    </select>
+                  </div>
+                  <p>of {{ totalPages }}</p>
+                  <button class="btn btn1-01" @click="nextPage()">nextPage&gt;</button>
+                  <p>Items per page:</p>
+                  <div class="custom-select pg_itemsperpage">
+                    <select v-model="perPage">
+                      <option v-for="i in perPageItems" :value="i"
+                      @click="activatePager(apiListFiltered)" >{{ i }}</option>
+                    </select>
+                  </div>
+                </span>
+              </div>
+              <!-- /top pager controls -->
             </div>
-            <!-- /search -->
-            <!-- top pager controls -->
-            <div>
-              <span v-if="pagerButtons">
-                <button class="btn btn1-01" @click="prevPage()">&lt;prevpage</button>
-                <div class="custom-select pg_totalpages">
-                  <select v-model="currentPage">
-                    <option v-for="i in totalPages" :value="i"
-                    @click="showPage(i)" >{{ i }}</option>
-                  </select>
-                </div>
-                of {{ totalPages }}
-                <button class="btn btn1-01" @click="nextPage()">nextPage&gt;</button>
-                Items per page:
-                <div class="custom-select pg_itemsperpage">
-                  <select v-model="perPage">
-                    <option v-for="i in perPageItems" :value="i"
-                    @click="activatePager(apiListFiltered)" >{{ i }}</option>
-                  </select>
-                </div>
-              </span>
-            </div>
-            <!-- /top pager controls -->
           </div>
         </div>
         <!-- /auth filter, top pager controls -->
-        <!-- apilist -->
-        <section class="row apilist">
-          <div class="col-sm-12">
-            <!-- main listing -->
-            <!-- list status messages -->
+        <!-- status -->
+        <div class="row api_status_holder">
+          <div class="col-sm-12 api_status">
             <p v-if="currentCategory==='All'">Showing All Items</p>
             <p v-else>currentCategory: {{ currentCategory }}</p>
             <p>{{ status.search }}</p>
-            <!-- /list status messages -->
-            <button class="btn btn1-01"
-            @click="toggleAuthTypeCheckbox(true); filterCategory('All')">Show All</button>
-            <div class="row">
-              <!-- sorter -->
-              <div class="col-xs-12 col-sm-7">
-                API
-                <button @click="sort_table('API')">
-                {{ sortAsc ? 'sortAsc' : 'sortDesc' }}
-                </button>
-              </div>
-              <div class="col-xs-12 col-sm-2">
-                Category
-                <button @click="sort_table('Category')">
-                {{ sortAsc ? 'sortAsc' : 'sortDesc' }}
-                </button>
-              </div>
-              <div class="col-xs-12 col-sm-2">
-                Auth
-              </div>
-              <div class="col-xs-12 col-sm-1">
-                HTTPS
-              </div>
-              <!-- /sorter -->
-            </div>
+          </div>
+        </div>
+        <!-- /status -->
+        <!-- sorter -->
+        <div class="row apilist_sorter">
+          <div class="col-xs-12 col-sm-7">
+            API
+            <button class="btn btn1-01" @click="sort_table('API')">
+            {{ sortAsc ? 'sortAsc' : 'sortDesc' }}
+            </button>
+          </div>
+          <div class="col-xs-12 col-sm-2">
+            Category
+            <button class="btn btn1-01" @click="sort_table('Category')">
+            {{ sortAsc ? 'sortAsc' : 'sortDesc' }}
+            </button>
+          </div>
+          <div class="col-xs-12 col-sm-2">
+            Auth
+          </div>
+          <div class="col-xs-12 col-sm-1">
+            HTTPS
+          </div>
+        </div>
+        <!-- /sorter -->
+        <!-- main api list -->
+        <div class="row apilist_holder">
+          <div class="col-sm-12">
             <vcApiList
             :pr-api-list="apiList" />
-            <!-- /main listing -->
           </div>
-        </section>
-        <!-- /apilist -->
-      </section>
+        </div>
+        <!-- /main api list -->
+      </div>
     </div>
   </div>
   <!-- /category list + api listing -->
+  <button class="btn btn1-01"
+  @click="toggleAuthTypeCheckbox(true); filterCategory('All')">Show All</button>
 </div>
 </template>
 <script>
@@ -312,7 +317,7 @@ export default {
         this.activatePager(this.apiListFiltered);
       },
       search: function() {
-        let t0 = performance.now();
+        // let t0 = performance.now();
         let res = search_fuse({
           data: this.apiListFiltered,
           value: store.fc.searchKeyword,
@@ -322,8 +327,9 @@ export default {
         if (res.length === 0) {
           this.status.search = "No results found";
         } else {
-          let t1 = performance.now();
-          this.status.search = `Found ${res.length} items ${t1 - t0}ms`;
+          // let t1 = performance.now();
+          // this.status.search = `Found ${res.length} items ${t1 - t0}`;
+          this.status.search = `Found ${res.length} items`;
           this.activatePager(res);
           res = null;
           store.fc.searchKeyword = null;      
@@ -334,7 +340,6 @@ export default {
         let sorted = arr_sortValue(sortBy, this.apiListFiltered);
 
         if (!this.sortAsc) {
-          // sort asc
           this.apiListFiltered = sorted;
         } else {
           this.apiListFiltered = sorted.reverse();
