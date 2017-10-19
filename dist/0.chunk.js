@@ -2879,23 +2879,23 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "role": "navigation"
     }
-  }, [_c('ul', [_c('li', [_c('a', {
+  }, [_c('ul', [_c('li', {
     on: {
       "click": function($event) {
         _vm.toggleAuthTypeCheckbox(true);
         _vm.filterCategory('All')
       }
     }
-  }, [_vm._v("\r\n                All Items:\r\n              ")]), _vm._v(" "), _c('span', {
+  }, [_c('a', [_vm._v("\r\n                All Items:\r\n              ")]), _vm._v(" "), _c('span', {
     staticClass: "apilist_categories_count"
   }, [_vm._v(_vm._s(_vm.apiTotalCount))])]), _vm._v(" "), _vm._l((_vm.categoryTypes), function(i, index) {
-    return _c('li', [_c('a', {
+    return _c('li', {
       on: {
         "click": function($event) {
           _vm.filterCategory(i.catName)
         }
       }
-    }, [_vm._v(_vm._s(i.catName) + "\r\n              ")]), _vm._v(" "), _c('span', {
+    }, [_c('a', [_vm._v(_vm._s(i.catName) + "\r\n              ")]), _vm._v(" "), _c('span', {
       staticClass: "apilist_categories_count"
     }, [_vm._v(_vm._s(i.catLength))])])
   })], 2)])]), _vm._v(" "), _c('div', {
@@ -2952,13 +2952,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "for": i
       }
     }, [_vm._v(_vm._s(i))])])
-  }), _vm._v(" "), _c('li', {
+  }), _vm._v(" "), _c('hr', {
     attrs: {
       "role": "separator",
       "aria-expanded": "true",
       "aria-orientation": "vertical"
     }
-  }, [_vm._v("\r\n                   \r\n                ")]), _vm._v(" "), _c('li', [_c('input', {
+  }), _vm._v(" "), _c('li', [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -3000,7 +3000,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("HTTPS only")])])], 2)])]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-9"
   }, [_c('div', {
-    staticClass: "apilist_searchbox"
+    staticClass: "apilist_search_holder"
   }, [_c('vcSearch', {
     attrs: {
       "pr-current-category": _vm.currentCategory
@@ -3019,7 +3019,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.prevPage()
       }
     }
-  }, [_vm._v("<prevpage")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("<prevpage")]), _vm._v(" "), _c('p', [_vm._v("Page")]), _vm._v(" "), _c('div', {
     staticClass: "custom-select pg_totalpages"
   }, [_c('select', {
     directives: [{
@@ -3096,7 +3096,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "row apilist_sorter"
   }, [_c('div', {
     staticClass: "col-xs-12 col-sm-7"
-  }, [_vm._v("\r\n            API\r\n            "), _c('button', {
+  }, [_c('p', [_vm._v("API")]), _vm._v(" "), _c('button', {
     staticClass: "btn btn1-01",
     on: {
       "click": function($event) {
@@ -3105,18 +3105,14 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("\r\n            " + _vm._s(_vm.sortAsc ? 'sortAsc' : 'sortDesc') + "\r\n            ")])]), _vm._v(" "), _c('div', {
     staticClass: "col-xs-12 col-sm-2"
-  }, [_vm._v("\r\n            Category\r\n            "), _c('button', {
+  }, [_c('p', [_vm._v("Category")]), _vm._v(" "), _c('button', {
     staticClass: "btn btn1-01",
     on: {
       "click": function($event) {
         _vm.sort_table('Category')
       }
     }
-  }, [_vm._v("\r\n            " + _vm._s(_vm.sortAsc ? 'sortAsc' : 'sortDesc') + "\r\n            ")])]), _vm._v(" "), _c('div', {
-    staticClass: "col-xs-12 col-sm-2"
-  }, [_vm._v("\r\n            Auth\r\n          ")]), _vm._v(" "), _c('div', {
-    staticClass: "col-xs-12 col-sm-1"
-  }, [_vm._v("\r\n            HTTPS\r\n          ")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\r\n            " + _vm._s(_vm.sortAsc ? 'sortAsc' : 'sortDesc') + "\r\n            ")])]), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c('div', {
     staticClass: "row apilist_holder"
   }, [_c('div', {
     staticClass: "col-sm-12"
@@ -3134,7 +3130,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("Show All")])])
 }
-var staticRenderFns = []
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col-xs-12 col-sm-2"
+  }, [_c('p', [_vm._v("Auth")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col-xs-12 col-sm-1"
+  }, [_c('p', [_vm._v("HTTPS")])])
+}]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

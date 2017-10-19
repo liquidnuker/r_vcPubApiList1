@@ -66,6 +66,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -95,7 +97,9 @@ if (false) {(function () {
 
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('label', {
+  return _c('div', [_c('span', {
+    staticClass: "apilist_search"
+  }, [_c('label', {
     attrs: {
       "for": "api_search"
     }
@@ -112,7 +116,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.search($event.target.value)
       }
     }
-  })])
+  })])])
 }
 var staticRenderFns = []
 render._withStripped = true

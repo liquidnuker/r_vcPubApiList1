@@ -8,14 +8,15 @@
         <!-- begin apilist_categories -->
         <nav class="apilist_categories" role="navigation">
           <ul>
-            <li>
-              <a @click="toggleAuthTypeCheckbox(true); filterCategory('All')">
+            <li @click="toggleAuthTypeCheckbox(true); filterCategory('All')">
+              <a>
                 All Items:
               </a>
               <span class="apilist_categories_count">{{ apiTotalCount }}</span>
             </li>
-            <li v-for="(i, index) in categoryTypes">
-              <a @click="filterCategory(i.catName)">{{ i.catName }}
+            <li v-for="(i, index) in categoryTypes" 
+             @click="filterCategory(i.catName)">
+              <a>{{ i.catName }}
               </a>
               <span class="apilist_categories_count">{{ i.catLength }}</span>
             </li>
@@ -37,9 +38,7 @@
                   <label v-if="i === null" v-bind:for="i" class="">None</label>
                   <label v-else v-bind:for="i" class="">{{ i }}</label>
                 </li>
-                <li role="separator" aria-expanded="true" aria-orientation="vertical">
-                  &nbsp;
-                </li>
+                <hr role="separator" aria-expanded="true" aria-orientation="vertical">
                 <li>
                   <input type="checkbox" id="checkbox" v-model="https"
                   @change="filterAuthType()" />
@@ -50,7 +49,7 @@
             </section>
           </div>
           <div class="col-sm-9">
-            <div class="apilist_searchbox">
+            <div class="apilist_search_holder">
               <!-- search -->
               <vcSearch
               :pr-current-category="currentCategory"
@@ -60,6 +59,7 @@
               <div>
                 <span class="pg_holder" v-if="pagerButtons">
                   <button class="btn btn1-01" @click="prevPage()">&lt;prevpage</button>
+                  <p>Page</p>
                   <div class="custom-select pg_totalpages">
                     <select v-model="currentPage">
                       <option v-for="i in totalPages" :value="i"
@@ -94,22 +94,22 @@
         <!-- sorter -->
         <div class="row apilist_sorter">
           <div class="col-xs-12 col-sm-7">
-            API
+            <p>API</p>
             <button class="btn btn1-01" @click="sort_table('API')">
             {{ sortAsc ? 'sortAsc' : 'sortDesc' }}
             </button>
           </div>
           <div class="col-xs-12 col-sm-2">
-            Category
+            <p>Category</p>
             <button class="btn btn1-01" @click="sort_table('Category')">
             {{ sortAsc ? 'sortAsc' : 'sortDesc' }}
             </button>
           </div>
           <div class="col-xs-12 col-sm-2">
-            Auth
+            <p>Auth</p>
           </div>
           <div class="col-xs-12 col-sm-1">
-            HTTPS
+            <p>HTTPS</p>
           </div>
         </div>
         <!-- /sorter -->

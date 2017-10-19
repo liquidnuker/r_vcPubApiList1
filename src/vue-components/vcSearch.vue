@@ -1,11 +1,13 @@
 <template>
 <div>
+  <span class="apilist_search">
   <label for="api_search">Search {{ prCurrentCategory }}:</label>
   <input type="text"
   name="api_search"
   id="api_search"
   placeholder="Enter keyword/s..."
   @keyup.enter= "search($event.target.value)"  />
+  </span>
 </div>
 </template>
 <script>

@@ -25,6 +25,18 @@ footer.container-fluid {
   @include center-both;
 }
 
+// 
+// ==================================================/
+
+.apilist {
+  @extend %padd--4;
+  background-color: #666;
+}
+
+.apilist_display {
+  padding-left: 4px;
+}
+
 // apilist_categories nav
 // ==================================================/
 @mixin apilist_categories_theme() {
@@ -63,9 +75,17 @@ footer.container-fluid {
   li {
     @extend %padd--6;
     height: 34px;
+    cursor: pointer;
     
     &:last-of-type {
       border-bottom: none;
+    }
+
+    &:hover {
+      a {
+        color: #fff;
+        text-decoration: none;  
+      }
     }
   }
 }
@@ -75,8 +95,11 @@ footer.container-fluid {
 .authtype_filter {
   @extend %padd--4;
   background-color: #eee;
+  height: inherit;
 }
 
+// api status
+// ==================================================/
 .api_status_holder {
   margin-top: 4px;
 }
@@ -86,29 +109,51 @@ footer.container-fluid {
   background-color: #eee;
 }
 
-.apilist_sorter {
-  margin-top: 4px;
-  background-color: #eee;
-  > div {
-    @extend %padd--4;
-    vertical-align: baseline;
-  }
-}
-
-.apilist_searchbox {
+// search
+// ==================================================/
+.apilist_search_holder {
   @extend %padd--4;
   margin-left: 4px;
   background-color: #eee;
-  height: inherit;
 }
 
-.apilist {
+.apilist_search {
+  @extend %display--block;
+  margin-bottom: 4px;
+  label {
+    @extend %display--inline-block;
+  }
+
+  input[type="text"] {
+    @extend %display--inline-block;
+    @extend %padd--4;
+    height: 30px;
+    border: 1px solid #000;
+    background-color: #fff;
+
+    &:focus {
+        border: 1px solid;
+        border-color: #c4c4c4 #d1d1d1 #d4d4d4;
+        outline: 1px solid blue;
+        background-color: #eee;
+      }
+  }
+}
+
+// sorter/table
+// ==================================================/
+.apilist_sorter {
   @extend %padd--4;
-  background-color: #666;
-}
+  margin-top: 4px;
+  background-color: #eee;
+  border-bottom: 1px solid pink;
+  // height: 36px;
 
-.apilist_display {
-  padding-left: 4px;
+  p {
+    @extend %display--inline-block;
+    @extend %padd--4;
+  }
+
 }
 
 .apilist_holder {
@@ -125,25 +170,27 @@ footer.container-fluid {
   }  
 }
 
+// pager controls
+// ==================================================/
 .pg_holder {
   @extend %display--inline-block;
   border: 1px solid #fff;
   
   .custom-select {
-    line-height: 1.15;  
+    vertical-align: middle;
   }
 
   .btn {
-    vertical-align: baseline;
+    height: 30px;
+    vertical-align: middle;
   }
 
   p {
     @extend %display--inline-block;
+    vertical-align: middle;
   }
 }
 
-// pg_totalpages
-// ==================================================/
 // mobile portrait (320x480) 
 @include mq($from: mobile) {
   .pg_totalpages {
@@ -165,7 +212,6 @@ footer.container-fluid {
 }
 
 // pg_itemsperpage
-// ==================================================/
 // mobile portrait (320x480) 
 @include mq($from: mobile) {
   .pg_itemsperpage {
@@ -185,7 +231,3 @@ footer.container-fluid {
     margin-left: -1px;
   }
 }
-
-
-
-
