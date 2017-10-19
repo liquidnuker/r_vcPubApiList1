@@ -1178,6 +1178,12 @@ var store = {
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2880,6 +2886,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "role": "navigation"
     }
   }, [_c('ul', [_c('li', {
+    attrs: {
+      "tabindex": "0"
+    },
     on: {
       "click": function($event) {
         _vm.toggleAuthTypeCheckbox(true);
@@ -2890,8 +2899,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "apilist_categories_count"
   }, [_vm._v(_vm._s(_vm.apiTotalCount))])]), _vm._v(" "), _vm._l((_vm.categoryTypes), function(i, index) {
     return _c('li', {
+      attrs: {
+        "tabindex": "0",
+        "aria-setsize": _vm.categoryTypes.length,
+        "aria-posinset": index + 1
+      },
       on: {
         "click": function($event) {
+          _vm.filterCategory(i.catName)
+        },
+        "keyup": function($event) {
+          if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
           _vm.filterCategory(i.catName)
         }
       }
@@ -2901,7 +2919,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   })], 2)])]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-9 apilist_display"
   }, [_c('div', {
-    staticClass: "row"
+    staticClass: "row authsearch"
   }, [_c('div', {
     staticClass: "col-sm-3"
   }, [_c('section', {
@@ -2945,10 +2963,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }), _vm._v(" "), (i === null) ? _c('label', {
       attrs: {
+        "tabindex": "0",
         "for": i
       }
     }, [_vm._v("None")]) : _c('label', {
       attrs: {
+        "tabindex": "0",
         "for": i
       }
     }, [_vm._v(_vm._s(i))])])
@@ -2995,6 +3015,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }), _vm._v(" "), _c('label', {
     attrs: {
+      "tabindex": "0",
       "for": "checkbox"
     }
   }, [_vm._v("HTTPS only")])])], 2)])]), _vm._v(" "), _c('div', {
@@ -3010,7 +3031,34 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.search()
       }
     }
-  }), _vm._v(" "), _c('div', [(_vm.pagerButtons) ? _c('span', {
+  }), _vm._v(" "), _c('br'), _vm._v(" "), _c('button', {
+    staticClass: "btn btn1-01",
+    attrs: {
+      "data-message": "Show All Items"
+    },
+    on: {
+      "click": function($event) {
+        _vm.toggleAuthTypeCheckbox(true);
+        _vm.filterCategory('All')
+      }
+    }
+  }, [_vm._v("Show All")])], 1)])]), _vm._v(" "), _c('div', {
+    staticClass: "row api_status_holder"
+  }, [_c('div', {
+    staticClass: "col-sm-3 api_status",
+    attrs: {
+      "id": "api_status",
+      "aria-atomic": "true",
+      "aria-relevant": "additions text",
+      "aria-live": "assertive"
+    }
+  }, [(_vm.currentCategory === 'All') ? _c('p', [_vm._v("Showing All Items")]) : _c('p', [_vm._v("currentCategory: " + _vm._s(_vm.currentCategory))]), _vm._v(" "), _c('p', {
+    attrs: {
+      "role": "alert"
+    }
+  }, [_vm._v(_vm._s(_vm.status.search))])]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-9 pg_container"
+  }, [(_vm.pagerButtons) ? _c('span', {
     staticClass: "pg_holder"
   }, [_c('button', {
     staticClass: "btn btn1-01",
@@ -3088,16 +3136,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }
       }
     }, [_vm._v(_vm._s(i))])
-  }))])]) : _vm._e()])], 1)])]), _vm._v(" "), _c('div', {
-    staticClass: "row api_status_holder"
-  }, [_c('div', {
-    staticClass: "col-sm-12 api_status"
-  }, [(_vm.currentCategory === 'All') ? _c('p', [_vm._v("Showing All Items")]) : _c('p', [_vm._v("currentCategory: " + _vm._s(_vm.currentCategory))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.status.search))])])]), _vm._v(" "), _c('div', {
+  }))])]) : _vm._e()])]), _vm._v(" "), _c('div', {
     staticClass: "row apilist_sorter"
   }, [_c('div', {
     staticClass: "col-xs-12 col-sm-7"
   }, [_c('p', [_vm._v("API")]), _vm._v(" "), _c('button', {
     staticClass: "btn btn1-01",
+    attrs: {
+      "data-message": "Sort Ascending or Descending"
+    },
     on: {
       "click": function($event) {
         _vm.sort_table('API')
@@ -3107,6 +3154,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "col-xs-12 col-sm-2"
   }, [_c('p', [_vm._v("Category")]), _vm._v(" "), _c('button', {
     staticClass: "btn btn1-01",
+    attrs: {
+      "data-message": "Sort Ascending or Descending"
+    },
     on: {
       "click": function($event) {
         _vm.sort_table('Category')
@@ -3120,15 +3170,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "pr-api-list": _vm.apiList
     }
-  })], 1)])])])]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn1-01",
-    on: {
-      "click": function($event) {
-        _vm.toggleAuthTypeCheckbox(true);
-        _vm.filterCategory('All')
-      }
-    }
-  }, [_vm._v("Show All")])])
+  })], 1)])])])])])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {

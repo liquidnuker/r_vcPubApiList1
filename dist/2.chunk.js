@@ -104,12 +104,21 @@ if (false) {(function () {
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('table', {
     staticClass: "col-xs-12 apilist_table"
-  }, [_c('tbody', _vm._l((_vm.prApiList), function(i) {
+  }, [_c('tbody', {
+    attrs: {
+      "aria-live": "assertive",
+      "aria-atomic": "true",
+      "aria-describedby": "api_status"
+    }
+  }, _vm._l((_vm.prApiList), function(i) {
     return _c('tr', {
       staticClass: "row"
     }, [_c('td', {
       staticClass: "col-xs-12 col-sm-7"
-    }, [_c('p', [_vm._v(_vm._s(i.API))]), _vm._v(" "), _c('summary', [_c('p', [_vm._v(_vm._s(i.Description))])]), _vm._v(" "), _c('a', {
+    }, [_c('p', {
+      staticClass: "apiname"
+    }, [_vm._v(_vm._s(i.API))]), _vm._v(" "), _c('summary', [_c('p', [_vm._v(_vm._s(i.Description))])]), _vm._v(" "), _c('a', {
+      staticClass: "apilink",
       attrs: {
         "href": i.Link
       }

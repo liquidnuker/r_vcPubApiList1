@@ -23,7 +23,7 @@ footer,header,nav,section,main,.custom-select::after,.apilist_search {
   display: block;
 }
 
-.btn,.custom-select,.apilist_categories a,.apilist_categories .apilist_categories_count,.apilist_search label,.apilist_search input[type="text"],.apilist_sorter p,.pg_holder,.pg_holder p {
+.btn,.custom-select,.apilist_categories a,.apilist_categories .apilist_categories_count,.apilist_search label,.apilist_search input[type="text"],.apilist_search input[type="search"],.apilist_sorter p,.pg_holder,.pg_holder p {
   display: inline-block;
 }
 
@@ -36,12 +36,16 @@ input,select,html,body,div,span,h1,h2,h3,h4,h5,h6,p,a,code,s,i,ul,li,label,table
   padding: 0;
 }
 
-.btn1-01,h2,.apilist,.authtype_filter,.api_status,.apilist_search_holder,.apilist_search input[type="text"],.apilist_sorter,.apilist_sorter p,.apilist_table td {
+.btn1-01,h2,.apilist,.authtype_filter,.api_status,.apilist_search_holder,.apilist_search input[type="text"],.apilist_search input[type="search"],.apilist_sorter,.apilist_sorter p,.apilist_table td {
   padding: 4px;
 }
 
 .apilist_categories li {
   padding: 6px;
+}
+
+.apilist_table .apiname {
+  font-weight: bold;
 }
 
 *,*:before,*:after {
@@ -628,6 +632,15 @@ a:hover {
   text-decoration: none;
 }
 
+hr {
+  border: none;
+  height: 1px;
+  color: #000;
+  background-color: #000;
+  margin: 4px 0 4px 0;
+  /* trbl */
+}
+
 h2 {
   background-color: #fff;
 }
@@ -677,7 +690,6 @@ header.container-fluid,footer.container-fluid {
 }
 
 .apilist_categories li {
-  height: 34px;
   cursor: pointer;
 }
 
@@ -692,7 +704,11 @@ header.container-fluid,footer.container-fluid {
 
 .authtype_filter {
   background-color: #eee;
-  height: inherit;
+  text-overflow: ellipsis;
+}
+
+.authtype_filter li:not(:last-of-type) {
+  padding-top: 2px;
 }
 
 .api_status_holder {
@@ -712,17 +728,25 @@ header.container-fluid,footer.container-fluid {
   margin-bottom: 4px;
 }
 
-.apilist_search input[type="text"] {
+.apilist_search input[type="text"],.apilist_search input[type="search"] {
   height: 30px;
   border: 1px solid #000;
   background-color: #fff;
 }
 
-.apilist_search input[type="text"]:focus {
+.apilist_search input[type="text"]:focus,.apilist_search input[type="search"]:focus {
   border: 1px solid;
   border-color: #c4c4c4 #d1d1d1 #d4d4d4;
   outline: 1px solid blue;
   background-color: #eee;
+}
+
+.apilist_search button {
+  height: 30px;
+}
+
+.authsearch {
+  background-color: #000;
 }
 
 .apilist_sorter {
@@ -737,6 +761,23 @@ header.container-fluid,footer.container-fluid {
 
 .apilist_table tr {
   border-bottom: 1px solid #000;
+}
+
+.apilist_table td {
+  overflow: hidden;
+}
+
+.apilist_table .apiname {
+  margin-bottom: 2px;
+}
+
+.apilist_table .apilink {
+  font-size: 14px;
+  font-size: 0.875rem;
+}
+
+.pg_container {
+  padding-left: 4px;
 }
 
 .pg_holder {

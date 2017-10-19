@@ -8,14 +8,16 @@
         <!-- begin apilist_categories -->
         <nav class="apilist_categories" role="navigation">
           <ul>
-            <li @click="toggleAuthTypeCheckbox(true); filterCategory('All')">
+            <li tabindex="0" @click="toggleAuthTypeCheckbox(true); filterCategory('All')">
               <a>
                 All Items:
               </a>
               <span class="apilist_categories_count">{{ apiTotalCount }}</span>
             </li>
-            <li v-for="(i, index) in categoryTypes" 
-             @click="filterCategory(i.catName)">
+            <li tabindex="0" v-for="(i, index) in categoryTypes"
+              :aria-setsize="categoryTypes.length" :aria-posinset="index + 1"
+              @click="filterCategory(i.catName)"
+              @keyup.enter="filterCategory(i.catName)">
               <a>{{ i.catName }}
               </a>
               <span class="apilist_categories_count">{{ i.catLength }}</span>
@@ -26,7 +28,7 @@
       </section>
       <div class="col-sm-9 apilist_display">
         <!-- auth filter, top pager controls -->
-        <div class="row">
+        <div class="row authsearch">
           <div class="col-sm-3">
             <section class="authtype_filter">
               <h2>Auth:</h2>
@@ -35,14 +37,14 @@
                 <li v-for="i in authTypes">
                   <input type="checkbox" :id="i"
                   v-model="authTypeSelected" :value="i" @change="filterAuthType()" />
-                  <label v-if="i === null" v-bind:for="i" class="">None</label>
-                  <label v-else v-bind:for="i" class="">{{ i }}</label>
+                  <label tabindex="0" v-if="i === null" v-bind:for="i" class="">None</label>
+                  <label tabindex="0" v-else v-bind:for="i" class="">{{ i }}</label>
                 </li>
                 <hr role="separator" aria-expanded="true" aria-orientation="vertical">
                 <li>
                   <input type="checkbox" id="checkbox" v-model="https"
                   @change="filterAuthType()" />
-                  <label for="checkbox">HTTPS only</label>
+                  <label tabindex="0" for="checkbox">HTTPS only</label>
                 </li>
               </ul>
               <!-- /auth filter -->
@@ -55,39 +57,45 @@
               :pr-current-category="currentCategory"
               @search="search()" />
               <!-- /search -->
-              <!-- top pager controls -->
-              <div>
-                <span class="pg_holder" v-if="pagerButtons">
-                  <button class="btn btn1-01" @click="prevPage()">&lt;prevpage</button>
-                  <p>Page</p>
-                  <div class="custom-select pg_totalpages">
-                    <select v-model="currentPage">
-                      <option v-for="i in totalPages" :value="i"
-                      @click="showPage(i)" >{{ i }}</option>
-                    </select>
-                  </div>
-                  <p>of {{ totalPages }}</p>
-                  <button class="btn btn1-01" @click="nextPage()">nextPage&gt;</button>
-                  <p>Items per page:</p>
-                  <div class="custom-select pg_itemsperpage">
-                    <select v-model="perPage">
-                      <option v-for="i in perPageItems" :value="i"
-                      @click="activatePager(apiListFiltered)" >{{ i }}</option>
-                    </select>
-                  </div>
-                </span>
-              </div>
-              <!-- /top pager controls -->
+              <br>
+              <button class="btn btn1-01"
+  @click="toggleAuthTypeCheckbox(true); filterCategory('All')" 
+  data-message="Show All Items">Show All</button>
+              
             </div>
           </div>
         </div>
         <!-- /auth filter, top pager controls -->
         <!-- status -->
         <div class="row api_status_holder">
-          <div class="col-sm-12 api_status">
+          <div class="col-sm-3 api_status" id="api_status"
+            aria-atomic="true" aria-relevant="additions text" aria-live="assertive">
             <p v-if="currentCategory==='All'">Showing All Items</p>
             <p v-else>currentCategory: {{ currentCategory }}</p>
-            <p>{{ status.search }}</p>
+            <p role="alert">{{ status.search }}</p>
+          </div>
+          <div class="col-sm-9 pg_container">
+            <!-- top pager controls -->
+            <span class="pg_holder" v-if="pagerButtons">
+              <button class="btn btn1-01" @click="prevPage()">&lt;prevpage</button>
+              <p>Page</p>
+              <div class="custom-select pg_totalpages">
+                <select v-model="currentPage">
+                  <option v-for="i in totalPages" :value="i"
+                  @click="showPage(i)" >{{ i }}</option>
+                </select>
+              </div>
+              <p>of {{ totalPages }}</p>
+              <button class="btn btn1-01" @click="nextPage()">nextPage&gt;</button>
+              <p>Items per page:</p>
+              <div class="custom-select pg_itemsperpage">
+                <select v-model="perPage">
+                  <option v-for="i in perPageItems" :value="i"
+                  @click="activatePager(apiListFiltered)" >{{ i }}</option>
+                </select>
+              </div>
+            </span>
+            <!-- /top pager controls -->
           </div>
         </div>
         <!-- /status -->
@@ -95,13 +103,13 @@
         <div class="row apilist_sorter">
           <div class="col-xs-12 col-sm-7">
             <p>API</p>
-            <button class="btn btn1-01" @click="sort_table('API')">
+            <button class="btn btn1-01" @click="sort_table('API')" data-message="Sort Ascending or Descending">
             {{ sortAsc ? 'sortAsc' : 'sortDesc' }}
             </button>
           </div>
           <div class="col-xs-12 col-sm-2">
             <p>Category</p>
-            <button class="btn btn1-01" @click="sort_table('Category')">
+            <button class="btn btn1-01" @click="sort_table('Category')" data-message="Sort Ascending or Descending">
             {{ sortAsc ? 'sortAsc' : 'sortDesc' }}
             </button>
           </div>
@@ -125,8 +133,6 @@
     </div>
   </div>
   <!-- /category list + api listing -->
-  <button class="btn btn1-01"
-  @click="toggleAuthTypeCheckbox(true); filterCategory('All')">Show All</button>
 </div>
 </template>
 <script>

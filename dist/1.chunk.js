@@ -68,11 +68,18 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   data: function data() {
-    return {};
+    return {
+      keyword: ""
+    };
   },
 
   watch: {
@@ -104,19 +111,47 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "for": "api_search"
     }
   }, [_vm._v("Search " + _vm._s(_vm.prCurrentCategory) + ":")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.keyword),
+      expression: "keyword"
+    }],
     attrs: {
-      "type": "text",
+      "type": "search",
       "name": "api_search",
       "id": "api_search",
       "placeholder": "Enter keyword/s..."
     },
+    domProps: {
+      "value": _vm.keyword,
+      "value": (_vm.keyword)
+    },
     on: {
       "keyup": function($event) {
         if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
-        _vm.search($event.target.value)
+        _vm.search(_vm.keyword)
+      },
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.keyword = $event.target.value
       }
     }
-  })])])
+  }), _c('button', {
+    staticClass: "btn btn1-01",
+    attrs: {
+      "data-message": "Search the api listing"
+    },
+    on: {
+      "keyup": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
+        _vm.search(_vm.keyword)
+      },
+      "click": function($event) {
+        _vm.search(_vm.keyword)
+      }
+    }
+  }, [_vm._v("Search")])])])
 }
 var staticRenderFns = []
 render._withStripped = true

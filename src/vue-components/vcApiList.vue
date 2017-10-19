@@ -1,14 +1,14 @@
 <template>
 <div>
   <table class="col-xs-12 apilist_table">
-    <tbody>
+    <tbody aria-live="assertive" aria-atomic="true" aria-describedby="api_status">
       <tr v-for="i in prApiList" class="row">
         <td class="col-xs-12 col-sm-7">
-          <p>{{ i.API }}</p>
+          <p class="apiname">{{ i.API }}</p>
           <summary>
           <p>{{ i.Description }}</p>
           </summary>
-          <a :href="i.Link">{{ i.Link }}</a>
+          <a class="apilink" :href="i.Link">{{ i.Link }}</a>
         </td>
         <td class="col-xs-12 col-sm-2">
           <p>{{ i.Category }}</p>
