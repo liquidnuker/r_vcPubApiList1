@@ -2872,7 +2872,7 @@ if (true) module.exports = Paginate;
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('div', {
-    staticClass: "row container-fluid"
+    staticClass: "row container-fluid main_apilist_holder"
   }, [_c('div', {
     staticClass: "row container apilist"
   }, [_c('section', {

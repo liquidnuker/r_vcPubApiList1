@@ -117,7 +117,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "col-xs-12 col-sm-7"
     }, [_c('p', {
       staticClass: "apiname"
-    }, [_vm._v(_vm._s(i.API))]), _vm._v(" "), _c('summary', [_c('p', [_vm._v(_vm._s(i.Description))])]), _vm._v(" "), _c('a', {
+    }, [_vm._v(_vm._s(i.API))]), _vm._v(" "), _c('summary', [_c('p', {
+      staticClass: "apidesc"
+    }, [_vm._v(_vm._s(i.Description))])]), _vm._v(" "), _c('a', {
       staticClass: "apilink",
       attrs: {
         "href": i.Link
@@ -127,7 +129,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_c('p', [_vm._v(_vm._s(i.Category))])]), _vm._v(" "), _c('td', {
       staticClass: "col-xs-12 col-sm-2"
     }, [(!i.Auth) ? _c('p', [_vm._v(" ")]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v(_vm._s(i.Auth))])]), _vm._v(" "), _c('td', {
-      staticClass: "col-xs-12 col-sm-1"
+      staticClass: "col-xs-12 col-sm-1 https"
     }, [(i.HTTPS) ? _c('p', [_vm._v("✔")]) : _c('p', [_vm._v(" ")])])])
   }))])])
 }

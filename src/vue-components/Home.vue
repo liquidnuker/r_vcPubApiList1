@@ -1,7 +1,7 @@
 <template>
 <div>
   <!-- category list + api listing -->
-  <div class="row container-fluid">
+  <div class="row container-fluid main_apilist_holder">
     <div class="row container apilist">
       <section role="directory" class="col-sm-3">
         <h2>Categories</h2>
@@ -59,8 +59,8 @@
               <!-- /search -->
               <br>
               <button class="btn btn1-01"
-  @click="toggleAuthTypeCheckbox(true); filterCategory('All')" 
-  data-message="Show All Items">Show All</button>
+              @click="toggleAuthTypeCheckbox(true); filterCategory('All')"
+              data-message="Show All Items">Show All</button>
               
             </div>
           </div>

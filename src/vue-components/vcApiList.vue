@@ -6,7 +6,7 @@
         <td class="col-xs-12 col-sm-7">
           <p class="apiname">{{ i.API }}</p>
           <summary>
-          <p>{{ i.Description }}</p>
+          <p class="apidesc">{{ i.Description }}</p>
           </summary>
           <a class="apilink" :href="i.Link">{{ i.Link }}</a>
         </td>
@@ -17,7 +17,7 @@
           <p v-if="!i.Auth">&nbsp;</p>
           <p>{{ i.Auth }}</p>
         </td>
-        <td class="col-xs-12 col-sm-1">
+        <td class="col-xs-12 col-sm-1 https">
           <p v-if="i.HTTPS">&#x2714;</p>
           <p v-else="i.HTTPS">&nbsp;</p>
         </td>

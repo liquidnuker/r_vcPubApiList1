@@ -21,12 +21,16 @@ hr {
 
 h2 {
   @extend %padd--4;
-  background-color: #fff; // temp bg
 }
 
 header.container-fluid,
 footer.container-fluid {
-  background-color: #ccc;
+  background-color: #141416;
+}
+
+header .container,
+footer .container {
+  background-color: #1c1d22;
 }
 
 .main_app_status {
@@ -35,14 +39,28 @@ footer.container-fluid {
 
 // 
 // ==================================================/
+.main_apilist_holder {
+  background-color: #f4f4f4;
+}
+
 
 .apilist {
   @extend %padd--4;
-  background-color: #666;
+  @extend %bg_dark--primary;
 }
 
 .apilist_display {
   padding-left: 4px;
+}
+
+
+// h2 for left side
+.apilist {
+  > section {
+    > h2 {
+      @extend %font_color--dark1;
+    }
+  }
 }
 
 // apilist_categories nav
@@ -50,20 +68,25 @@ footer.container-fluid {
 @mixin apilist_categories_theme() {
   .apilist_categories {
     a {    
-      color: #d5d5d5;
+      @extend %font_color--dark2;
 
       &:hover {
-        color: #fff;
+        @extend %font_color--dark1;
       }
     }
 
     li {
-      background-color: #2c2d32;  
+      @extend %bg_dark--secondary;
       border-bottom: 1px solid #5c5d60;
 
       &:nth-of-type(odd) {
-        background-color: #343437;
+        @extend %bg_dark--extra1;
       }
+    }
+
+    .apilist_categories_count {
+      @extend %bg_dark--extra2;
+      @extend %font_color--dark1;
     }
   }
 }
@@ -76,8 +99,9 @@ footer.container-fluid {
 
   .apilist_categories_count {
     @extend %display--inline-block;
-    background-color: #ccc;
-    padding: 0 2px 0 2px; /* trbl */
+    padding: 2px 4px 2px 4px; /* trbl */
+    // padding: 2px;
+    border-radius: 2px;
     }
 
   li {
@@ -97,11 +121,21 @@ footer.container-fluid {
   }
 }
 
+.apilist_display {
+  @extend %font_color--white1;
+}
+
+.authsearch {
+  @extend %bg_white--primary;
+  @extend %padd--4;
+}
+
 // auth filter
 // ==================================================/
 .authtype_filter {
   @extend %padd--4;
-  background-color: #eee;
+  @extend %bg_white--secondary;
+  // background-color: #eee;
   text-overflow: ellipsis;
 
   li:not(:last-of-type) {
@@ -113,20 +147,22 @@ footer.container-fluid {
 // api status
 // ==================================================/
 .api_status_holder {
+  @extend %bg_white--primary;
+  @extend %padd--4;
   margin-top: 4px;
 }
 
 .api_status {
   @extend %padd--4;
-  background-color: #eee;
+  @extend %bg_white--secondary;
 }
 
 // search
 // ==================================================/
 .apilist_search_holder {
+  @extend %bg_white--secondary;
   @extend %padd--4;
   margin-left: 4px;
-  background-color: #eee;
 }
 
 .apilist_search {
@@ -148,7 +184,7 @@ footer.container-fluid {
         border: 1px solid;
         border-color: #c4c4c4 #d1d1d1 #d4d4d4;
         outline: 1px solid blue;
-        background-color: #eee;
+        // background-color: #eee;
       }
   }
 
@@ -157,18 +193,19 @@ footer.container-fluid {
   }
 }
 
-.authsearch {
-  background-color: #000;
-}
-
 // sorter/table
 // ==================================================/
 .apilist_sorter {
   @extend %padd--4;
+  @extend %bg_white--primary;
   margin-top: 4px;
-  background-color: #eee;
-  border-bottom: 1px solid pink;
+  
+  border-bottom: 1px solid #e6e5e5;
   // height: 36px;
+
+  > div {
+    // @extend %bg_white--secondary;
+  }
 
   p {
     @extend %display--inline-block;
@@ -178,12 +215,24 @@ footer.container-fluid {
 }
 
 .apilist_holder {
-  background-color: #eee;
+  @extend %padd--4;
+  @extend %bg_white--primary;
 }
 
 .apilist_table {
+  a {
+    @extend %display--inline-block;
+    @extend %margin-top--4;
+    @extend %font_color--white2; 
+  }
+
   tr {
-    border-bottom: 1px solid #000;
+    @extend %bg_white--secondary;
+    border-bottom: 1px solid #ededed;
+
+    &:nth-of-type(odd) {
+      background-color: #fff;
+    }
   }
 
   td {
@@ -193,12 +242,20 @@ footer.container-fluid {
   }  
 
   .apiname {
-    @extend %font--bold;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
+    @extend %font_color--white2;
+  }
+
+  .apidesc {
+    @include font-size(14px);
   }
 
   .apilink {
     @include font-size(14px);
+  }
+
+  .https {
+    @extend %text--center;
   }
 }
 
@@ -210,10 +267,12 @@ footer.container-fluid {
 
 .pg_holder {
   @extend %display--inline-block;
-  border: 1px solid #fff;
+  @extend %padd--4;
+  @extend %bg_white--secondary;
   
   .custom-select {
     vertical-align: middle;
+    border: 1px solid #2c2d32;
   }
 
   .btn {
