@@ -6,10 +6,8 @@
 // },...
 
 const arr_sortValue = function (item, arr) {
- this.item = item;
-
   arr.sort((a, b) => {
-    let itemToSort = this.item;
+    let itemToSort = item;
     let tempA = a[itemToSort].toUpperCase();
     let tempB = b[itemToSort].toUpperCase();
     if (tempA < tempB) {
