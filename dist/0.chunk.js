@@ -1239,8 +1239,8 @@ var vcSearch = function vcSearch() {
     vcSearch: vcSearch
   },
   mounted: function mounted() {
-    // this.getApiData(this.API_URL);
-    this.getApiData(this.BACKUP_URL);
+    this.getApiData(this.API_URL);
+    // this.getApiData(this.BACKUP_URL);
   },
   methods: {
     getApiData: function getApiData(url) {
@@ -2909,7 +2909,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           _vm.filterCategory(i.catName)
         },
         "keyup": function($event) {
-          if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
+          if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13, $event.key)) { return null; }
           _vm.filterCategory(i.catName)
         }
       }
@@ -2941,25 +2941,24 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "checked": Array.isArray(_vm.authTypeSelected) ? _vm._i(_vm.authTypeSelected, i) > -1 : (_vm.authTypeSelected)
       },
       on: {
-        "change": function($event) {
-          _vm.filterAuthType()
-        },
-        "__c": function($event) {
+        "change": [function($event) {
           var $$a = _vm.authTypeSelected,
             $$el = $event.target,
             $$c = $$el.checked ? (true) : (false);
           if (Array.isArray($$a)) {
             var $$v = i,
               $$i = _vm._i($$a, $$v);
-            if ($$c) {
-              $$i < 0 && (_vm.authTypeSelected = $$a.concat($$v))
+            if ($$el.checked) {
+              $$i < 0 && (_vm.authTypeSelected = $$a.concat([$$v]))
             } else {
               $$i > -1 && (_vm.authTypeSelected = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
             }
           } else {
             _vm.authTypeSelected = $$c
           }
-        }
+        }, function($event) {
+          _vm.filterAuthType()
+        }]
       }
     }), _vm._v(" "), (i === null) ? _c('label', {
       attrs: {
@@ -2993,25 +2992,24 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "checked": Array.isArray(_vm.https) ? _vm._i(_vm.https, null) > -1 : (_vm.https)
     },
     on: {
-      "change": function($event) {
-        _vm.filterAuthType()
-      },
-      "__c": function($event) {
+      "change": [function($event) {
         var $$a = _vm.https,
           $$el = $event.target,
           $$c = $$el.checked ? (true) : (false);
         if (Array.isArray($$a)) {
           var $$v = null,
             $$i = _vm._i($$a, $$v);
-          if ($$c) {
-            $$i < 0 && (_vm.https = $$a.concat($$v))
+          if ($$el.checked) {
+            $$i < 0 && (_vm.https = $$a.concat([$$v]))
           } else {
             $$i > -1 && (_vm.https = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
           }
         } else {
           _vm.https = $$c
         }
-      }
+      }, function($event) {
+        _vm.filterAuthType()
+      }]
     }
   }), _vm._v(" "), _c('label', {
     attrs: {

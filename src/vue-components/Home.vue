@@ -186,8 +186,8 @@ export default {
       vcSearch: vcSearch
     },
     mounted: function () {
-      // this.getApiData(this.API_URL);
-      this.getApiData(this.BACKUP_URL);
+      this.getApiData(this.API_URL);
+      // this.getApiData(this.BACKUP_URL);
     },
     methods: {
       getApiData: function (url) {
