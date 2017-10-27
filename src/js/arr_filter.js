@@ -1,12 +1,12 @@
-// ret array with item/s found
+// ret array with val/s found
 // "arr": [
 // {
-//   "prop": "item",
+//   "key": "val",
 //   ...
 // }...
-const arr_filter = function (arr, prop, item) {
+const arr_filter = function (arr, key, val) {
   let af = arr.filter(function (el) {
-    return el[prop] === item;
+    return el[key] === val;
   });
   return af;
 };

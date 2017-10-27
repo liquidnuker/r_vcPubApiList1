@@ -159,10 +159,40 @@ footer .container {
 
 // search
 // ==================================================/
+// mobile portrait (320x480) 
+@include mq($from: mobile) {
+  .apilist_search {
+    button {
+      margin-top: 4px;
+    }
+
+    input[type="search"] {
+      display: block;
+    }
+  }
+
+  .apilist_search_holder {
+    margin-left: 0;
+  }
+}
+
+// *mobile landscape (480x320)
+@include mq($from: mobileLandscape) {
+  .apilist_search {
+    input[type="search"] {
+      display: inline-block;
+    }
+  }  
+
+  .apilist_search_holder {
+    margin-left: 4px;
+  }
+}
+// end breakpoints
+
 .apilist_search_holder {
   @extend %bg_white--secondary;
   @extend %padd--4;
-  margin-left: 4px;
 }
 
 .apilist_search {
@@ -174,7 +204,6 @@ footer .container {
 
   input[type="text"],
   input[type="search"] {
-    @extend %display--inline-block;
     @extend %padd--4;
     height: 30px;
     border: 1px solid #000;
@@ -261,9 +290,48 @@ footer .container {
 
 // pager controls
 // ==================================================/
-.pg_container {
-  padding-left: 4px;
+// mobile portrait (320x480) 
+@include mq($from: mobile) {
+  .pg_container {
+    padding-left: 0;
+  }
+
+  .pg_totalpages {
+    width: 20%;
+  }
+
+  .pg_itemsperpage {
+    width: 20%;
+  }
 }
+
+// *mobile landscape (480x320)
+@include mq($from: mobileLandscape) {
+  .pg_container {
+    padding-left: 4px;
+  }
+
+  .pg_totalpages {
+    height: 30px;
+    vertical-align: baseline;
+    width: auto;  
+  }
+
+  .pg_totalpages {
+    margin-left: -1px;
+  }
+
+  .pg_itemsperpage {
+    height: 30px;
+    // vertical-align: text-bottom;
+    width: auto;  
+  }
+
+  .pg_itemsperpage {
+    margin-left: -1px;
+  }
+}
+// end breakpoints
 
 .pg_holder {
   @extend %display--inline-block;
@@ -286,43 +354,3 @@ footer .container {
   }
 }
 
-// mobile portrait (320x480) 
-@include mq($from: mobile) {
-  .pg_totalpages {
-    width: 100%;
-  }
-}
-
-// *mobile landscape (480x320)
-@include mq($from: mobileLandscape) {
-  .pg_totalpages {
-    height: 30px;
-    vertical-align: baseline;
-    width: auto;  
-  }
-
-  .pg_totalpages {
-    margin-left: -1px;
-  }
-}
-
-// pg_itemsperpage
-// mobile portrait (320x480) 
-@include mq($from: mobile) {
-  .pg_itemsperpage {
-    width: 100%;
-  }
-}
-
-// *mobile landscape (480x320)
-@include mq($from: mobileLandscape) {
-  .pg_itemsperpage {
-    height: 30px;
-    // vertical-align: text-bottom;
-    width: auto;  
-  }
-
-  .pg_itemsperpage {
-    margin-left: -1px;
-  }
-}

@@ -3,7 +3,7 @@ import Fuse from "../js/vendor/fuse.min.js";
 // ret array
 // data: array
 // value: item to search
-// searchKeys: array of prop 
+// searchKeys: array of keys
 
 // "data": [
 // {

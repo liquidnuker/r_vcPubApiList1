@@ -1,4 +1,4 @@
-// ret array of unique prop: val
+// ret array of unique key: val
 // "arr": [
 // { 
 //   "cat": "cat2"

@@ -23,7 +23,7 @@
   display: block;
 }
 
-.apilist_categories .apilist_categories_count,.apilist_categories a,.apilist_search input[type=search],.apilist_search input[type=text],.apilist_search label,.apilist_sorter p,.apilist_table a,.btn,.custom-select,.pg_holder,.pg_holder p {
+.apilist_categories .apilist_categories_count,.apilist_categories a,.apilist_search label,.apilist_sorter p,.apilist_table a,.btn,.custom-select,.pg_holder,.pg_holder p {
   display: inline-block;
 }
 
@@ -741,8 +741,28 @@ footer .container,header .container {
   margin-top: 4px;
 }
 
-.apilist_search_holder {
-  margin-left: 4px;
+@media (min-width:20em) {
+  .apilist_search button {
+    margin-top: 4px;
+  }
+
+  .apilist_search input[type=search] {
+    display: block;
+  }
+
+  .apilist_search_holder {
+    margin-left: 0;
+  }
+}
+
+@media (min-width:30em) {
+  .apilist_search input[type=search] {
+    display: inline-block;
+  }
+
+  .apilist_search_holder {
+    margin-left: 4px;
+  }
 }
 
 .apilist_search {
@@ -791,8 +811,34 @@ footer .container,header .container {
   font-size: .875rem;
 }
 
-.pg_container {
-  padding-left: 4px;
+@media (min-width:20em) {
+  .pg_container {
+    padding-left: 0;
+  }
+
+  .pg_itemsperpage,  .pg_totalpages {
+    width: 20%;
+  }
+}
+
+@media (min-width:30em) {
+  .pg_container {
+    padding-left: 4px;
+  }
+
+  .pg_totalpages {
+    vertical-align: baseline;
+    margin-left: -1px;
+  }
+
+  .pg_itemsperpage,  .pg_totalpages {
+    height: 30px;
+    width: auto;
+  }
+
+  .pg_itemsperpage {
+    margin-left: -1px;
+  }
 }
 
 .pg_holder .custom-select {
@@ -806,33 +852,4 @@ footer .container,header .container {
 
 .pg_holder .btn,.pg_holder p {
   vertical-align: middle;
-}
-
-@media (min-width:20em) {
-  .pg_totalpages {
-    width: 100%;
-  }
-}
-
-@media (min-width:30em) {
-  .pg_totalpages {
-    height: 30px;
-    vertical-align: baseline;
-    width: auto;
-    margin-left: -1px;
-  }
-}
-
-@media (min-width:20em) {
-  .pg_itemsperpage {
-    width: 100%;
-  }
-}
-
-@media (min-width:30em) {
-  .pg_itemsperpage {
-    height: 30px;
-    width: auto;
-    margin-left: -1px;
-  }
 }
