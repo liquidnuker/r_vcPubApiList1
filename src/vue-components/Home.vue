@@ -84,12 +84,10 @@
               Prev
               </button>
               <p>Page</p>
-              <div class="custom-select pg_totalpages">
-                <select v-model="currentPage">
-                  <option v-for="i in totalPages" :value="i"
-                  @click="showPage(i)" >{{ i }}</option>
-                </select>
-              </div>
+              <select class="pg_select" v-model="currentPage">
+                <option v-for="i in totalPages" :value="i"
+                @click="showPage(i)" >{{ i }}</option>
+              </select>
               <p>of {{ totalPages }}</p>
               <button class="btn btn1-01 btn_next" @click="nextPage()">
               Next
@@ -98,12 +96,10 @@
               </svg>
               </button>
               <p>Items per page:</p>
-              <div class="custom-select pg_itemsperpage">
-                <select v-model="perPage">
-                  <option v-for="i in perPageItems" :value="i"
-                  @click="activatePager(apiListFiltered)" >{{ i }}</option>
-                </select>
-              </div>
+              <select class="pg_perpage" v-model="perPage">
+                <option v-for="i in perPageItems" :value="i"
+                @click="activatePager(apiListFiltered)" >{{ i }}</option>
+              </select>
             </span>
             <!-- /top pager controls -->
           </div>
@@ -220,8 +216,8 @@ export default {
       vcSearch: vcSearch,
     },
     mounted: function () {
-      // this.getApiData(this.API_URL);
-      this.getApiData(this.BACKUP_URL);
+      this.getApiData(this.API_URL);
+      // this.getApiData(this.BACKUP_URL);
     },
     methods: {
       getApiData: function (url) {
