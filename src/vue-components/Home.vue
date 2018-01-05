@@ -77,7 +77,12 @@
           <div class="col-sm-9 pg_container">
             <!-- top pager controls -->
             <span class="pg_holder" v-if="pagerButtons">
-              <button class="btn btn1-01" @click="prevPage()">&lt;prevpage</button>
+              <button class="btn btn1-01 btn_prev" @click="prevPage()">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+              </svg>
+              Prev
+              </button>
               <p>Page</p>
               <div class="custom-select pg_totalpages">
                 <select v-model="currentPage">
@@ -86,7 +91,12 @@
                 </select>
               </div>
               <p>of {{ totalPages }}</p>
-              <button class="btn btn1-01" @click="nextPage()">nextPage&gt;</button>
+              <button class="btn btn1-01 btn_next" @click="nextPage()">
+              Next
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+              </svg>
+              </button>
               <p>Items per page:</p>
               <div class="custom-select pg_itemsperpage">
                 <select v-model="perPage">
@@ -102,15 +112,41 @@
         <!-- sorter -->
         <div class="row apilist_sorter">
           <div class="col-xs-12 col-sm-7">
-            <p>API</p>
-            <button class="btn btn1-01" @click="sort_table('API')" data-message="Sort Ascending or Descending">
-            {{ sortAsc ? 'sortAsc' : 'sortDesc' }}
+            <button class="btn btn1-01 btn_sort" @click="sort_table('API')" data-message="Sort Ascending or Descending">
+            API
+            <!-- sort icon -->
+            <span v-if="sortAsc">
+              <!-- up -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" />
+              </svg>
+            </span>
+            <span v-else>
+              <!-- down -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z" />
+              </svg>
+            </span>
+            <!-- /sort icon -->
             </button>
           </div>
           <div class="col-xs-12 col-sm-2">
-            <p>Category</p>
-            <button class="btn btn1-01" @click="sort_table('Category')" data-message="Sort Ascending or Descending">
-            {{ sortAsc ? 'sortAsc' : 'sortDesc' }}
+            <button class="btn btn1-01 btn_sort" @click="sort_table('Category')" data-message="Sort Ascending or Descending">
+            Category
+            <!-- sort icon -->
+            <span v-if="sortAsc">
+              <!-- up -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" />
+              </svg>
+            </span>
+            <span v-else>
+              <!-- down -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z" />
+              </svg>
+            </span>
+            <!-- /sort icon -->
             </button>
           </div>
           <div class="col-xs-12 col-sm-2">
@@ -163,7 +199,6 @@ export default {
         authTypeSelected: [], // checkbox
         https: "",
 
-
         // paginator 
         pager: null,
         currentPage: "",
@@ -178,16 +213,15 @@ export default {
         status: {
           search: "status.search"
         },
-
       };
     },
     components: {
       vcApiList: vcApiList,
-      vcSearch: vcSearch
+      vcSearch: vcSearch,
     },
     mounted: function () {
-      this.getApiData(this.API_URL);
-      // this.getApiData(this.BACKUP_URL);
+      // this.getApiData(this.API_URL);
+      this.getApiData(this.BACKUP_URL);
     },
     methods: {
       getApiData: function (url) {

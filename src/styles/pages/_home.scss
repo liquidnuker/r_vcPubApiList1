@@ -204,10 +204,13 @@ footer .container {
 
   input[type="text"],
   input[type="search"] {
-    @extend %padd--4;
+    padding: 4px 4px 4px 30px; /* trbl */
     height: 30px;
     border: 1px solid #000;
     background-color: #fff;
+
+    background: url('../img/material_design_icons/ic_search_24px.svg') no-repeat; 
+    background-size: auto;
 
     &:focus {
         border: 1px solid;
@@ -348,9 +351,43 @@ footer .container {
     vertical-align: middle;
   }
 
+  .btn_prev,
+  .btn_next {
+    svg {
+      @extend %display--inline-block;
+      vertical-align: text-bottom;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .btn_prev {
+    svg {
+      margin-left: -4px;
+    }
+  }
+
+  .btn_next {
+    svg {
+      margin-right: -4px;
+    }
+  }
+
   p {
     @extend %display--inline-block;
     vertical-align: middle;
   }
 }
 
+// sorter buttons
+// ==================================================/
+.btn_sort {
+  
+    svg {
+    @extend %display--inline;
+    vertical-align: text-top;
+    width: 18px;
+    height: 18px;
+    }
+  
+}
