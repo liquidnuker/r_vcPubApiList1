@@ -84,7 +84,7 @@
               Prev
               </button>
               <p>Page</p>
-              <select class="pg_select" v-model="currentPage">
+              <select @change="showPage($event.target.value)" class="pg_select" v-model="currentPage">
                 <option v-for="i in totalPages" :value="i"
                 @click="showPage(i)" >{{ i }}</option>
               </select>
@@ -96,7 +96,8 @@
               </svg>
               </button>
               <p>Items per page:</p>
-              <select class="pg_perpage" v-model="perPage">
+              <select class="pg_perpage" v-model="perPage" 
+              @change="activatePager(apiListFiltered)">
                 <option v-for="i in perPageItems" :value="i"
                 @click="activatePager(apiListFiltered)" >{{ i }}</option>
               </select>
@@ -264,6 +265,7 @@ export default {
         this.pagerButtons = true;
       },
       showPage: function (num) {
+        console.log(num);
         this.apiList = this.pager.page(num);
       },
       prevPage: function() {
