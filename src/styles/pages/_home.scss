@@ -23,15 +23,22 @@ h2 {
   @extend %padd--4;
 }
 
-header.container-fluid,
-footer.container-fluid {
-  background-color: #141416;
+// header
+// ==================================================/
+header.container-fluid {
+  background-color: #666;
+
+  > div.container {
+    background-color: #ccc;
+  }
 }
 
-header .container,
-footer .container {
-  background-color: #1c1d22;
+.vcPubApiList_header {
+  > div {
+    @extend %padd--4;
+  }
 }
+
 
 .main_app_status {
   @include center-both;
@@ -398,5 +405,21 @@ footer .container {
     width: 18px;
     height: 18px;
     }
-  
+}
+
+// footer 
+// ==================================================/
+footer.container-fluid {
+  background-color: #666;
+
+  > div.container {
+    background-color: #ccc;
+  }
+
+}
+
+.vcPubApiList_footer {
+  > div {
+    @extend %padd--4;
+  }
 }
