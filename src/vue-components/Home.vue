@@ -182,7 +182,7 @@ const vcSearch = () => import ('./vcSearch.vue');
 export default {
   data() {
       return {
-        API_URL: "https://raw.githubusercontent.com/toddmotto/public-apis/master/json/entries.json",
+        API_URL: "https://raw.githubusercontent.com/liquidnuker/public-apis/json/json/entries.json",
         BACKUP_URL: "./entries_offline.json",
 
         apiListCache: "", // default unfiltered items
