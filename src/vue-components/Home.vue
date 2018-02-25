@@ -1,5 +1,6 @@
 <template>
 <div>
+  <vue-progress-bar></vue-progress-bar>
   <!-- category list + api listing -->
   <div class="row container-fluid main_apilist_holder">
     <div class="row container apilist">
@@ -217,11 +218,13 @@ export default {
       vcSearch: vcSearch,
     },
     mounted: function () {
-      this.getApiData(this.API_URL);
-      // this.getApiData(this.BACKUP_URL);
+      // this.getApiData(this.API_URL);
+      this.getApiData(this.BACKUP_URL);
     },
     methods: {
       getApiData: function (url) {
+        this.$Progress.start();
+
         axios.get(url)
           .then((response) => {
             this.apiTotalCount = response.data.count;
@@ -231,6 +234,7 @@ export default {
           })
           .then(() => {
             this.addFiltersList(this.apiListCache);
+            this.$Progress.finish();
           })
           .catch((error) => {
             if (error.response) {
