@@ -175,7 +175,7 @@ import {arr_filter} from "../js/arr_filter.js";
 import {arr_extractUnique} from "../js/arr_extractUnique.js";
 import {arr_sortValue} from "../js/arr_sortValue.js";
 import {search_fuse} from "../js/search_fuse.js";
-import Paginate from "../js/vendor/Paginate.js";
+import Pager from "../js/pager.js";
 import {store} from "../js/store.js";
 
 const vcApiList = () => import ('./vcApiList.vue');
@@ -262,31 +262,26 @@ export default {
       },
       activatePager: function (data) {
         this.pager = null;
-        this.pager = new Paginate(data, this.perPage);
-        this.apiList = this.pager.page(0);
+        this.pager = new Pager({
+          data: data,
+          perPage: this.perPage
+        });
+
+        this.apiList = this.pager.page(1);
         this.currentPage = this.pager.currentPage;
-        this.totalPages = this.pager.totalPages;
+        this.totalPages = this.pager.getTotalPages();
         this.pagerButtons = true;
       },
       showPage: function (num) {
-        console.log(num);
         this.apiList = this.pager.page(num);
       },
       prevPage: function() {
-        if (this.pager.currentPage === 1) {
-          this.apiList = this.pager.page(this.pager.totalPages);
-        } else {
-          this.apiList = this.pager.prev();
-        }
-        this.currentPage = this.pager.currentPage;
+        this.currentPage = this.pager.prev();
+        this.apiList = this.pager.page(this.currentPage);        
       },
       nextPage: function() {
-        if (!this.pager.hasNext()) {
-          this.apiList = this.pager.page(0);
-        } else {
-          this.apiList = this.pager.next();
-        }
-        this.currentPage = this.pager.currentPage;
+        this.currentPage = this.pager.next();
+        this.apiList = this.pager.page(this.currentPage);
       },
       addFiltersList: function (arr) {
         // for authTypes
