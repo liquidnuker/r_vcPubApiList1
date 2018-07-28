@@ -3,28 +3,37 @@ const webpack = require('webpack');
 var Promise = require('es6-promise').Promise;
 
 const glob = require('glob-all');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const PurifyCSSPlugin = require('purifycss-webpack');
-const extractCSS = new ExtractTextPlugin('../[name].bundle.css');
+
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
+  mode: "none",
   context: path.resolve(__dirname, './src'),
   entry: {
     index: './index.js'
-    // vendor: ['jquery', 'lodash']
+      // vendor: ['jquery', 'lodash']
   },
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: "dist/",
     filename: '[name].bundle.js',
-    chunkFilename: '[id].chunk.js'
+    // chunkFilename: '[id].chunk.js'
+    chunkFilename: '[id].[chunkhash].js'
   },
   module: {
     rules: [
       // extractCSS
       {
         test: /\.scss$/,
-        loader: extractCSS.extract(['css-loader', 'sass-loader'])
+        use: [
+          MiniCssExtractPlugin.loader,
+          // "style-loader", // creates style nodes from JS strings
+          "css-loader", // translates CSS into CommonJS
+          "sass-loader" // compiles Sass to CSS
+        ]
       },
       // url loader
       {
@@ -35,19 +44,11 @@ module.exports = {
             limit: 10000
           } // Convert images < 10k to base64 strings
         }]
-      },
-      {
+      }, {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
-          loaders: {
-            // Since sass-loader (weirdly) has SCSS as its default parse mode, we map
-            // the "scss" and "sass" values for the lang attribute to the right configs here.
-            // other preprocessors should work out of the box, no loader config like this nessessary.
-            'scss': 'vue-style-loader!css-loader!sass-loader',
-            'sass': 'vue-style-loader!css-loader!sass-loader?indentedSyntax'
-          }
-          // other vue-loader options go here
+          // esModule: false
         }
       },
       // babel-loader
@@ -64,14 +65,13 @@ module.exports = {
     VueRouter: 'vue-router'
   },
   plugins: [
-    // new webpack.ProvidePlugin({
-    //   $: 'jquery',
-    //   jQuery: 'jquery'
-    // }),
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'vendor',
-    // }),
-    extractCSS,
+    new VueLoaderPlugin(),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: "../[name].bundle.css",
+      // chunkFilename: "[id].chunk.css"
+    }),
     new PurifyCSSPlugin({
       // Give paths to parse for rules. These should be absolute!
       paths: glob.sync([
@@ -79,7 +79,7 @@ module.exports = {
         path.join(__dirname, 'src/vue-components/*.vue')
       ]),
       purifyOptions: {
-        whitelist: [ '*:not*' ]
+        whitelist: ['*:not*']
       },
       minimize: true
     })
@@ -87,8 +87,6 @@ module.exports = {
   resolve: {
     modules: [
       '../node_modules',
-      // 'D:/WINDOWS/GD2/web/dev/_npm/libs/jquery_3.1.1/node_modules',
-      // 'D:/WINDOWS/GD2/web/dev/_npm/utils/lodash_4.17.4/node_modules'
     ]
   }
 };
