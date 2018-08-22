@@ -316,17 +316,15 @@ export default {
         this.currentCategory = categoryType;
         this.filterAuthType();
       },
-      filterAuthType: function () {
-        this.status.search = "";
-        let categoryTemp;
-
+      setCategoryTemp: function() {
         if (this.currentCategory !== "All") {
-          categoryTemp = arr_filter(this.apiListCache, "Category", this.currentCategory);
+          return arr_filter(this.apiListCache, "Category", this.currentCategory);
         } else {
           // to filter authTypes from default items
-          categoryTemp = this.apiListCache;
+          return this.apiListCache;
         }
-
+      },
+      setAuthTemp: function(categoryTemp) {
         // authType checkbox
         let authTemp = [];
         this.authTypeSelected.map((i) => {
@@ -335,20 +333,23 @@ export default {
           authTemp = authTemp.concat(t2);
           t2 = null;
         });
-
+        return authTemp;
+      },
+      setHttpsCheckbox: function(authTemp) {
         // HTTPS checkbox
         if (this.https) {
-          let hTemp = arr_filter(authTemp, "HTTPS", this.https);
-          this.apiListFiltered = hTemp;
-          hTemp = null;
+          return arr_filter(authTemp, "HTTPS", this.https);          
         } else {
-          this.apiListFiltered = authTemp;
+          return authTemp;
         }
-
-        if (authTemp.length === 0) {
-          console.log("no results");
-        }
+      },
+      filterAuthType: function () {
+        this.status.search = "";
         
+        let categoryTemp = this.setCategoryTemp();
+        let authTemp = this.setAuthTemp(categoryTemp);
+        this.apiListFiltered = this.setHttpsCheckbox(authTemp);  
+
         authTemp = null;
         categoryTemp = null;  
         this.activatePager(this.apiListFiltered);
